@@ -81,3 +81,4 @@ lint/generated/
 lint/outputs/
 lint/tmp/
 # lint/reports/
+community-win/app/src/debug/res/values/google_maps_api.xml
