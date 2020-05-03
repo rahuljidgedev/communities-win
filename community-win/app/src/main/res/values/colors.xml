@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorFriendsPrimary">#0588FE</color>
+    <color name="colorFriendsDark">#800588FE</color>
+    <color name="colorFriendsAccent">#057DEA</color>
+    <color name="splash_background">#F4F4F4</color>
+    <color name="splash_friends">#0588FE</color>
+    <color name="splash_grocery">#F16E21</color>
+    <color name="progress_bar_tint">#0588FE</color>
+
+    <color name="colorGroceryPrimary">#F16E21</color>
+    <color name="colorGroceryDark">#80F16E21</color>
+    <color name="colorGroceryAccent">#F16E21</color>
+
+    <color name="colorOthersPrimary">#3D9970</color>
+    <color name="colorOthersDark">#803D9970</color>
+    <color name="colorOthersAccent">#3D9970</color>
+    <color name="semi_transparent">#8000</color>
+
+</resources>
