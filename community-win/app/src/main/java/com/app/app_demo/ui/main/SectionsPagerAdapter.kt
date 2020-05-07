@@ -7,11 +7,12 @@ import androidx.fragment.app.FragmentPagerAdapter
 import com.app.app_demo.R
 import com.app.app_demo.models.ContactInfo
 import com.app.app_demo.models.UserSession
-import com.app.app_demo.network_interfacing.data_models.UserToken
-import com.app.app_demo.ui_activities.HomePage
-import com.app.app_demo.utils.AppConstants.Companion.VIEW_CONNECTION_LIST
-import com.app.app_demo.utils.AppConstants.Companion.VIEW_REGISTER
-import com.app.app_demo.utils.AppConstants.Companion.VIEW_REGISTER_UPDATE
+import com.app.app_demo.ui_activities.HomePageActivity
+import com.app.app_demo.utils.AppConstants
+import com.app.app_demo.utils.AppConstants.Companion.FRIENDS_VIEW_CONNECTION_LIST
+import com.app.app_demo.utils.AppConstants.Companion.FRIENDS_VIEW_REGISTER
+import com.app.app_demo.utils.AppConstants.Companion.GROCERY_VIEW_TAB_ONE
+import com.app.app_demo.utils.AppConstants.Companion.OTHERS_VIEW_TAB_ONE
 
 private val TAB_FRIENDS_TITLES = arrayOf(
     R.string.tab_friends_text_1,
@@ -30,43 +31,55 @@ private val TAB_OTHERS_TITLES = arrayOf(
  */
 class SectionsPagerAdapter(
     private val context: Context,
-    private val friends: Boolean,
+    private val tabType: AppConstants.Companion.TABS,
     fm: FragmentManager,
     private val contactInfo: List<ContactInfo>?
 ) :
-    FragmentPagerAdapter(fm), SafetyContactListFragment.OnListFragmentInteractionListener {
+    FragmentPagerAdapter(fm), SafetyContactListFragment.OnListFragmentInteractionListener,
+    PlaceholderFragment.OnRegisterButtonTappedListener {
 
     override fun getItem(position: Int): Fragment {
+        var userSession: UserSession? = null
+        if (context is HomePageActivity) {
+            userSession = UserSession( context.userContact.toString(), context.userToken.toString())
+        }
         // getItem is called to instantiate the fragment for the given page.
         // Return a PlaceholderFragment (defined as a static inner class below).
-        return if(friends){
-            when (position) {
-                VIEW_REGISTER ->{
-                    if((context as HomePage).userContact?.isNotEmpty()!! &&
-                        (context as HomePage).userToken != 0){
-                        val userSession: UserSession = UserSession((context as HomePage).userContact.toString(),
-                            (context as HomePage).userToken.toString())
-                        PlaceholderFragment.newInstance(position + 1, VIEW_REGISTER_UPDATE,
-                            userSession)
-                    }else{
-                        PlaceholderFragment.newInstance(position + 1, VIEW_REGISTER,
-                            UserSession("",""))
+        return when (tabType) {
+            AppConstants.Companion.TABS.FRIENDS -> {
+
+                when (position) {
+                    FRIENDS_VIEW_REGISTER ->{
+                        if((context as HomePageActivity).userContact?.isNotEmpty()!! &&
+                            context.userToken != 0){
+                            PlaceholderFragment.newInstance(position, FRIENDS_VIEW_REGISTER,
+                                userSession!!
+                            )
+                        }else{
+                            PlaceholderFragment.newInstance(position, FRIENDS_VIEW_REGISTER,
+                                userSession!!)
+                        }
                     }
+                    FRIENDS_VIEW_CONNECTION_LIST ->
+                        SafetyContactListFragment.newInstance(position, contactInfo, userSession!!)
+                    else ->
+                        SafetyContactListFragment.newInstance(position, contactInfo, userSession!!)
                 }
-                VIEW_CONNECTION_LIST ->
-                    SafetyContactListFragment.newInstance(position, contactInfo)
-                else ->
-                    SafetyContactListFragment.newInstance(position, contactInfo)
             }
-        } else {
-            /*add Fragments based on others tab*/
-            PlaceholderFragment.newInstance(position + 1, VIEW_REGISTER_UPDATE,
-                UserSession("",""))
+            AppConstants.Companion.TABS.GROCERY -> {
+                /*add Fragments based on others tab*/
+                PlaceholderFragment.newInstance(position, GROCERY_VIEW_TAB_ONE,
+                    UserSession("",""))
+            }
+            AppConstants.Companion.TABS.OTHERS -> {
+                PlaceholderFragment.newInstance(position, OTHERS_VIEW_TAB_ONE,
+                    UserSession("",""))
+            }
         }
     }
 
     override fun getPageTitle(position: Int): CharSequence? {
-        return if(friends)
+        return if(tabType == AppConstants.Companion.TABS.FRIENDS)
                 context.resources.getString(TAB_FRIENDS_TITLES[position])
                else
                 context.resources.getString(TAB_OTHERS_TITLES[position])
@@ -78,6 +91,14 @@ class SectionsPagerAdapter(
     }
 
     override fun onListFragmentInteraction(item: ContactInfo) {
+        TODO("Not yet implemented")
+    }
+
+    override fun onLoadRequestConnectionUpdate() {
+        TODO("Not yet implemented")
+    }
+
+    override fun onRegisterButtonTapped(contact: String) {
         TODO("Not yet implemented")
     }
 }

@@ -11,10 +11,10 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.app.app_demo.R
 import com.app.app_demo.models.ContactInfo
+import com.app.app_demo.models.UserSession
+import com.app.app_demo.utils.AppConstants.Companion.FRIENDS_VIEW_CONNECTION_LIST
 import com.app.app_demo.utils.AppConstants.Companion.USER_TYPE_CONNECTION
 import com.app.app_demo.utils.AppConstants.Companion.USER_TYPE_INVITE
-import com.app.app_demo.utils.AppConstants.Companion.VIEW_CONNECTION_LIST
-import com.app.app_demo.utils.AppConstants.Companion.VIEW_INVITE_LIST
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
 
@@ -25,22 +25,29 @@ import com.google.gson.GsonBuilder
  */
 class SafetyContactListFragment : Fragment() {
 
-    // TODO: Customize parameters
     private var columnCount = 0
 
     private var listener: OnListFragmentInteractionListener? = null
 
     private var contactInfo: List<ContactInfo>? = null
 
+    private var userSession: UserSession? = null
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        var userData: String = ""
+        var userListData = ""
+        var userData = ""
         arguments?.let {
             columnCount = it.getInt(ARG_COLUMN_COUNT)
-            userData = it.getString(ARG_USER_LIST_DATA).toString()
+            userListData = it.getString(ARG_USER_LIST_DATA).toString()
+            userData = it.getString(ARG_USER_DATA).toString()
         }
-
-        contactInfo = GsonBuilder().create().fromJson(userData, Array<ContactInfo>::class.java).toList()
+        try {
+            contactInfo = GsonBuilder().create().fromJson(userListData, Array<ContactInfo>::class.java).toList()
+        }catch (e: Exception){}
+        try {
+            userSession = GsonBuilder().create().fromJson(userData, UserSession::class.java)
+        }catch (e: Exception){}
     }
 
     override fun onCreateView(
@@ -55,12 +62,14 @@ class SafetyContactListFragment : Fragment() {
             layoutManager = LinearLayoutManager(context)
             var text = parentView.context.getString(R.string.txt_safe_users)
             val connectionList: List<ContactInfo>?
-            if (columnCount == VIEW_CONNECTION_LIST){
+            if (columnCount == FRIENDS_VIEW_CONNECTION_LIST){
                 connectionList = contactInfo?.filter {
                         it.userType == USER_TYPE_CONNECTION
                     }
                 text = text.replace("_", connectionList?.size.toString())
                     .replace("-", contactInfo?.size.toString())
+                if (connectionList==null && userSession!=null && !userSession?.userToken.equals("0"))
+                    listener?.onLoadRequestConnectionUpdate()
             }else{
                 connectionList = contactInfo?.filter {
                         it.userType == USER_TYPE_INVITE
@@ -70,10 +79,10 @@ class SafetyContactListFragment : Fragment() {
                     }
                 text = text.replace("_", connectionList2?.size.toString())
                     .replace("-", contactInfo?.size.toString())
-                if (connectionList2.isNullOrEmpty()){
-                    text = text.replace("_", "0")
-                        .replace("-", contactInfo?.size.toString())
-                }
+
+            }
+            if (text.contains("null")){
+                text = text.replace("null", "0")
             }
             textView.text = text
             adapter = MyItemRecyclerViewAdapter(connectionList, listener, columnCount)
@@ -109,6 +118,8 @@ class SafetyContactListFragment : Fragment() {
     interface OnListFragmentInteractionListener {
         // TODO: Update argument type and name
         fun onListFragmentInteraction(item: ContactInfo)
+
+        fun onLoadRequestConnectionUpdate()
     }
 
     companion object {
@@ -116,17 +127,20 @@ class SafetyContactListFragment : Fragment() {
         // TODO: Customize parameter argument names
         const val ARG_COLUMN_COUNT = "column-count"
         const val ARG_USER_LIST_DATA = "user-list"
+        const val ARG_USER_DATA = "user-info"
 
         // TODO: Customize parameter initialization
         @JvmStatic
         fun newInstance(
             columnCount: Int,
-            contactInfo: List<ContactInfo>?
+            contactInfo: List<ContactInfo>?,
+            userSession: UserSession
         ) =
             SafetyContactListFragment().apply {
                 arguments = Bundle().apply {
                     putInt(ARG_COLUMN_COUNT, columnCount)
                     putString(ARG_USER_LIST_DATA, Gson().toJson(contactInfo))
+                    putString(ARG_USER_DATA, Gson().toJson(userSession))
                 }
             }
     }

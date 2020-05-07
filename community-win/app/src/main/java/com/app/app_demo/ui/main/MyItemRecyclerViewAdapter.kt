@@ -1,21 +1,17 @@
 package com.app.app_demo.ui.main
 
-import androidx.recyclerview.widget.RecyclerView
+
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.recyclerview.widget.RecyclerView
 import com.app.app_demo.R
 import com.app.app_demo.models.ContactInfo
-import com.app.app_demo.network_interfacing.data_models.ActiveContactTable
-
-
 import com.app.app_demo.ui.main.SafetyContactListFragment.OnListFragmentInteractionListener
-import com.app.app_demo.ui.main.models.DummyContent.DummyItem
-import com.app.app_demo.utils.AppConstants.Companion.VIEW_CONNECTION_LIST
+import com.app.app_demo.utils.AppConstants.Companion.GROCERY_VIEW_TAB_ONE
 import com.squareup.picasso.Picasso
-
 import kotlinx.android.synthetic.main.fragment_safety_contact_list.view.*
 import java.time.LocalDate
 
@@ -50,7 +46,7 @@ class MyItemRecyclerViewAdapter(
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val item = mValues?.get(position)
         holder.mContactName.text = item?.name
-        if (columnNumber == VIEW_CONNECTION_LIST){
+        if (columnNumber == GROCERY_VIEW_TAB_ONE){
             /*Glide
                 .with(this)
                 .load(item?.photoUrl)

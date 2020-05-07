@@ -21,7 +21,7 @@
         android:networkSecurityConfig="@xml/network_security_config"
         tools:ignore="UnusedAttribute">
         <activity
-            android:name=".ui_activities.HomePage"
+            android:name=".ui_activities.HomePageActivity"
             android:screenOrientation="portrait"
             android:label="@string/title_activity_home_page"
             android:theme="@style/AppTheme.NoActionBar"/>

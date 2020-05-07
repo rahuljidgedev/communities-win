@@ -35,6 +35,7 @@
     <string name="user_message">App will read and upload this device contacts anonymously. Do you want to continue?</string>
     <string name="no">No</string>
     <string name="please_wait">Please wait.</string>
+    <string name="enter_mobile_number">Enter correct mobile number</string>
 
     <string-array name="country_name_array">
         <item>India</item>
