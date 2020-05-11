@@ -1,12 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">Community win crisis</string>
-    <string name="txt_inform_about_safety">Inform and know how many of your contacts are safe</string>
-    <string name="txt_find_essentials_around_you">Find the essentials around you</string>
-    <string name="txt_enter_mobile_number">Your mobile number.</string>
-    <string name="txt_im_safe">I\'m safe</string>
     <string name="txt_safe_users">"_ / - contacts are safe. "</string>
-    <string name="title_activity_contact_safety_">Contact Safety</string>
     <string name="tab_friends_text_1">MY STATUS</string>
     <string name="tab_friends_text_2">CONNECTION</string>
     <string name="tab_friends_text_3">INVITE</string>
@@ -34,7 +29,7 @@
     <string name="yes">Yes</string>
     <string name="user_message">App will read and upload this device contacts anonymously. Do you want to continue?</string>
     <string name="no">No</string>
-    <string name="please_wait">Please wait.</string>
+    <string name="please_wait">Loading the contact list. Please wait.</string>
     <string name="enter_mobile_number">Enter correct mobile number</string>
 
     <string-array name="country_name_array">

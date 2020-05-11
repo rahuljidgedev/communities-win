@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    package="com.app.app_demo">
+    package="com.app.community_win_crisis">
     <!--
          The ACCESS_COARSE/FINE_LOCATION permissions are not required to use
          Google Maps Android API v2, but you must specify either coarse or fine
@@ -21,12 +21,13 @@
         android:networkSecurityConfig="@xml/network_security_config"
         tools:ignore="UnusedAttribute">
         <activity
-            android:name=".ui_activities.HomePageActivity"
+            android:name="com.app.community_win_crisis.ui_activities.HomePageActivity"
             android:screenOrientation="portrait"
             android:label="@string/title_activity_home_page"
-            android:theme="@style/AppTheme.NoActionBar"/>
+            android:theme="@style/AppTheme.NoActionBar"
+            tools:ignore="LockedOrientationActivity"/>
         <activity
-            android:name=".ui_activities.SplashActivity"
+            android:name="com.app.community_win_crisis.ui_activities.SplashActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar"
             tools:ignore="LockedOrientationActivity">
@@ -36,7 +37,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".utils.BaseActivity"/>
+        <activity android:name="com.app.community_win_crisis.utils.BaseActivity"/>
         <!--
              The API key for Google Maps-based APIs is defined as a string resource.
              (See the file "res/values/google_maps_api.xml").
@@ -50,13 +51,8 @@
             android:value="@string/google_maps_key" />
 
         <activity
-            android:name=".ui_activities.EssentialAround"
+            android:name="com.app.community_win_crisis.ui_activities.EssentialAround"
             android:label="@string/title_activity_essential_around" />
-        <activity
-            android:name=".ui_activities.ContactSafety"
-            android:label="@string/title_activity_contact_safety_"
-            android:theme="@style/AppTheme.NoActionBar" />
-        <activity android:name=".ui_activities.MainActivity"></activity>
     </application>
 
 </manifest>

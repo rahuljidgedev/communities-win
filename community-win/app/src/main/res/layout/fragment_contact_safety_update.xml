@@ -13,6 +13,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="#FFF"
+        android:paddingVertical="102dp"
         android:orientation="vertical"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -35,6 +36,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:nextFocusDown="@id/cb_check_privacy"
+                    android:paddingHorizontal="8dp"
                     android:maxLength="12"
                     android:inputType="phone"/>
             </com.google.android.material.textfield.TextInputLayout>
@@ -65,7 +67,7 @@
         </LinearLayout>
     </LinearLayout>
     <androidx.appcompat.widget.AppCompatImageView
-        android:id="@+id/fab"
+        android:id="@+id/iv_user_icon"
         style="@style/Widget.AppCompat.ImageButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
