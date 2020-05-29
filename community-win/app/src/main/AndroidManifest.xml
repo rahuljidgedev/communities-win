@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    package="com.app.community_win_crisis">
+    package="com.app.communities_win_crisis">
     <!--
          The ACCESS_COARSE/FINE_LOCATION permissions are not required to use
          Google Maps Android API v2, but you must specify either coarse or fine
@@ -9,25 +9,26 @@
     -->
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.READ_CONTACTS" />
-    <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="android.permission.INTERNET" />
 
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
+        android:networkSecurityConfig="@xml/network_security_config"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
-        android:networkSecurityConfig="@xml/network_security_config"
         tools:ignore="UnusedAttribute">
+        <activity android:name="com.app.communities_win_crisis.ui_activities.VendorActivity"/>
         <activity
-            android:name="com.app.community_win_crisis.ui_activities.HomePageActivity"
-            android:screenOrientation="portrait"
+            android:name="com.app.communities_win_crisis.ui_activities.HomePageActivity"
             android:label="@string/title_activity_home_page"
+            android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar"
-            tools:ignore="LockedOrientationActivity"/>
+            tools:ignore="LockedOrientationActivity" />
         <activity
-            android:name="com.app.community_win_crisis.ui_activities.SplashActivity"
+            android:name="com.app.communities_win_crisis.ui_activities.SplashActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar"
             tools:ignore="LockedOrientationActivity">
@@ -37,7 +38,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name="com.app.community_win_crisis.utils.BaseActivity"/>
+        <activity android:name="com.app.communities_win_crisis.utils.BaseActivity" />
         <!--
              The API key for Google Maps-based APIs is defined as a string resource.
              (See the file "res/values/google_maps_api.xml").
@@ -51,7 +52,7 @@
             android:value="@string/google_maps_key" />
 
         <activity
-            android:name="com.app.community_win_crisis.ui_activities.EssentialAround"
+            android:name="com.app.communities_win_crisis.ui_activities.EssentialAround"
             android:label="@string/title_activity_essential_around" />
     </application>
 

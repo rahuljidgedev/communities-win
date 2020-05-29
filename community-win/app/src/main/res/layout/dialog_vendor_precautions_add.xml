@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<androidx.appcompat.widget.LinearLayoutCompat
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_margin="@dimen/activity_horizontal_margin"
+    android:orientation="vertical"
+    android:background="@drawable/dialog_background_inset">
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/tv_vendor_name"
+        style="@style/TextAppearance.AppCompat.Title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:text="Vendor Name"
+        android:textAlignment="center" />
+    <androidx.appcompat.widget.AppCompatCheckBox
+        android:id="@+id/cb_social_distancing"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/txt_Social_distancing" />
+    <androidx.appcompat.widget.AppCompatCheckBox
+        android:id="@+id/cb_fever_screening"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/txt_fever_screen" />
+    <androidx.appcompat.widget.AppCompatCheckBox
+        android:id="@+id/cb_quarantine_check"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/txt_quarantine_check" />
+    <androidx.appcompat.widget.AppCompatCheckBox
+        android:id="@+id/cb_hand_sanitizer"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/txt_Sanitizer" />
+    <androidx.appcompat.widget.AppCompatCheckBox
+        android:id="@+id/cb_contact_less_pay"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/txt_pay_hands_free"
+        android:layout_marginBottom="@dimen/activity_vertical_margin"/>
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/btn_save_vendor_precautions"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:text="@string/update_precautions" />
+</androidx.appcompat.widget.LinearLayoutCompat>

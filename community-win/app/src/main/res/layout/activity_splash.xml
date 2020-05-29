@@ -5,7 +5,7 @@
     android:layout_height="match_parent"
     android:background="@color/splash_background"
     tools:context=".ui_activities.SplashActivity">
-    <androidx.appcompat.widget.AppCompatImageView
+    <!--<androidx.appcompat.widget.AppCompatImageView
         android:id="@+id/home"
         android:layout_width="68dp"
         android:layout_height="68dp"
@@ -17,8 +17,24 @@
         android:layout_height="68dp"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="192dp"
-        android:src="@drawable/bx_bxs_home_heart"/>
+        android:src="@drawable/bx_bxs_home_heart"/>-->
+    <androidx.appcompat.widget.AppCompatImageView
+        android:id="@+id/logo"
+        android:layout_width="68dp"
+        android:layout_height="68dp"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="192dp"
+        android:src="@mipmap/ic_launcher"/>
     <androidx.appcompat.widget.AppCompatTextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_below="@+id/logo"
+        android:fontFamily="@font/play_regular"
+        android:layout_marginVertical="@dimen/activity_vertical_margin"
+        android:text="@string/app_name"
+        android:textSize="16sp"/>
+    <!--<androidx.appcompat.widget.AppCompatTextView
         android:id="@+id/help_stop_c"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -26,8 +42,8 @@
         android:layout_below="@+id/home"
         android:fontFamily="@font/play_regular"
         android:text="@string/help_stop_c"
-        android:textSize="16sp"/>
-    <RelativeLayout
+        android:textSize="16sp"/>-->
+    <!--<RelativeLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/help_stop_c"
@@ -65,7 +81,7 @@
             android:fontFamily="@font/play_regular"
             android:text="@string/grocery"
             android:textSize="16sp"/>
-    </RelativeLayout>
+    </RelativeLayout>-->
     <ProgressBar
         android:id="@+id/progressBar"
         style="?android:attr/progressBarStyleHorizontal"

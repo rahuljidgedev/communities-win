@@ -71,35 +71,5 @@
         app:layout_anchorGravity="end"
         app:srcCompat="@drawable/ic_add"
         android:visibility="invisible"/>
-    <FrameLayout
-        android:id="@+id/busy_progress"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:clickable="true"
-        android:visibility="gone"
-        style="@style/Theme.AppCompat.Dialog"
-        android:background="@color/semi_transparent"
-        android:focusable="true">
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:layout_gravity="center"
-            android:gravity="center">
-            <ProgressBar
-                android:id="@+id/progress"
-                android:layout_width="56dp"
-                android:layout_height="56dp"
-                android:indeterminate="true"
-                android:alpha="1"
-                android:progressTint="@color/colorFriendsPrimary"/>
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/activity_vertical_margin"
-                android:text="@string/please_wait"
-                android:textColor="@android:color/white"
-                style="@style/TextAppearance.AppCompat.Body1"/>
-        </LinearLayout>
-    </FrameLayout>
+    <include layout="@layout/progress_layout"/>
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

@@ -11,7 +11,7 @@
         android:text="@string/add_pin_code"
         style="@style/TextAppearance.AppCompat.Title"/>
     <EditText
-        android:id="@+id/et_user_pincode"
+        android:id="@+id/et_vendor_pinCode"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"/>
     <androidx.appcompat.widget.AppCompatButton

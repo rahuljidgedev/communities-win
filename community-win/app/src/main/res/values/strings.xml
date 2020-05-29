@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">Community win crisis</string>
+    <string name="app_name">Communities win</string>
     <string name="txt_safe_users">"_ / - contacts are safe. "</string>
     <string name="tab_friends_text_1">MY STATUS</string>
     <string name="tab_friends_text_2">CONNECTION</string>
@@ -31,12 +31,72 @@
     <string name="no">No</string>
     <string name="please_wait">Loading the contact list. Please wait.</string>
     <string name="enter_mobile_number">Enter correct mobile number</string>
-
+    <string name="vendor_profile_name">Store or Business Name</string>
+    <string name="vendor_profile_street_pin">City Pin Street Building State Country</string>
+    <string name="vendor_profile_demand">Demand</string>
+    <string name="vendor_profile_orders">Orders</string>
+    <string name="vendor_profile_heading_category">Category</string>
+    <string name="vendor_profile_heading_price">Product with Price</string>
+    <string name="vendor_profile_vegetables">Vegetables</string>
+    <string name="vendor_profile_fruits">Fruits</string>
+    <string name="vendor_grocery_home_delivery">Home Delivery</string>
+    <string name="available_from">available from</string>
+    <string name="vendor_grocery_pickup">Store Pickup</string>
+    <string name="vendor_profile_to">to</string>
+    <string name="vendor_profile_precautions">Precautions</string>
+    <string name="vendor_profile_timing">Timing</string>
+    <string name="add_vendor_nam">Add your store/business name</string>
+    <string name="sel_business_category_name">Select Business Categories</string>
+    <string name="txt_sav_vendor_basics">Update Details</string>
+    <string name="txt_item_name">Item Name</string>
+    <string name="txt_selling_price">Selling price in &#8377;</string>
+    <string name="txt_min_quantity">Min Qty</string>
+    <string name="txt_quantity_unit">gms</string>
+    <string name="btn_save_item">Update product details</string>
+    <string name="rs">&#8377;</string>
+    <string name="vendor_profile">per</string>
+    <string name="update_precautions">Update Precautions Information</string>
+    <string name="txt_Social_distancing">Social Distancing space available</string>
+    <string name="txt_fever_screen">Fever Screening done </string>
+    <string name="txt_quarantine_check">Quarantine Patient Stamp Checking done</string>
+    <string name="txt_Sanitizer">Hand Sanitizer available</string>
+    <string name="txt_pay_hands_free">Contact less (UPI/Wallet Barcode) Payments available</string>
+    <string name="txt_delivery_available">Delivery Available ( DA ) in Pin Code</string>
+    <string name="txt_delivery_available_sht">DA</string>
+    <string name="txt_up_to_time">Time UpTo</string>
+    <string name="txt_from_time">Time From</string>
+    <string name="txt_Pickup_available">Order Pickup from Store Available</string>
+    <string name="enter_vendor_name">Enter business name</string>
+    <string name="select_atleast_one_category">Select atleast one category.</string>
+    <string name="enter_vendor_pincode">Enter business pincode</string>
+    <string name="enter_item_selling_price">Enter selling price</string>
+    <string name="enter_item_min_qty">Enter minimum quantity</string>
+    <string name="business_name_here">Enter business name here</string>
+    <string name="enter_pin_code">Enter your business area pin</string>
+    <string name="updating_business_details">Updating your store/business details</string>
+    <string name="getting_available_products">Getting available product list.</string>
+    <string name="txt_select_item_to_update">Select a product from list</string>
+    <string name="select_correct_unit">Select correct unit</string>
+    <string name="vendor_registered">Updated vendor details</string>
+    <string name="update_product_price">Updated product details</string>
+    <string name="update_vendor_safety_feature">Updated vendor facilities</string>
+    <string name="select_atleast_one_feature">To update check at least one feature</string>
+    <string name="registering_you">Registration in process. Please wait!!</string>
+    <string name="vendor_details_update">Vendor Details Update</string>
+    <string name="sell_products">Sell groceries as vendor</string>
+    <string name="getting_vendor_details">Getting existing profile</string>
+    <string name="no_vendor_data_available">No vendor information available.</string>
     <string-array name="country_name_array">
         <item>India</item>
         <item>Nepal</item>
     </string-array>
     <string-array name="i_am_safe">
         <item>I am Safe</item>
+    </string-array>
+    <string-array name="weight_units">
+        <item>unit</item>
+        <item>kg</item>
+        <item>gm</item>
+        <item>dozen</item>
     </string-array>
 </resources>

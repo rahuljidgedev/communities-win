@@ -1,0 +1,198 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.appcompat.widget.LinearLayoutCompat xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_margin="16dp"
+    android:orientation="vertical">
+
+<android.widget.LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <com.google.android.material.textview.MaterialTextView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_gravity="center"
+        android:textAppearance="@style/TextAppearance.Widget.AppCompat.Toolbar.Title"
+        android:text="Show the Vendor Name here"
+        android:textAlignment="center">
+    </com.google.android.material.textview.MaterialTextView>
+
+</android.widget.LinearLayout>
+
+    <android.widget.LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="30dp">
+        <com.google.android.material.textview.MaterialTextView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="10dp"
+            android:text="# Items">
+        </com.google.android.material.textview.MaterialTextView>
+    </android.widget.LinearLayout>
+
+    <TableLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="30dp">
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+            <TextView android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="12dip"
+                android:text="Items"
+                android:textSize="15dp">
+            </TextView>
+            <TextView android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="12dip"
+                android:text="Selling"
+                android:textSize="15dp">
+            </TextView>
+            <TextView android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="12dip"
+                android:layout_gravity="right"
+                android:text="Price"
+                android:textSize="15dp">
+            </TextView>
+            <TextView android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="12dip"
+                android:text="MOQ"
+                android:layout_gravity="right"
+                android:textSize="15dp">
+            </TextView>
+            <TextView android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="12dip"
+                android:text="Units"
+                android:textSize="15dp">
+            </TextView>
+            <TextView android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="12dip"
+                android:text="E/D"
+                android:textSize="15dp">
+            </TextView>
+        </TableRow>
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+            <TextView android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="12dip"
+                android:text="Lemon"
+                android:textSize="15dp">
+            </TextView>
+            <TextView android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="12dip"
+                android:layout_gravity="right"
+                android:text="INR"
+                android:textSize="12dp">
+            </TextView>
+            <TextView android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="12dip"
+                android:text="10.00"
+                android:layout_gravity="right"
+                android:textSize="15dp">
+            </TextView>
+            <TextView android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="12dip"
+                android:text="250"
+                android:layout_gravity="right"
+                android:textSize="15dp">
+            </TextView>
+            <TextView android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="12dip"
+                android:text="gms"
+                android:textSize="15dp">
+            </TextView>
+            <TextView android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="12dip"
+                android:text="E/D"
+                android:textSize="15dp">
+            </TextView>
+        </TableRow>
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+            <TextView android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="12dip"
+                android:text="Tomato"
+                android:textSize="15dp">
+            </TextView>
+            <TextView android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="12dip"
+                android:layout_gravity="right"
+                android:text="INR"
+                android:textSize="12dp">
+            </TextView>
+            <TextView android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="12dip"
+                android:layout_gravity="right"
+                android:text="20.00"
+                android:textSize="15dp">
+            </TextView>
+            <TextView android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="12dip"
+                android:text="500"
+                android:layout_gravity="right"
+                android:textSize="15dp">
+            </TextView>
+            <TextView android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="12dip"
+                android:text="gms"
+                android:textSize="15dp">
+            </TextView>
+            <TextView android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="12dip"
+                android:text="E/D"
+                android:textSize="15dp">
+            </TextView>
+        </TableRow>
+    </TableLayout>
+
+    <android.widget.LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="30dp">
+        <com.google.android.material.textview.MaterialTextView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="10dp"
+            android:layout_marginBottom="20dp"
+            android:text="MOQ = Minimum Order Quantity">
+        </com.google.android.material.textview.MaterialTextView>
+    </android.widget.LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="right"
+        android:orientation="horizontal">
+
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/floatingActionButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:clickable="true"
+            app:srcCompat="@drawable/ic_add" />
+    </LinearLayout>
+
+</androidx.appcompat.widget.LinearLayoutCompat>
