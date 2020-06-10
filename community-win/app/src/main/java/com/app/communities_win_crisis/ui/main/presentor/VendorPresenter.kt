@@ -3,24 +3,23 @@ package com.app.communities_win_crisis.ui.main.presentor
 import android.view.View
 import com.app.communities_win_crisis.R
 import com.app.communities_win_crisis.network_interfacing.data_models.ProductList
-import com.app.communities_win_crisis.network_interfacing.data_models.ProductListItem
 import com.app.communities_win_crisis.network_interfacing.data_models.VendorProfile
 import com.app.communities_win_crisis.network_interfacing.interfaces.HttpResponseHandler
 import com.app.communities_win_crisis.network_interfacing.utils.*
-import com.app.communities_win_crisis.network_interfacing.utils.HttpConstants.Companion.REQ_BODY_PHONE
+import com.app.communities_win_crisis.network_interfacing.utils.HttpConstants.Companion.REQ_BODY_PHONE_NUMBER
+import com.app.communities_win_crisis.network_interfacing.utils.HttpConstants.Companion.REQ_BODY_PRODUCT_CATEGORY_NAME
 import com.app.communities_win_crisis.ui_activities.VendorActivity
 import com.google.gson.Gson
 import java.util.*
 
 class VendorPresenter (context: VendorActivity): HttpResponseHandler {
     var context: VendorActivity = context
-    var productListType: String? = ""
 
 
     fun getVendorProfileIfExist() {
         context.setProgressVisibility(View.VISIBLE, context.getString(R.string.getting_vendor_details))
         val map: HashMap<String, Any> = HashMap(3)
-        map[REQ_BODY_PHONE] = context.userContact.toString()
+        map[REQ_BODY_PHONE_NUMBER] = context.userContact.toString()
         GetVendor().execute(HttpConstants.SERVICE_REQUEST_VENDOR_BASE_URL +
                 HttpConstants.GET_VENDOR, map, this)
     }
@@ -33,9 +32,11 @@ class VendorPresenter (context: VendorActivity): HttpResponseHandler {
 
     fun requestProductList(productListType: String) {
         context.setProgressVisibility(View.VISIBLE, context.getString(R.string.getting_available_products))
-        this.productListType = productListType
+        val map: HashMap<String, Any> = HashMap(1)
+        map[REQ_BODY_PRODUCT_CATEGORY_NAME] = productListType
         GetVendorProductList().execute(HttpConstants.SERVICE_REQUEST_VENDOR_BASE_URL +
-                HttpConstants.VENDOR_PRODUCTS_LIST, this)
+                HttpConstants.VENDOR_PRODUCTS_LIST, map
+            , this)
     }
 
     fun updateVendorProductPrices(map: HashMap<String, Any>) {
@@ -72,13 +73,7 @@ class VendorPresenter (context: VendorActivity): HttpResponseHandler {
             }
             HttpConstants.SERVICE_REQUEST_VENDOR_BASE_URL+HttpConstants.VENDOR_PRODUCTS_LIST -> {
                 val productList = Gson().fromJson(responseString, ProductList::class.java)
-                if (productList != null) {
-                    val filteredProductsList: ArrayList<ProductListItem> = productList.filter {
-                        it.category == productListType
-                    } as ArrayList<ProductListItem>
-                    context.showAddProductsDialog(filteredProductsList, productListType)
-                    productListType = ""
-                }
+                context.showAddProductsDialog(productList)
             }
             HttpConstants.SERVICE_REQUEST_VENDOR_BASE_URL+HttpConstants.GET_VENDOR -> {
                 val vendorProfile = Gson().fromJson(responseString, VendorProfile::class.java)

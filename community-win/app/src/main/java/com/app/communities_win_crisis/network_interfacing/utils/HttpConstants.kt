@@ -41,6 +41,7 @@ class HttpConstants {
 
         /**Vendor request Headers**/
         const val REQ_BODY_PHONE: String = "Phone"
+        const val REQ_BODY_PHONE_NUMBER: String = "phoneNumber"
         const val REQ_BODY_VENDOR_NAME: String = "VendorName"
         const val REQ_BODY_VENDOR_COUNTRY: String = "Country"
         const val REQ_BODY_VENDOR_STATE: String = "State"
@@ -48,8 +49,11 @@ class HttpConstants {
         const val REQ_BODY_VENDOR_PIN: String = "Pin"
         const val REQ_BODY_VENDOR_LAT: String = "Latitude"
         const val REQ_BODY_VENDOR_LNG: String = "Longitude"
+        const val REQ_BODY_VENDOR_CATEGORIES: String = "Categories"
 
         const val REQ_BODY_PRODUCT_CATEGORY: String = "CategoryName"
+        const val REQ_BODY_PRODUCT_CATEGORY_NAME: String = "categoryname"
+
         const val REQ_BODY_VENDOR_ENABLE: String = "Enable"
 
         const val REQ_BODY_VENDOR_APP_KEY: String = "AppKey"
@@ -63,7 +67,7 @@ class HttpConstants {
         const val REQ_BODY_VENDOR_SANITIZER_USED: String = "IsSanitizerUsed"
         const val REQ_BODY_VENDOR_STAMP_CHECK: String = "IsStampCheck"
         const val REQ_BODY_VENDOR_SOCIAL_DISTANCE: String = "IsSocialDistance"
-
+        const val REQ_BODY_VENDOR_CONTACT_LESS_PAY: String = "IsContactLessPay"
         const val REQ_HEADER_API_KEY: String = "x-api-key"
 
 

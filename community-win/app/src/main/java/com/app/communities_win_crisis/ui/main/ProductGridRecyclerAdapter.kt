@@ -11,11 +11,13 @@ import androidx.cardview.widget.CardView
 import androidx.recyclerview.widget.RecyclerView
 import com.app.communities_win_crisis.R
 import com.app.communities_win_crisis.network_interfacing.data_models.ProductListItem
+import com.app.communities_win_crisis.network_interfacing.data_models.VendorProduct
 import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.product_grid_item.view.*
 
 class ProductGridRecyclerAdapter(
     private val productsList: ArrayList<ProductListItem>,
+    private val existingProducts: List<VendorProduct>,
     private val listener: GridItemClickedListener?,
     private val dialog: AlertDialog
 ) : RecyclerView.Adapter<ProductGridRecyclerAdapter.ViewHolder>() {
@@ -39,8 +41,22 @@ class ProductGridRecyclerAdapter(
             .placeholder(R.drawable.ic_user)
             .into(holder.mProductImage)
         holder.mParentCardView.setOnClickListener {
-                listener?.onGridItemSelected(productsList[position], dialog)
+            val which = findSelectedProductIfExist(productsList[position].productName)
+                if(which != -1)
+                   listener?.onGridExistingProductSelected(existingProducts[which], productsList[position].imageUrl, dialog)
+                else
+                 listener?.onGridProductSelected(productsList[position], dialog)
         }
+    }
+
+    private fun findSelectedProductIfExist(productName: String): Int {
+        if (existingProducts.isEmpty())
+            return -1
+
+        for(i in 0..existingProducts.size){
+            if(existingProducts[0].productName == productName) return i
+        }
+        return  -1
     }
 
     inner class ViewHolder(mView: View) : RecyclerView.ViewHolder(mView) {
@@ -50,10 +66,14 @@ class ProductGridRecyclerAdapter(
     }
 
     interface GridItemClickedListener {
-        fun onGridItemSelected(
+        fun onGridProductSelected(
             item: ProductListItem,
             dialog: AlertDialog
         )
+        fun onGridExistingProductSelected(
+            item: VendorProduct,
+            itemUrl: String,
+            dialog: AlertDialog
+        )
     }
-
 }

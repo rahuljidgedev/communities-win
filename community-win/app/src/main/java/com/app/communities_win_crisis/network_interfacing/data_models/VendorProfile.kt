@@ -4,8 +4,6 @@ package com.app.communities_win_crisis.network_interfacing.data_models
 import com.google.gson.annotations.SerializedName
 
 data class VendorProfile(
-    @SerializedName("Category")
-    val category: List<String>,
     @SerializedName("VendorCity")
     val vendorCity: String,
     @SerializedName("VendorFeverScreening")
@@ -22,6 +20,8 @@ data class VendorProfile(
     val vendorSocialDistanced: Boolean,
     @SerializedName("VendorStampCheck")
     val vendorStampCheck: Boolean,
+    @SerializedName("VendorContactLessPay")
+    val vendorContactLessPay: Boolean,
     @SerializedName("VendorState")
     val vendorState: String,
     @SerializedName("Vendorcountry")

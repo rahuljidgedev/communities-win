@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">Communities win</string>
+    <string name="app_name">Communities Win</string>
     <string name="txt_safe_users">"_ / - contacts are safe. "</string>
     <string name="tab_friends_text_1">MY STATUS</string>
     <string name="tab_friends_text_2">CONNECTION</string>
@@ -22,7 +22,7 @@
     <string name="menu_txt_friends">FRIENDS</string>
     <string name="menu_txt_grocery">GROCERY</string>
     <string name="menu_txt_others">OTHERS</string>
-    <string name="privacy_message">I accept the \"Community Win\" privacy policy.</string>
+    <string name="privacy_message">I accept the \"Communities Win\" privacy policy.</string>
     <string name="accept_privacy_policy">Please accept privacy policy first.</string>
     <string name="cancel">Cancel</string>
     <string name="update">Update</string>
@@ -98,5 +98,6 @@
         <item>kg</item>
         <item>gm</item>
         <item>dozen</item>
+        <item>count</item>
     </string-array>
 </resources>

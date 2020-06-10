@@ -211,13 +211,18 @@ class HttpRequestsUtils {
             })
         }
 
-        fun httpRequestVendorProductList(url: String, context: Any)
+        fun httpRequestVendorProductList(url: String, map: HashMap<String, String>, context: Any)
                 = run {
             val client = OkHttpClient()
 
+            var modifiedServiceUrl: String = "$url?"
+            for ((k,v) in map){
+                modifiedServiceUrl = "$modifiedServiceUrl$k=$v&"
+            }
+
             val request = Request.Builder()
                 .header(HttpConstants.REQ_HEADER_API_KEY,HttpConstants.REQ_APP)
-                .url(url)
+                .url(modifiedServiceUrl)
                 .build()
             client.newCall(request).enqueue(object: Callback {
                 override fun onFailure(call: Call, e: IOException) {
@@ -302,13 +307,14 @@ class HttpRequestsUtils {
             val client = OkHttpClient()
             val jsonString: String  = Gson().toJson(map)
 
-            val requestBody =
-                jsonString.toRequestBody("application/json; charset=utf-8".toMediaTypeOrNull())
+            var modifiedServiceUrl: String = "$url?"
+            for ((k,v) in map){
+                modifiedServiceUrl = "$modifiedServiceUrl$k=$v&"
+            }
 
             val request = Request.Builder()
-                .url(url)
+                .url(modifiedServiceUrl)
                 .header(HttpConstants.REQ_HEADER_API_KEY,HttpConstants.REQ_APP)
-                .post(requestBody)
                 .build()
             client.newCall(request).enqueue(object: Callback {
                 override fun onFailure(call: Call, e: IOException) {

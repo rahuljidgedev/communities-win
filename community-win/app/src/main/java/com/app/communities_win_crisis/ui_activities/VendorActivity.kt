@@ -8,6 +8,7 @@ import androidx.appcompat.app.AlertDialog
 import androidx.recyclerview.widget.RecyclerView
 import com.app.communities_win_crisis.R
 import com.app.communities_win_crisis.network_interfacing.data_models.ProductListItem
+import com.app.communities_win_crisis.network_interfacing.data_models.VendorProduct
 import com.app.communities_win_crisis.network_interfacing.data_models.VendorProfile
 import com.app.communities_win_crisis.network_interfacing.utils.HttpConstants.Companion.REQ_BODY_MIN_ORDER_QTY
 import com.app.communities_win_crisis.network_interfacing.utils.HttpConstants.Companion.REQ_BODY_PHONE
@@ -15,6 +16,8 @@ import com.app.communities_win_crisis.network_interfacing.utils.HttpConstants.Co
 import com.app.communities_win_crisis.network_interfacing.utils.HttpConstants.Companion.REQ_BODY_PRODUCT_CATEGORY
 import com.app.communities_win_crisis.network_interfacing.utils.HttpConstants.Companion.REQ_BODY_PRODUCT_NAME
 import com.app.communities_win_crisis.network_interfacing.utils.HttpConstants.Companion.REQ_BODY_UNIT
+import com.app.communities_win_crisis.network_interfacing.utils.HttpConstants.Companion.REQ_BODY_VENDOR_CATEGORIES
+import com.app.communities_win_crisis.network_interfacing.utils.HttpConstants.Companion.REQ_BODY_VENDOR_CONTACT_LESS_PAY
 import com.app.communities_win_crisis.network_interfacing.utils.HttpConstants.Companion.REQ_BODY_VENDOR_FEVER_SCREEN
 import com.app.communities_win_crisis.network_interfacing.utils.HttpConstants.Companion.REQ_BODY_VENDOR_NAME
 import com.app.communities_win_crisis.network_interfacing.utils.HttpConstants.Companion.REQ_BODY_VENDOR_PIN
@@ -47,10 +50,16 @@ class VendorActivity : BaseActivity(), ProductGridRecyclerAdapter.GridItemClicke
         if(vendorProfile!=null) {
             alertDialog.findViewById<EditText>(R.id.et_vendor_name)!!.setText(vendorProfile?.vendorName)
             alertDialog.findViewById<EditText>(R.id.et_vendor_pinCode)!!.setText(vendorProfile?.vendorPin)
-            if(vendorProfile?.vendorProducts.toString().contains("Fruits"))
-                alertDialog.findViewById<ToggleButton>(R.id.ib_businessCategoryFruits)!!.isChecked =true
-            if(vendorProfile?.vendorProducts.toString().contains("Vegetables"))
-                alertDialog.findViewById<ToggleButton>(R.id.ib_businessCategoryVegetables)!!.isChecked =true
+            if(!vendorProfile!!.vendorProducts.isNullOrEmpty()){
+               var categories = ""
+                vendorProfile!!.vendorProducts.forEach {
+                    categories += it.categoryName
+                }
+                if(categories.contains("Fruits"))
+                    alertDialog.findViewById<ToggleButton>(R.id.ib_businessCategoryFruits)!!.isChecked =true
+                if(categories.contains("Vegetables"))
+                    alertDialog.findViewById<ToggleButton>(R.id.ib_businessCategoryVegetables)!!.isChecked =true
+            }
         }
         alertDialog.findViewById<Button>(R.id.btn_sav_vendor_basics)!!.setOnClickListener {
             if(alertDialog.findViewById<EditText>(R.id.et_vendor_name)!!.text.toString().isEmpty()){
@@ -71,9 +80,16 @@ class VendorActivity : BaseActivity(), ProductGridRecyclerAdapter.GridItemClicke
                 return@setOnClickListener
             }
 
-            val map: HashMap<String, Any> = HashMap(3)
+            var categories = ""
+            if(alertDialog.findViewById<ToggleButton>(R.id.ib_businessCategoryFruits)!!.isChecked)
+                categories += "Fruits,"
+            if(alertDialog.findViewById<ToggleButton>(R.id.ib_businessCategoryVegetables)!!.isChecked)
+                categories += "Vegetables"
+
+            val map: HashMap<String, Any> = HashMap(4)
             map[REQ_BODY_PHONE] = userContact.toString()
             map[REQ_BODY_VENDOR_NAME]=alertDialog.findViewById<EditText>(R.id.et_vendor_name)!!.text.toString()
+            map[REQ_BODY_VENDOR_CATEGORIES]= categories
             map[REQ_BODY_VENDOR_PIN]=alertDialog.findViewById<EditText>(R.id.et_vendor_pinCode)!!.text.toString()
             alertDialog.dismiss()
             vPresenter!!.updateVendorDetails(map)
@@ -113,8 +129,7 @@ class VendorActivity : BaseActivity(), ProductGridRecyclerAdapter.GridItemClicke
     }
 
     fun showAddProductsDialog(
-        productsList: ArrayList<ProductListItem>,
-        productListType: String?
+        productsList: ArrayList<ProductListItem>
     ) {
         runOnUiThread {
             val dialogBuilder = AlertDialog.Builder(this)
@@ -122,7 +137,8 @@ class VendorActivity : BaseActivity(), ProductGridRecyclerAdapter.GridItemClicke
             val alertDialog = dialogBuilder.create()
             alertDialog.show()
             val recyclerView: RecyclerView = alertDialog.findViewById(R.id.recycler_view)!!
-            recyclerView.adapter = ProductGridRecyclerAdapter(productsList, this, alertDialog)
+            recyclerView.adapter = ProductGridRecyclerAdapter(productsList,
+                vendorProfile!!.vendorProducts, this, alertDialog)
             val spinner: Spinner? = alertDialog.findViewById(R.id.spinner_unit)
             ArrayAdapter.createFromResource(
                 this,
@@ -151,7 +167,7 @@ class VendorActivity : BaseActivity(), ProductGridRecyclerAdapter.GridItemClicke
                 val map: HashMap<String, Any> = HashMap(6)
                 map[REQ_BODY_PHONE] = userContact.toString()
                 map[REQ_BODY_PRODUCT_NAME]=alertDialog.findViewById<TextView>(R.id.tv_product_name)!!.text.toString()
-                map[REQ_BODY_PRODUCT_CATEGORY]= productListType.toString()
+                map[REQ_BODY_PRODUCT_CATEGORY]= productsList[0].category
                 map[REQ_BODY_PRICE]=alertDialog.findViewById<EditText>(R.id.et_selling_price)!!.text.toString()
                 map[REQ_BODY_MIN_ORDER_QTY]=alertDialog.findViewById<EditText>(R.id.et_itm_min_ord_qty)!!.text.toString()
                 map[REQ_BODY_UNIT]= spinner.selectedItem.toString()
@@ -176,8 +192,8 @@ class VendorActivity : BaseActivity(), ProductGridRecyclerAdapter.GridItemClicke
                 alertDialog.findViewById<CheckBox>(R.id.cb_quarantine_check)!!.isChecked = true
             if(vendorProfile?.vendorSantizier!!)
                 alertDialog.findViewById<CheckBox>(R.id.cb_hand_sanitizer)!!.isChecked = true
-            /*if(vendorProfile?.cb_contact_less_pay!!)
-                alertDialog.findViewById<CheckBox>(R.id.cb_hand_sanitizer)!!.isChecked = true*/
+            if(vendorProfile?.vendorContactLessPay!!)
+                alertDialog.findViewById<CheckBox>(R.id.cb_contact_less_pay)!!.isChecked = true
         }
 
         alertDialog.findViewById<Button>(R.id.btn_save_vendor_precautions)!!.setOnClickListener {
@@ -200,8 +216,8 @@ class VendorActivity : BaseActivity(), ProductGridRecyclerAdapter.GridItemClicke
                 (R.id.cb_quarantine_check))!!.isChecked
             map[REQ_BODY_VENDOR_SANITIZER_USED] = (alertDialog.findViewById<CheckBox>
                 (R.id.cb_hand_sanitizer))!!.isChecked
-            /*map[REQ_BODY_VENDOR_STAMP_CHECK] = (alertDialog.findViewById<CheckBox>
-                (R.id.cb_contact_less_pay))!!.isChecked*/
+            map[REQ_BODY_VENDOR_CONTACT_LESS_PAY] = (alertDialog.findViewById<CheckBox>
+                (R.id.cb_contact_less_pay))!!.isChecked
             map[REQ_BODY_PHONE] = userContact.toString()
             vPresenter!!.updateVendorPrecautions(map)
             alertDialog.dismiss()
@@ -225,7 +241,7 @@ class VendorActivity : BaseActivity(), ProductGridRecyclerAdapter.GridItemClicke
         this.vendorProfile = vendorProfile
     }
 
-    override fun onGridItemSelected(item: ProductListItem, dialog: AlertDialog) {
+    override fun onGridProductSelected(item: ProductListItem, dialog: AlertDialog) {
         dialog.findViewById<TextView>(R.id.tv_product_name)!!.text = item.productName
         var iconId: Int =  R.drawable.vegetables
         if (item.category == "Fruits")
@@ -236,5 +252,23 @@ class VendorActivity : BaseActivity(), ProductGridRecyclerAdapter.GridItemClicke
             .placeholder(R.drawable.ic_user)
             .into(dialog.findViewById<ImageView>(R.id.iv_product_image))
     }
-}
 
+    override fun onGridExistingProductSelected(
+        item: VendorProduct,
+        itemUrl: String,
+        dialog: AlertDialog
+    ) {
+        dialog.findViewById<TextView>(R.id.tv_product_name)!!.text = item.productName
+        dialog.findViewById<TextView>(R.id.et_selling_price)!!.text = item.price.toString()
+        dialog.findViewById<TextView>(R.id.et_itm_min_ord_qty)!!.text = item.minOrderQuantity.toString()
+        val pos: Int = resources.getStringArray(R.array.weight_units).toMutableList().indexOf(item.units)
+        dialog.findViewById<Spinner>(R.id.spinner_unit)!!.setSelection(pos)
+        try{
+            Picasso.get()
+                .load(itemUrl)
+                .error(R.drawable.ic_user)
+                .placeholder(R.drawable.ic_user)
+                .into(dialog.findViewById<ImageView>(R.id.iv_product_image))
+        }catch(e: Exception){}
+    }
+}

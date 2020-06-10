@@ -11,5 +11,7 @@ data class VendorProduct(
     @SerializedName("ProductName")
     val productName: String,
     @SerializedName("Units")
-    val units: String
+    val units: String,
+    @SerializedName("CategoryName")
+    val categoryName: String
 )
