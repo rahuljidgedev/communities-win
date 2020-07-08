@@ -1,4 +1,4 @@
-package com.app.communities_win_crisis.ui.main.presentor
+package com.app.communities_win_crisis.presentor
 
 import android.os.Build
 import com.app.communities_win_crisis.network_interfacing.data_models.UserToken

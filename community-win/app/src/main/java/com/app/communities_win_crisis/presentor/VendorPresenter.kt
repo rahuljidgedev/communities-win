@@ -1,4 +1,4 @@
-package com.app.communities_win_crisis.ui.main.presentor
+package com.app.communities_win_crisis.presentor
 
 import android.view.View
 import com.app.communities_win_crisis.R

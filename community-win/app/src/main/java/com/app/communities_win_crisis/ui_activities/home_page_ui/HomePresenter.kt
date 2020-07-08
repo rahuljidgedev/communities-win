@@ -1,4 +1,4 @@
-package com.app.communities_win_crisis.ui.main.presentor
+package com.app.communities_win_crisis.ui_activities.home_page_ui
 
 import android.os.Build
 import android.view.View
@@ -21,14 +21,18 @@ import com.app.communities_win_crisis.network_interfacing.utils.HttpConstants.Co
 import com.app.communities_win_crisis.network_interfacing.utils.HttpConstants.Companion.SERVICE_REQUEST_USER_CONTACT_LIST
 import com.app.communities_win_crisis.network_interfacing.utils.UpdateTokenRequest
 import com.app.communities_win_crisis.network_interfacing.utils.UploadAnonymousContactRequest
-import com.app.communities_win_crisis.ui_activities.HomePageActivity
 import com.app.communities_win_crisis.utils.AppConstants
 import com.app.communities_win_crisis.utils.AppConstants.Companion.USER_TYPE_CONNECTION
 import com.app.communities_win_crisis.utils.ContactUtils
+import com.google.android.gms.maps.CameraUpdateFactory
+import com.google.android.gms.maps.OnMapReadyCallback
+import com.google.android.gms.maps.SupportMapFragment
+import com.google.android.gms.maps.model.LatLng
+import com.google.android.gms.maps.model.MarkerOptions
 import com.google.gson.Gson
 
 class HomePresenter (var context: HomePageActivity): HttpResponseHandler {
-
+    /*HTTP Request*/
     fun requestTokenTokenUpdate(contact: String) {
         context.setProgressVisibility(View.VISIBLE, context.getString(R.string.registering_you))
         val map: HashMap<String,String> = HashMap(3)
@@ -62,9 +66,10 @@ class HomePresenter (var context: HomePageActivity): HttpResponseHandler {
         map[REQ_BODY_TYP] = REQ_BODY_VALUE_TYP
         GetActiveConnectionRequest().execute(SERVICE_REQUEST_USER_CONTACT_LIST, map, this)
     }
+    /*-----------*/
 
 
-
+    /*HTTP Request Responses*/
     override fun onSucceed(responseString: String?, contact: String?, requestName: String?) {
         when (requestName) {
             SERVICE_REQUEST_TOKEN_UPDATE -> {
@@ -103,5 +108,39 @@ class HomePresenter (var context: HomePageActivity): HttpResponseHandler {
     override fun onFailure(message: String?) {
         context.setProgressVisibility(View.VISIBLE, context.getString(R.string.please_wait))
         context.showErrorMessage(message)
+    }
+    /*-----------*/
+
+
+    /*Grocery Map load*/
+    fun loadMapFragment() {
+        val mapFragment = context.supportFragmentManager.
+                            findFragmentById(R.id.map) as SupportMapFragment?
+        mapFragment.getMapAsync(callback)
+    }
+
+    /*Grocery Map load callback*/
+    private val callback = OnMapReadyCallback { googleMap ->
+        /**
+         * Manipulates the map once available.
+         * This callback is triggered when the map is ready to be used.
+         * This is where we can add markers or lines, add listeners or move the camera.
+         * In this case, we just add a marker near Sydney, Australia.
+         * If Google Play services is not installed on the device, the user will be prompted to
+         * install it inside the SupportMapFragment. This method will only be triggered once the
+         * user has installed Google Play services and returned to the app.
+         */
+        /**
+         * Manipulates the map once available.
+         * This callback is triggered when the map is ready to be used.
+         * This is where we can add markers or lines, add listeners or move the camera.
+         * In this case, we just add a marker near Sydney, Australia.
+         * If Google Play services is not installed on the device, the user will be prompted to
+         * install it inside the SupportMapFragment. This method will only be triggered once the
+         * user has installed Google Play services and returned to the app.
+         */
+        val sydney = LatLng(-34.0, 151.0)
+        googleMap.addMarker(MarkerOptions().position(sydney).title("Marker in Sydney"))
+        googleMap.moveCamera(CameraUpdateFactory.newLatLng(sydney))
     }
 }

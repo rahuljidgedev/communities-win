@@ -1,4 +1,4 @@
-package com.app.communities_win_crisis.ui.main
+package com.app.communities_win_crisis.ui_activities.home_page_ui.main
 
 
 import android.view.LayoutInflater
@@ -9,7 +9,7 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.app.communities_win_crisis.R
 import com.app.communities_win_crisis.models.ContactInfo
-import com.app.communities_win_crisis.ui.main.SafetyContactListFragment.OnListFragmentInteractionListener
+import com.app.communities_win_crisis.ui_activities.home_page_ui.main.ContactListFragment.OnListFragmentInteractionListener
 import com.app.communities_win_crisis.utils.AppConstants.Companion.FRIENDS_VIEW_CONNECTION_LIST
 import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.fragment_safety_contact_list.view.*
@@ -20,11 +20,11 @@ import java.time.LocalDate
  * specified [OnListFragmentInteractionListener].
  * TODO: Replace the implementation with code for your data type.
  */
-class MyItemRecyclerViewAdapter(
+class ContactListAdapter(
     private val mValues: List<ContactInfo>?,
     private val mListener: OnListFragmentInteractionListener?,
     private val columnNumber: Int
-) : RecyclerView.Adapter<MyItemRecyclerViewAdapter.ViewHolder>() {
+) : RecyclerView.Adapter<ContactListAdapter.ViewHolder>() {
 
     private val mOnClickListener: View.OnClickListener
 

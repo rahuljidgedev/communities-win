@@ -7,7 +7,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#E5E5E5"
-    tools:context=".ui.main.PlaceholderFragment">
+    tools:context=".ui_activities.home_page_ui.main.UserRegistrationFragment">
     <LinearLayout
         android:id="@+id/ll_parent_view"
         android:layout_width="match_parent"

@@ -1,4 +1,4 @@
-package com.app.communities_win_crisis.ui.main
+package com.app.communities_win_crisis.ui_activities.home_page_ui.main
 
 import android.net.Uri
 import android.view.LayoutInflater

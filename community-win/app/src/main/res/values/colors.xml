@@ -16,5 +16,6 @@
     <color name="colorOthersDark">#803D9970</color>
     <color name="colorOthersAccent">#3D9970</color>
     <color name="semi_transparent">#C000</color>
+    <color name="btn_background_category_incr_decr">#12000000</color>
 
 </resources>

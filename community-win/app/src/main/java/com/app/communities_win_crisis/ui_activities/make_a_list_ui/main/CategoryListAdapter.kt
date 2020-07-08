@@ -1,0 +1,88 @@
+package com.app.communities_win_crisis.ui_activities.make_a_list_ui.main
+
+import android.content.Context
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
+import android.widget.ImageButton
+import android.widget.ImageView
+import android.widget.TextView
+import androidx.recyclerview.widget.RecyclerView
+import com.app.communities_win_crisis.R
+import com.app.communities_win_crisis.network_interfacing.data_models.CategoryListItem
+import com.app.communities_win_crisis.network_interfacing.utils.HttpConstants
+import com.squareup.picasso.Picasso
+import kotlinx.android.synthetic.main.category_list_item.view.*
+
+class CategoryListAdapter(
+    private var context: Context,
+    private var categoryItemList: List<CategoryListItem>?,
+    private val listener: CreateListHandler?
+) : RecyclerView.Adapter<CategoryListAdapter.MyCategoryItemHolder>() {
+
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyCategoryItemHolder {
+        val view = LayoutInflater.from(context)
+            .inflate(R.layout.category_list_item, parent, false)
+        return MyCategoryItemHolder(view)
+    }
+
+    override fun getItemCount(): Int {
+        return if(categoryItemList != null &&categoryItemList?.size!! != 0) categoryItemList?.size!! else 0
+    }
+
+    override fun onBindViewHolder(holder: MyCategoryItemHolder, position: Int) {
+        holder.mProductName.text = categoryItemList?.get(position)?.productName
+
+        val imagePath = when {
+            categoryItemList?.get(position)?.imageUrl!!.isNotEmpty() -> "http://${categoryItemList?.get(position)?.imageUrl}"
+            categoryItemList?.get(position)?.category.equals("Fruits") -> {
+                HttpConstants.LINK_FRUIT_NO_IMAGE
+            }
+            else -> {
+                HttpConstants.LINK_VEGETABLES_NO_IMAGE
+            }
+        }
+
+        Picasso.get()
+            .load(imagePath)
+            .placeholder(R.drawable.ic_user)
+            .into(holder.mProductImage)
+
+        holder.mQtyIncrement.setOnClickListener {
+            holder.mProductQty.text =
+                (holder.mProductQty.text.toString().toFloatOrNull()?.plus(0.5f)).toString()
+            val categoryListItem = categoryItemList?.get(position)
+            categoryListItem?.quantity = holder.mProductQty.text.toString().toFloatOrNull()!!
+            categoryListItem?.unit = "kg"
+            if (categoryListItem != null) {
+                listener?.onCategoryItemUpdated(categoryListItem)
+            }
+        }
+        holder.mQtyDecrement.setOnClickListener {
+            if (holder.mProductQty.text.equals("0.5"))
+                return@setOnClickListener
+            holder.mProductQty.text =
+                (holder.mProductQty.text.toString().toFloatOrNull()?.minus(0.5f)).toString()
+            val categoryListItem = categoryItemList?.get(position)
+            categoryListItem?.quantity = holder.mProductQty.text.toString().toFloatOrNull()!!
+            categoryListItem?.unit = "kg"
+            if (categoryListItem != null) {
+                listener?.onCategoryItemUpdated(categoryListItem)
+            }
+        }
+    }
+
+    inner class MyCategoryItemHolder(mView: View): RecyclerView.ViewHolder(mView) {
+        val mProductImage: ImageView = mView.iv_icon
+        val mProductName: TextView = mView.tv_category_name
+        val mQtyIncrement:ImageButton = mView.btn_increase_qty
+        val mQtyDecrement:ImageButton = mView.btn_decrease_qty
+        val mProductQty: TextView = mView.tv_category_qty
+    }
+
+    interface CreateListHandler {
+        fun onCategoryItemUpdated(
+            item: CategoryListItem
+        )
+    }
+}

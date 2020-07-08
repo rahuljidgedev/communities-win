@@ -1,4 +1,4 @@
-package com.app.communities_win_crisis.ui.main
+package com.app.communities_win_crisis.ui_activities.home_page_ui.main
 
 import android.content.Context
 import android.content.Intent
@@ -19,9 +19,8 @@ import com.hbb20.CountryCodePicker
 /**
  * A placeholder fragment containing a simple view.
  */
-class PlaceholderFragment : Fragment() {
+class UserRegistrationFragment : Fragment() {
 
-    private lateinit var pageViewModel: PageViewModel
     private var session: UserSession? = null
     private var tabType: Int = 1
     private var sectionNumber: Int = 0
@@ -30,12 +29,9 @@ class PlaceholderFragment : Fragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        session = GsonBuilder().create().fromJson(arguments?.getString(ARG_USER_DATA), UserSession::class.java)
-        tabType = arguments?.getInt(ARG_TAB_TYPE) ?: 1
-        sectionNumber = arguments?.getInt(ARG_SECTION_NUMBER) ?: 0
-        pageViewModel = ViewModelProviders.of(this).get(PageViewModel::class.java).apply {
-            setIndex(sectionNumber)
-        }
+        session = GsonBuilder().create().fromJson(arguments.getString(ARG_USER_DATA), UserSession::class.java)
+        tabType = arguments.getInt(ARG_TAB_TYPE) ?: 1
+        sectionNumber = arguments.getInt(ARG_SECTION_NUMBER) ?: 0
     }
 
     override fun onCreateView(
@@ -163,8 +159,9 @@ class PlaceholderFragment : Fragment() {
          * number.
          */
         @JvmStatic
-        fun newInstance(sectionNumber: Int, tabType: Int, userSession: UserSession): PlaceholderFragment {
-            return PlaceholderFragment().apply {
+        fun newInstance(sectionNumber: Int, tabType: Int, userSession: UserSession): UserRegistrationFragment {
+            return UserRegistrationFragment()
+                .apply {
                 arguments = Bundle().apply {
                     putInt(ARG_TAB_TYPE, tabType)
                     putInt(ARG_SECTION_NUMBER, sectionNumber)

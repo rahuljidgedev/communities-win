@@ -1,8 +1,9 @@
 package com.app.communities_win_crisis.network_interfacing.utils
 
-import com.app.communities_win_crisis.ui.main.presentor.HomePresenter
-import com.app.communities_win_crisis.ui.main.presentor.SplashPresenter
-import com.app.communities_win_crisis.ui.main.presentor.VendorPresenter
+import com.app.communities_win_crisis.presentor.SplashPresenter
+import com.app.communities_win_crisis.presentor.VendorPresenter
+import com.app.communities_win_crisis.ui_activities.home_page_ui.HomePresenter
+import com.app.communities_win_crisis.ui_activities.make_a_list_ui.MakeAListPresenter
 import com.google.gson.Gson
 import okhttp3.*
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
@@ -211,26 +212,27 @@ class HttpRequestsUtils {
             })
         }
 
-        fun httpRequestVendorProductList(url: String, map: HashMap<String, String>, context: Any)
+        fun httpRequestVendorProductList(url: String, context: Any)
                 = run {
             val client = OkHttpClient()
 
-            var modifiedServiceUrl: String = "$url?"
-            for ((k,v) in map){
-                modifiedServiceUrl = "$modifiedServiceUrl$k=$v&"
-            }
-
             val request = Request.Builder()
                 .header(HttpConstants.REQ_HEADER_API_KEY,HttpConstants.REQ_APP)
-                .url(modifiedServiceUrl)
+                .url(url)
                 .build()
             client.newCall(request).enqueue(object: Callback {
                 override fun onFailure(call: Call, e: IOException) {
-                    (context as VendorPresenter).onFailure(e.message)
+                    if(context is VendorPresenter)
+                        context.onFailure(e.message)
+                    else if(context is MakeAListPresenter)
+                        context.onFailure(e.message)
                 }
 
                 override fun onResponse(call: Call, response: Response) {
-                    (context as VendorPresenter).onSucceed(response.body!!.string(), url)
+                    if(context is VendorPresenter)
+                        context.onSucceed(response.body!!.string(), url)
+                    else if(context is MakeAListPresenter)
+                        context.onSucceed(response.body!!.string(), url)
                 }
             })
         }

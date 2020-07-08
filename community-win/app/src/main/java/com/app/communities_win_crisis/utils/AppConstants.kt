@@ -31,6 +31,10 @@ class AppConstants {
 
         const val GROCERY_VIEW_TAB_THREE: Int = 2
 
+        const val GROCERY_VEGETABLES: String = "Vegetables"
+
+        const val GROCERY_FRUITS: String = "Fruits"
+
 
         const val OTHERS_VIEW_TAB_ONE: Int = 0
 

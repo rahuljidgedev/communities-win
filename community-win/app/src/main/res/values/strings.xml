@@ -86,6 +86,9 @@
     <string name="sell_products">Sell groceries as vendor</string>
     <string name="getting_vendor_details">Getting existing profile</string>
     <string name="no_vendor_data_available">No vendor information available.</string>
+    <string name="make_a_list">Make A List</string>
+    <string name="browse">Browse</string>
+    <string name="order">Order</string>
     <string-array name="country_name_array">
         <item>India</item>
         <item>Nepal</item>
@@ -100,4 +103,13 @@
         <item>dozen</item>
         <item>count</item>
     </string-array>
+    <string name="title_activity_make_a_list">MakeAListActivity</string>
+    <string name="make_a_list_tab_text_1">VEGGIES</string>
+    <string name="make_a_list_tab_text_2">FRUITS</string>
+    <string name="make_a_list_tab_text_3">LISTS</string>
+    <string name="invite_vendor">Invite vendor</string>
+    <string name="add_item">Add items</string>
+    <string name="items">ITEMS</string>
+    <string name="qty">QTY</string>
+    <string name="unit">UNIT</string>
 </resources>

@@ -1,4 +1,4 @@
-package com.app.communities_win_crisis.ui.main
+package com.app.communities_win_crisis.ui_activities.home_page_ui.main
 
 import android.content.Context
 import androidx.fragment.app.Fragment
@@ -7,7 +7,7 @@ import androidx.fragment.app.FragmentPagerAdapter
 import com.app.communities_win_crisis.R
 import com.app.communities_win_crisis.models.ContactInfo
 import com.app.communities_win_crisis.models.UserSession
-import com.app.communities_win_crisis.ui_activities.HomePageActivity
+import com.app.communities_win_crisis.ui_activities.home_page_ui.HomePageActivity
 import com.app.communities_win_crisis.utils.AppConstants
 import com.app.communities_win_crisis.utils.AppConstants.Companion.FRIENDS_VIEW_CONNECTION_LIST
 import com.app.communities_win_crisis.utils.AppConstants.Companion.FRIENDS_VIEW_REGISTER
@@ -35,8 +35,9 @@ class SectionsPagerAdapter(
     fm: FragmentManager,
     private val contactInfo: List<ContactInfo>?
 ) :
-    FragmentPagerAdapter(fm), SafetyContactListFragment.OnListFragmentInteractionListener,
-    PlaceholderFragment.OnRegisterButtonTappedListener {
+    FragmentPagerAdapter(fm),
+    ContactListFragment.OnListFragmentInteractionListener,
+    UserRegistrationFragment.OnRegisterButtonTappedListener {
 
     override fun getItem(position: Int): Fragment {
         val userSession = UserSession((context as HomePageActivity)
@@ -50,27 +51,43 @@ class SectionsPagerAdapter(
                         if(userSession.contactNumber.isNotEmpty() &&
                             userSession.userToken != "0"
                         ){
-                            PlaceholderFragment.newInstance(position, FRIENDS_VIEW_REGISTER,
-                                userSession)
+                            UserRegistrationFragment.newInstance(
+                                position, FRIENDS_VIEW_REGISTER,
+                                userSession
+                            )
                         }else{
-                            PlaceholderFragment.newInstance(position, FRIENDS_VIEW_REGISTER,
-                                userSession)
+                            UserRegistrationFragment.newInstance(
+                                position, FRIENDS_VIEW_REGISTER,
+                                userSession
+                            )
                         }
                     }
                     FRIENDS_VIEW_CONNECTION_LIST ->
-                        SafetyContactListFragment.newInstance(position, contactInfo, userSession)
+                        ContactListFragment.newInstance(
+                            position,
+                            contactInfo,
+                            userSession
+                        )
                     else ->
-                        SafetyContactListFragment.newInstance(position, contactInfo, userSession)
+                        ContactListFragment.newInstance(
+                            position,
+                            contactInfo,
+                            userSession
+                        )
                 }
             }
             AppConstants.Companion.TABS.GROCERY -> {
                 /*add Fragments based on others tab*/
-                PlaceholderFragment.newInstance(position, GROCERY_VIEW_TAB_ONE,
-                    UserSession("",""))
+                UserRegistrationFragment.newInstance(
+                    position, GROCERY_VIEW_TAB_ONE,
+                    UserSession("", "")
+                )
             }
             AppConstants.Companion.TABS.OTHERS -> {
-                PlaceholderFragment.newInstance(position, OTHERS_VIEW_TAB_ONE,
-                    UserSession("",""))
+                UserRegistrationFragment.newInstance(
+                    position, OTHERS_VIEW_TAB_ONE,
+                    UserSession("", "")
+                )
             }
         }
     }

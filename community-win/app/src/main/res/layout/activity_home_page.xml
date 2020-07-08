@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui_activities.HomePageActivity">
+    tools:context=".ui_activities.home_page_ui.HomePageActivity">
 
     <com.google.android.material.appbar.AppBarLayout
         android:id="@+id/app_bar"
@@ -33,7 +33,6 @@
                 android:src="@drawable/ic_menu_open"
                 android:background="@android:color/transparent"/>
         </RelativeLayout>
-
         <com.google.android.material.tabs.TabLayout
             android:id="@+id/tabs"
             android:layout_width="match_parent"
@@ -42,6 +41,135 @@
             app:tabIndicatorHeight="4dp"
             app:tabTextAppearance="@style/tab_text_style"/>
     </com.google.android.material.appbar.AppBarLayout>
+    <FrameLayout
+        android:id="@+id/fl_grocery_view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="gone"
+        android:layout_marginVertical="?android:attr/actionBarSize">
+        <fragment
+            android:id="@+id/map"
+            android:name="com.google.android.gms.maps.SupportMapFragment"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            tools:context=".ui_activities.home_page_ui.HomePageActivity">
+        </fragment>
+        <HorizontalScrollView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom"
+            android:scrollbarSize="0dp"
+            android:layout_marginVertical="@dimen/activity_horizontal_margin">
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+                <androidx.cardview.widget.CardView
+                    android:layout_width="120dp"
+                    android:layout_height="120dp"
+                    android:layout_marginHorizontal="@dimen/activity_horizontal_margin"
+                    app:cardCornerRadius="8dp"
+                    app:cardElevation="@dimen/activity_horizontal_margin"
+                    android:onClick="clickedMakeAList">
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent">
+                        <ImageView
+                            android:id="@+id/iv_make_a_list"
+                            android:layout_width="48dp"
+                            android:layout_height="48dp"
+                            android:padding="8dp"
+                            android:layout_centerInParent="true"
+                            android:src="@drawable/ic_add"/>
+                        <TextView
+                            android:id="@+id/tv_make_a_list"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_centerInParent="true"
+                            android:layout_below="@+id/iv_make_a_list"
+                            android:text="@string/make_a_list"/>
+                    </RelativeLayout>
+                </androidx.cardview.widget.CardView>
+                <androidx.cardview.widget.CardView
+                    android:layout_width="120dp"
+                    android:layout_height="120dp"
+                    android:layout_marginHorizontal="@dimen/activity_horizontal_margin"
+                    app:cardCornerRadius="8dp"
+                    app:cardElevation="@dimen/activity_horizontal_margin"
+                    android:onClick="clickedBrowse">
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent">
+                        <ImageView
+                            android:id="@+id/iv_browse"
+                            android:layout_width="48dp"
+                            android:layout_height="48dp"
+                            android:padding="8dp"
+                            android:layout_centerInParent="true"
+                            android:src="@drawable/ic_browse"/>
+                        <TextView
+                            android:id="@+id/tv_browse"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_centerInParent="true"
+                            android:layout_below="@+id/iv_browse"
+                            android:text="@string/browse"/>
+                    </RelativeLayout>
+                </androidx.cardview.widget.CardView>
+                <androidx.cardview.widget.CardView
+                    android:layout_width="120dp"
+                    android:layout_height="120dp"
+                    android:layout_marginHorizontal="@dimen/activity_horizontal_margin"
+                    app:cardCornerRadius="8dp"
+                    app:cardElevation="@dimen/activity_horizontal_margin"
+                    android:onClick="clickedOrder">
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent">
+                        <ImageView
+                            android:id="@+id/iv_order"
+                            android:layout_width="48dp"
+                            android:layout_height="48dp"
+                            android:padding="8dp"
+                            android:layout_centerInParent="true"
+                            android:src="@drawable/ic_order"/>
+                        <TextView
+                            android:id="@+id/tv_order"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_centerInParent="true"
+                            android:layout_below="@+id/iv_order"
+                            android:text="@string/order"/>
+                    </RelativeLayout>
+                </androidx.cardview.widget.CardView>
+                <androidx.cardview.widget.CardView
+                    android:layout_width="120dp"
+                    android:layout_height="120dp"
+                    android:layout_marginHorizontal="@dimen/activity_horizontal_margin"
+                    app:cardCornerRadius="8dp"
+                    app:cardElevation="@dimen/activity_horizontal_margin"
+                    android:onClick="clickedOrder">
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent">
+                        <ImageView
+                            android:id="@+id/iv_invite_vendor"
+                            android:layout_width="48dp"
+                            android:layout_height="48dp"
+                            android:padding="8dp"
+                            android:layout_centerInParent="true"
+                            android:src="@drawable/ic_order"/>
+                        <TextView
+                            android:id="@+id/tv_invite_vendor"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_centerInParent="true"
+                            android:layout_below="@+id/iv_invite_vendor"
+                            android:text="@string/invite_vendor"/>
+                    </RelativeLayout>
+                </androidx.cardview.widget.CardView>
+        </LinearLayout>
+        </HorizontalScrollView>
+    </FrameLayout>
     <androidx.viewpager.widget.ViewPager
         android:id="@+id/view_pager"
         android:layout_width="match_parent"

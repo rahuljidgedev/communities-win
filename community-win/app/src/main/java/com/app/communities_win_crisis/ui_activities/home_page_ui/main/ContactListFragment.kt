@@ -1,4 +1,4 @@
-package com.app.communities_win_crisis.ui.main
+package com.app.communities_win_crisis.ui_activities.home_page_ui.main
 
 import android.content.Context
 import android.os.Bundle
@@ -12,20 +12,15 @@ import androidx.recyclerview.widget.RecyclerView
 import com.app.communities_win_crisis.R
 import com.app.communities_win_crisis.models.ContactInfo
 import com.app.communities_win_crisis.models.UserSession
-import com.app.communities_win_crisis.utils.AppConstants.Companion.EMPTY_TOKEN
-import com.app.communities_win_crisis.utils.AppConstants.Companion.FRIENDS_VIEW_CONNECTION_LIST
-import com.app.communities_win_crisis.utils.AppConstants.Companion.FRIENDS_VIEW_INVITE_LIST
-import com.app.communities_win_crisis.utils.AppConstants.Companion.USER_TYPE_CONNECTION
-import com.app.communities_win_crisis.utils.AppConstants.Companion.USER_TYPE_INVITE
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
 
 /**
  * A fragment representing a list of Items.
  * Activities containing this fragment MUST implement the
- * [SafetyContactListFragment.OnListFragmentInteractionListener] interface.
+ * [ContactListFragment.OnListFragmentInteractionListener] interface.
  */
-class SafetyContactListFragment : Fragment() {
+class ContactListFragment : Fragment() {
 
     private var columnCount = 0
 
@@ -43,7 +38,7 @@ class SafetyContactListFragment : Fragment() {
         super.onCreate(savedInstanceState)
         var userListData = ""
         var userData = ""
-        arguments?.let {
+        arguments.let {
             columnCount = it.getInt(ARG_COLUMN_COUNT)
             userListData = it.getString(ARG_USER_LIST_DATA).toString()
             userData = it.getString(ARG_USER_DATA).toString()
@@ -70,30 +65,35 @@ class SafetyContactListFragment : Fragment() {
             val connectionList: List<ContactInfo>?
             if (columnCount == FRIENDS_VIEW_CONNECTION_LIST){
                 fragmentType = FRIENDS_VIEW_CONNECTION_LIST
-                connectionList = contactInfo?.filter {
+                connectionList = contactInfo.filter {
                     it.userType == USER_TYPE_CONNECTION
                 }
-                text = text.replace("_", connectionList?.size.toString())
-                    .replace("-", contactInfo?.size.toString())
+                text = text.replace("_", connectionList.size.toString())
+                    .replace("-", contactInfo.size.toString())
                 if (connectionList != null)
                     listPopulated = true
             }else{
                 fragmentType = FRIENDS_VIEW_INVITE_LIST
-                connectionList = contactInfo?.filter {
+                connectionList = contactInfo.filter {
                     it.userType == USER_TYPE_INVITE
                 }
-                val connectionList2: List<ContactInfo>? = contactInfo?.filter {
+                val connectionList2: List<ContactInfo>? = contactInfo.filter {
                     it.userType == USER_TYPE_CONNECTION
                 }
                 text = text.replace("_", connectionList2?.size.toString())
-                    .replace("-", contactInfo?.size.toString())
+                    .replace("-", contactInfo.size.toString())
 
             }
             if (text.contains("null")){
                 text = text.replace("null", EMPTY_TOKEN.toString())
             }
             textView.text = text
-            adapter = MyItemRecyclerViewAdapter(connectionList, listener, columnCount)
+            adapter =
+                ContactListAdapter(
+                    connectionList,
+                    listener,
+                    columnCount
+                )
         }
         return parentView
     }
@@ -154,7 +154,8 @@ class SafetyContactListFragment : Fragment() {
             contactInfo: List<ContactInfo>?,
             userSession: UserSession
         ) =
-            SafetyContactListFragment().apply {
+            ContactListFragment()
+                .apply {
                 arguments = Bundle().apply {
                     putInt(ARG_COLUMN_COUNT, columnCount)
                     putString(ARG_USER_LIST_DATA, Gson().toJson(contactInfo))

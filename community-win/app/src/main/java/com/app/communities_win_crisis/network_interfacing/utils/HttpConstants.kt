@@ -70,7 +70,8 @@ class HttpConstants {
         const val REQ_BODY_VENDOR_CONTACT_LESS_PAY: String = "IsContactLessPay"
         const val REQ_HEADER_API_KEY: String = "x-api-key"
 
-
+        const val LINK_FRUIT_NO_IMAGE: String = "http://vendor.comwin.in/content/images/FruCatNoImg2.png"
+        const val LINK_VEGETABLES_NO_IMAGE: String = "http://vendor.comwin.in/content/images/VegCatNoImg2.png"
 
 
 

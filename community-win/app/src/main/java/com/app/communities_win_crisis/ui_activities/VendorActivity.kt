@@ -24,8 +24,8 @@ import com.app.communities_win_crisis.network_interfacing.utils.HttpConstants.Co
 import com.app.communities_win_crisis.network_interfacing.utils.HttpConstants.Companion.REQ_BODY_VENDOR_SANITIZER_USED
 import com.app.communities_win_crisis.network_interfacing.utils.HttpConstants.Companion.REQ_BODY_VENDOR_SOCIAL_DISTANCE
 import com.app.communities_win_crisis.network_interfacing.utils.HttpConstants.Companion.REQ_BODY_VENDOR_STAMP_CHECK
-import com.app.communities_win_crisis.ui.main.ProductGridRecyclerAdapter
-import com.app.communities_win_crisis.ui.main.presentor.VendorPresenter
+import com.app.communities_win_crisis.presentor.VendorPresenter
+import com.app.communities_win_crisis.ui_activities.home_page_ui.main.ProductGridRecyclerAdapter
 import com.app.communities_win_crisis.utils.BaseActivity
 import com.squareup.picasso.Picasso
 
@@ -37,7 +37,7 @@ class VendorActivity : BaseActivity(), ProductGridRecyclerAdapter.GridItemClicke
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_vendorprofil)
         vPresenter = VendorPresenter(this)
-        supportActionBar?.title = Html.fromHtml("<font color='#FFFFFF'>"+
+        supportActionBar.title = Html.fromHtml("<font color='#FFFFFF'>"+
                 getString(R.string.vendor_details_update)+"</font>")
         vPresenter!!.getVendorProfileIfExist()
     }
@@ -137,8 +137,11 @@ class VendorActivity : BaseActivity(), ProductGridRecyclerAdapter.GridItemClicke
             val alertDialog = dialogBuilder.create()
             alertDialog.show()
             val recyclerView: RecyclerView = alertDialog.findViewById(R.id.recycler_view)!!
-            recyclerView.adapter = ProductGridRecyclerAdapter(productsList,
-                vendorProfile!!.vendorProducts, this, alertDialog)
+            recyclerView.adapter =
+                ProductGridRecyclerAdapter(
+                    productsList,
+                    vendorProfile!!.vendorProducts, this, alertDialog
+                )
             val spinner: Spinner? = alertDialog.findViewById(R.id.spinner_unit)
             ArrayAdapter.createFromResource(
                 this,
@@ -148,7 +151,7 @@ class VendorActivity : BaseActivity(), ProductGridRecyclerAdapter.GridItemClicke
                 adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
                 spinner!!.adapter = adapter
             }
-            alertDialog.findViewById<Button>(R.id.btn_save_product_details)?.setOnClickListener {
+            alertDialog.findViewById<Button>(R.id.btn_save_product_details).setOnClickListener {
                 if(alertDialog.findViewById<EditText>(R.id.et_selling_price)!!.text.toString().isEmpty()){
                     Toast.makeText(this, getString(R.string.enter_item_selling_price),
                         Toast.LENGTH_SHORT).show()
