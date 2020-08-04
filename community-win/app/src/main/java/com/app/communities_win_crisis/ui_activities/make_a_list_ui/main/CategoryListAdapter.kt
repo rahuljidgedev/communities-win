@@ -4,9 +4,7 @@ import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageButton
-import android.widget.ImageView
-import android.widget.TextView
+import android.widget.*
 import androidx.recyclerview.widget.RecyclerView
 import com.app.communities_win_crisis.R
 import com.app.communities_win_crisis.network_interfacing.data_models.CategoryListItem
@@ -34,7 +32,7 @@ class CategoryListAdapter(
         holder.mProductName.text = categoryItemList?.get(position)?.productName
 
         val imagePath = when {
-            categoryItemList?.get(position)?.imageUrl!!.isNotEmpty() -> "http://${categoryItemList?.get(position)?.imageUrl}"
+            categoryItemList?.get(position)?.imageUrl!!.isNotEmpty() -> categoryItemList?.get(position)?.imageUrl
             categoryItemList?.get(position)?.category.equals("Fruits") -> {
                 HttpConstants.LINK_FRUIT_NO_IMAGE
             }
@@ -48,28 +46,76 @@ class CategoryListAdapter(
             .placeholder(R.drawable.ic_user)
             .into(holder.mProductImage)
 
+        ArrayAdapter.createFromResource(
+            context,
+            R.array.weight_units,
+            android.R.layout.simple_spinner_item
+        ).also {adapter ->
+            adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+            holder.mSpinnerUnits.adapter = adapter
+        }
+        holder.mSpinnerUnits.onItemSelectedListener = object: AdapterView.OnItemSelectedListener{
+            override fun onItemSelected(parent:AdapterView<*>, view: View, position: Int, id: Long){
+                // Display the selected item text on text view
+                holder.mProductQty.text = "0"
+            }
+
+            override fun onNothingSelected(parent: AdapterView<*>){}
+        }
         holder.mQtyIncrement.setOnClickListener {
-            holder.mProductQty.text =
-                (holder.mProductQty.text.toString().toFloatOrNull()?.plus(0.5f)).toString()
+            holder.mProductQty.text = changeValueByUnit("+"+(holder.mSpinnerUnits
+                .selectedItem.toString()), holder.mProductQty.text.toString())
+
             val categoryListItem = categoryItemList?.get(position)
             categoryListItem?.quantity = holder.mProductQty.text.toString().toFloatOrNull()!!
-            categoryListItem?.unit = "kg"
+            categoryListItem?.unit = holder.mSpinnerUnits.selectedItem.toString()
             if (categoryListItem != null) {
                 listener?.onCategoryItemUpdated(categoryListItem)
             }
         }
+
         holder.mQtyDecrement.setOnClickListener {
-            if (holder.mProductQty.text.equals("0.5"))
+            if (holder.mProductQty.text.toString().toFloat() <= 0) {
+                holder.mProductQty.text = "0"
                 return@setOnClickListener
-            holder.mProductQty.text =
-                (holder.mProductQty.text.toString().toFloatOrNull()?.minus(0.5f)).toString()
+            }
+            holder.mProductQty.text = changeValueByUnit("-"+(holder.mSpinnerUnits
+                .selectedItem.toString()), holder.mProductQty.text.toString())
+
             val categoryListItem = categoryItemList?.get(position)
             categoryListItem?.quantity = holder.mProductQty.text.toString().toFloatOrNull()!!
-            categoryListItem?.unit = "kg"
+            categoryListItem?.unit = holder.mSpinnerUnits.selectedItem.toString()
             if (categoryListItem != null) {
                 listener?.onCategoryItemUpdated(categoryListItem)
             }
         }
+    }
+
+    private fun changeValueByUnit(operation: String, value: String): String {
+        when (operation) {
+            "+unit","-unit" ->{
+                return value
+            }
+            "+kg", "+count" ->{
+                return value.toFloatOrNull()?.plus(1).toString()
+            }
+            "+gm" ->{
+                return value.toFloatOrNull()?.plus(50).toString()
+            }
+            "+dozen" ->{
+                return value.toFloatOrNull()?.plus(0.5f).toString()
+            }
+            "-kg","-count" ->{
+                return value.toFloatOrNull()?.minus(1).toString()
+            }
+            "-gm" ->{
+                return value.toFloatOrNull()?.minus(50).toString()
+            }
+            "-dozen" ->{
+                return value.toFloatOrNull()?.minus(0.5f).toString()
+            }
+        }
+        return value
     }
 
     inner class MyCategoryItemHolder(mView: View): RecyclerView.ViewHolder(mView) {
@@ -78,6 +124,7 @@ class CategoryListAdapter(
         val mQtyIncrement:ImageButton = mView.btn_increase_qty
         val mQtyDecrement:ImageButton = mView.btn_decrease_qty
         val mProductQty: TextView = mView.tv_category_qty
+        val mSpinnerUnits: Spinner = mView.spinner_unit
     }
 
     interface CreateListHandler {

@@ -28,7 +28,10 @@ class HttpConstants {
 
         const val GET_VENDOR: String = "GetVendor"
 
+        /**User Service Requests**/
+        const val SERVICE_REQUEST_USER_BASE_URL: String = "http://vendor.comwin.in/api/UserShoppingList/"
 
+        const val SHOPPING_LIST_UPDATE: String = "Update"
 
 
         /**Request Headers**/
@@ -62,6 +65,17 @@ class HttpConstants {
         const val REQ_BODY_PRICE: String = "Price"
         const val REQ_BODY_MIN_ORDER_QTY: String = "MinOrderQuantity"
         const val REQ_BODY_UNIT: String = "Units"
+
+        /*User requests*/
+        const val REQ_BODY_ORDER_NAME: String = "orderName"
+
+        const val REQ_BODY_CREATED_ON: String = "createdOn"
+
+        const val REQ_BODY_DELIVERY_BY: String = "deliveryBy"
+
+        const val REQ_BODY_ITEMS_LIST: String = "itemsList"
+
+        const val REQ_BODY_USER: String = "shpUsr"
 
         const val REQ_BODY_VENDOR_FEVER_SCREEN: String = "IsFeverScreen"
         const val REQ_BODY_VENDOR_SANITIZER_USED: String = "IsSanitizerUsed"

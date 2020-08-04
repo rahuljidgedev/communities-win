@@ -15,7 +15,8 @@ import com.app.communities_win_crisis.utils.BaseActivity
 
 
 class SplashActivity : BaseActivity(){
-    lateinit var sPresenter: SplashPresenter
+    private lateinit var sPresenter: SplashPresenter
+    private lateinit var progressBar: ProgressBar
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         requestWindowFeature(Window.FEATURE_NO_TITLE)
@@ -32,7 +33,7 @@ class SplashActivity : BaseActivity(){
         val imageView = findViewById<ImageView>(R.id.home)
         imageView.clearAnimation()
         imageView.startAnimation(animFadeIn)*/
-        val progressBar: ProgressBar = findViewById(R.id.progressBar)
+        progressBar = findViewById(R.id.progressBar)
         val timer = object: CountDownTimer(20000,1000){
             override fun onFinish() {}
 

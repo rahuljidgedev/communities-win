@@ -112,4 +112,7 @@
     <string name="items">ITEMS</string>
     <string name="qty">QTY</string>
     <string name="unit">UNIT</string>
+    <string name="upload_the_user_list">Send your list to vendors.</string>
+    <string name="upload_the_list_response_success">Your list is uploaded.</string>
+    <string name="sr_no">No.</string>
 </resources>

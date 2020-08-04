@@ -26,7 +26,7 @@ class SelectCategoryItemsFragment :  Fragment(),
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        filteredList = GsonBuilder().create().fromJson(arguments.getString(CAT_ITEM_DATA), CategoryItemList::class.java)
+        filteredList = GsonBuilder().create().fromJson(arguments!!.getString(CAT_ITEM_DATA), CategoryItemList::class.java)
     }
 
     override fun onCreateView(
@@ -57,11 +57,6 @@ class SelectCategoryItemsFragment :  Fragment(),
     }
 
     companion object {
-        /**
-         * The fragment argument representing the section number for this
-         * fragment.
-         */
-        private const val ARG_SECTION_NUMBER = "section_number"
         private const val CAT_ITEM_DATA = "categoryItemData"
 
         /**
@@ -70,12 +65,10 @@ class SelectCategoryItemsFragment :  Fragment(),
          */
         @JvmStatic
         fun newInstance(
-            sectionNumber: Int,
             filteredList: List<CategoryListItem>?
         ): SelectCategoryItemsFragment {
             return SelectCategoryItemsFragment().apply {
                 arguments = Bundle().apply {
-                    putInt(ARG_SECTION_NUMBER, sectionNumber)
                     putString(CAT_ITEM_DATA, Gson().toJson(filteredList))
                 }
             }

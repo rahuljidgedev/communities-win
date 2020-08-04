@@ -12,6 +12,11 @@ import androidx.recyclerview.widget.RecyclerView
 import com.app.communities_win_crisis.R
 import com.app.communities_win_crisis.models.ContactInfo
 import com.app.communities_win_crisis.models.UserSession
+import com.app.communities_win_crisis.utils.AppConstants.Companion.EMPTY_TOKEN
+import com.app.communities_win_crisis.utils.AppConstants.Companion.FRIENDS_VIEW_CONNECTION_LIST
+import com.app.communities_win_crisis.utils.AppConstants.Companion.FRIENDS_VIEW_INVITE_LIST
+import com.app.communities_win_crisis.utils.AppConstants.Companion.USER_TYPE_CONNECTION
+import com.app.communities_win_crisis.utils.AppConstants.Companion.USER_TYPE_INVITE
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
 
@@ -39,7 +44,7 @@ class ContactListFragment : Fragment() {
         var userListData = ""
         var userData = ""
         arguments.let {
-            columnCount = it.getInt(ARG_COLUMN_COUNT)
+            columnCount = it!!.getInt(ARG_COLUMN_COUNT)
             userListData = it.getString(ARG_USER_LIST_DATA).toString()
             userData = it.getString(ARG_USER_DATA).toString()
         }
@@ -63,25 +68,26 @@ class ContactListFragment : Fragment() {
             layoutManager = LinearLayoutManager(context)
             var text = parentView.context.getString(R.string.txt_safe_users)
             val connectionList: List<ContactInfo>?
+            if (contactInfo == null) return parentView
             if (columnCount == FRIENDS_VIEW_CONNECTION_LIST){
                 fragmentType = FRIENDS_VIEW_CONNECTION_LIST
-                connectionList = contactInfo.filter {
+                connectionList = contactInfo!!.filter {
                     it.userType == USER_TYPE_CONNECTION
                 }
                 text = text.replace("_", connectionList.size.toString())
-                    .replace("-", contactInfo.size.toString())
+                    .replace("-", contactInfo!!.size.toString())
                 if (connectionList != null)
                     listPopulated = true
             }else{
                 fragmentType = FRIENDS_VIEW_INVITE_LIST
-                connectionList = contactInfo.filter {
+                connectionList = contactInfo!!.filter {
                     it.userType == USER_TYPE_INVITE
                 }
-                val connectionList2: List<ContactInfo>? = contactInfo.filter {
+                val connectionList2: List<ContactInfo>? = contactInfo!!.filter {
                     it.userType == USER_TYPE_CONNECTION
                 }
                 text = text.replace("_", connectionList2?.size.toString())
-                    .replace("-", contactInfo.size.toString())
+                    .replace("-", contactInfo!!.size.toString())
 
             }
             if (text.contains("null")){

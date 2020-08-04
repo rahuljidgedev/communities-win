@@ -1,6 +1,7 @@
 package com.app.communities_win_crisis.network_interfacing.utils
 
 import android.os.AsyncTask
+import android.util.Log
 import com.app.communities_win_crisis.models.ContactInfo
 import com.app.communities_win_crisis.network_interfacing.data_models.PushedContact
 import com.app.communities_win_crisis.network_interfacing.interfaces.HttpResponseHandler
@@ -22,6 +23,7 @@ class GetTokenRequest : AsyncTask<Any, Any, Any>() {
 class UpdateTokenRequest : AsyncTask<Any, Any, Any>() {
 
     override fun doInBackground(vararg params: Any?) {
+        Log.v(javaClass.name, "reached in UpdateTokenRequest-doInBackground")
         HttpRequestsUtils.httpRequestTokenUpdate(params[0] as String,
             params[1] as HashMap<String, String>, params[2] as Any)
         return
@@ -161,6 +163,17 @@ class GetVendor : AsyncTask<Any, Any, Any>() {
     override fun doInBackground(vararg params: Any?) {
         HttpRequestsUtils.httpRequestGetVendor(params[0] as String,
             params[1] as HashMap<String, String>, params[2] as Any)
+        return
+    }
+}
+
+
+@Suppress("UNCHECKED_CAST")
+class UploadUserListByName : AsyncTask<Any, Any, Any>() {
+
+    override fun doInBackground(vararg params: Any?) {
+        HttpRequestsUtils.httpRequestUploadUserList(params[0] as String,
+            params[1] as HashMap<String, Any?>, params[2] as Any)
         return
     }
 }

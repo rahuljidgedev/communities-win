@@ -37,7 +37,7 @@ class VendorActivity : BaseActivity(), ProductGridRecyclerAdapter.GridItemClicke
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_vendorprofil)
         vPresenter = VendorPresenter(this)
-        supportActionBar.title = Html.fromHtml("<font color='#FFFFFF'>"+
+        supportActionBar!!.title = Html.fromHtml("<font color='#FFFFFF'>"+
                 getString(R.string.vendor_details_update)+"</font>")
         vPresenter!!.getVendorProfileIfExist()
     }
@@ -151,7 +151,7 @@ class VendorActivity : BaseActivity(), ProductGridRecyclerAdapter.GridItemClicke
                 adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
                 spinner!!.adapter = adapter
             }
-            alertDialog.findViewById<Button>(R.id.btn_save_product_details).setOnClickListener {
+            alertDialog.findViewById<Button>(R.id.btn_save_product_details)!!.setOnClickListener {
                 if(alertDialog.findViewById<EditText>(R.id.et_selling_price)!!.text.toString().isEmpty()){
                     Toast.makeText(this, getString(R.string.enter_item_selling_price),
                         Toast.LENGTH_SHORT).show()

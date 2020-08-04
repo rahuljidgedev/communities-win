@@ -7,7 +7,6 @@ import com.app.communities_win_crisis.network_interfacing.utils.GetTokenRequest
 import com.app.communities_win_crisis.network_interfacing.utils.HttpConstants
 import com.app.communities_win_crisis.network_interfacing.utils.UpdateTokenRequest
 import com.app.communities_win_crisis.ui_activities.SplashActivity
-import com.app.communities_win_crisis.utils.AppConstants.Companion.EMPTY_TOKEN
 import com.google.gson.Gson
 
 class SplashPresenter(context: SplashActivity): HttpResponseHandler {
@@ -16,7 +15,7 @@ class SplashPresenter(context: SplashActivity): HttpResponseHandler {
     fun checkAppTokenAvailable(){
         val map: HashMap<String,String> = HashMap(1)
         map[HttpConstants.REQ_BODY_NAME_CEL] = context.userContact!!
-        if (context.userToken != EMPTY_TOKEN && context.userContact?.isNotEmpty()!!){
+        if (context.userContact?.isNotEmpty()!!){
             GetTokenRequest().execute(HttpConstants.SERVICE_REQUEST_TOKEN, map, this)
         }
     }
@@ -24,7 +23,7 @@ class SplashPresenter(context: SplashActivity): HttpResponseHandler {
     override fun onSucceed(responseString: String?, contact: String?, requestName: String?) {
         val userToken = Gson().fromJson(responseString, UserToken::class.java)
         /*If token is expired then request for token update*/
-        if (userToken.table[0].tknNum != 0 && userToken.table[0].expiryVal == HttpConstants.TOKEN_EXPIRED){
+        if (userToken.table[0].expiryVal == HttpConstants.TOKEN_EXPIRED){
             val map: HashMap<String,String> = HashMap(3)
             map[HttpConstants.REQ_BODY_NAME_CEL] = context.userContact!!
             map[HttpConstants.REQ_BODY_NAME_APP] = HttpConstants.REQ_APP

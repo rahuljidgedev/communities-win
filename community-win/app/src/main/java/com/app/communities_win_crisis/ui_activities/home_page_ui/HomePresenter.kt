@@ -116,7 +116,7 @@ class HomePresenter (var context: HomePageActivity): HttpResponseHandler {
     fun loadMapFragment() {
         val mapFragment = context.supportFragmentManager.
                             findFragmentById(R.id.map) as SupportMapFragment?
-        mapFragment.getMapAsync(callback)
+        mapFragment!!.getMapAsync(callback)
     }
 
     /*Grocery Map load callback*/

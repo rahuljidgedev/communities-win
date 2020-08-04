@@ -1,5 +1,6 @@
 package com.app.communities_win_crisis.network_interfacing.utils
 
+import android.util.Log
 import com.app.communities_win_crisis.presentor.SplashPresenter
 import com.app.communities_win_crisis.presentor.VendorPresenter
 import com.app.communities_win_crisis.ui_activities.home_page_ui.HomePresenter
@@ -54,6 +55,7 @@ class HttpRequestsUtils {
             val client = OkHttpClient()
             val jsonString: String  = Gson().toJson(map)
 
+            Log.v(javaClass.name, "reached in httpRequestTokenUpdate")
             val requestBody =
                 jsonString.toRequestBody("application/json; charset=utf-8".toMediaTypeOrNull())
 
@@ -327,6 +329,30 @@ class HttpRequestsUtils {
                     (context as VendorPresenter).onSucceed(response.body!!.string(), url)
                 }
             })
+        }
+
+        fun httpRequestUploadUserList(url: String, map: java.util.HashMap<String, Any?>, context: Any)
+            = run {
+                val client = OkHttpClient()
+                val jsonString: String  = Gson().toJson(map)
+
+                val requestBody =
+                    jsonString.toRequestBody("application/json; charset=utf-8".toMediaTypeOrNull())
+
+                val request = Request.Builder()
+                    .url(url)
+                    .header(HttpConstants.REQ_HEADER_API_KEY,HttpConstants.REQ_APP)
+                    .post(requestBody)
+                    .build()
+                client.newCall(request).enqueue(object: Callback {
+                    override fun onFailure(call: Call, e: IOException) {
+                        (context as MakeAListPresenter).onFailure(e.message)
+                    }
+
+                    override fun onResponse(call: Call, response: Response) {
+                        (context as MakeAListPresenter).onSucceed(response.body!!.string(), url)
+                    }
+                })
         }
     }
 }

@@ -33,9 +33,9 @@ import com.google.android.material.tabs.TabLayout
 class HomePageActivity: BaseActivity(),
     ContactListFragment.OnListFragmentInteractionListener,
     UserRegistrationFragment.OnRegisterButtonTappedListener{
-    private var bottomNavigation: BottomNavigationView? = null
-    private var homePresenter: HomePresenter? = null
-    private var sectionsPagerAdapter: SectionsPagerAdapter? = null
+    private lateinit var bottomNavigation: BottomNavigationView
+    private lateinit var homePresenter: HomePresenter
+    private lateinit var sectionsPagerAdapter: SectionsPagerAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -97,7 +97,7 @@ class HomePageActivity: BaseActivity(),
         findViewById<TabLayout>(R.id.tabs).visibility = View.GONE
         findViewById<ViewPager>(R.id.view_pager).visibility = View.GONE
         findViewById<FrameLayout>(R.id.fl_grocery_view).visibility = View.VISIBLE
-        homePresenter?.loadMapFragment()
+        homePresenter.loadMapFragment()
     }
 
     private fun loadOthersTab() {
@@ -150,17 +150,17 @@ class HomePageActivity: BaseActivity(),
                 ) {
                     val safetyFrag: List<ContactListFragment> = supportFragmentManager.fragments.filter {
                         it is ContactListFragment && it.getFragmentType() == FRIENDS_VIEW_CONNECTION_LIST
-                    }
+                    } as List<ContactListFragment>
 
                     /**if position = FRIENDS_VIEW_CONNECTION_LIST (connection fragment is visible) &
                       contact read permission is not available**/
                     if (position == FRIENDS_VIEW_CONNECTION_LIST && userContact?.isNotEmpty()!! &&
                         userContactUpdated != 0 && !safetyFrag[0].isListPopulated() &&
                         (isContactReadPermissionAvailable() || !isContactReadPermissionAvailable())){
-                        homePresenter!!.requestActiveContact()
+                        homePresenter.requestActiveContact()
                     }else if(position == FRIENDS_VIEW_CONNECTION_LIST && userContact?.isNotEmpty()!! &&
                         isContactReadPermissionAvailable() && !safetyFrag[0].isListPopulated()) {
-                        homePresenter?.requestContactUpload()
+                        homePresenter.requestContactUpload()
                     }else if(position == FRIENDS_VIEW_CONNECTION_LIST && userContact?.isNotEmpty()!! &&
                         !isContactReadPermissionAvailable() && !safetyFrag[0].isListPopulated()) {
                         showPermissionDialogToUploadContact()
@@ -182,7 +182,7 @@ class HomePageActivity: BaseActivity(),
     ) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults)
         if (grantResults[0] == PackageManager.PERMISSION_GRANTED){
-            homePresenter?.requestContactUpload()
+            homePresenter.requestContactUpload()
         }
     }
 
@@ -235,7 +235,7 @@ class HomePageActivity: BaseActivity(),
             try {
                 val safetyFrag: List<ContactListFragment> = supportFragmentManager.fragments.filter {
                     it is ContactListFragment && it.getFragmentType() == friendsViewListType
-                }
+                } as List<ContactListFragment>
                 safetyFrag[0].updateContactInfo(contactInfo)
                 supportFragmentManager
                     .beginTransaction()
@@ -267,6 +267,6 @@ class HomePageActivity: BaseActivity(),
     }
 
     override fun onRegisterButtonTapped(contact: String) {
-        homePresenter?.requestTokenTokenUpdate(contact)
+        homePresenter.requestTokenTokenUpdate(contact)
     }
 }

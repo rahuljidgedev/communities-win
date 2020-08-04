@@ -23,33 +23,33 @@ private val TAB_TITLES = arrayOf(
 class MakeAListSectionsPagerAdapter (
     private val context: Context,
     fm: FragmentManager,
-    private val categoryItemList: CategoryItemList?,
-    private var userGroceryList: CategoryItemList?
+    private val categoryItemList: CategoryItemList?
 ) :
     FragmentPagerAdapter(fm) ,
-    CategoryListAdapter.CreateListHandler {
+    CategoryListAdapter.CreateListHandler,
+    ViewCategoryItemsFragment.UserListUpload {
 
     override fun getItem(position: Int): Fragment {
         return when (position) {
             0 -> {
-                val filteredList=  categoryItemList?.filter {
-                    it.category == AppConstants.GROCERY_VEGETABLES
-                }
-                SelectCategoryItemsFragment.newInstance(position,
-                    filteredList)
+                SelectCategoryItemsFragment.newInstance(
+                    categoryItemList?.filter {
+                        it.category == AppConstants.GROCERY_VEGETABLES
+                    }
+                )
             }
             1 -> {
-                val filteredList = categoryItemList?.filter {
-                    it.category == AppConstants.GROCERY_FRUITS
-                }
-                SelectCategoryItemsFragment.newInstance(position,
-                    filteredList)
+                SelectCategoryItemsFragment.newInstance(
+                    categoryItemList?.filter {
+                        it.category == AppConstants.GROCERY_FRUITS
+                    }
+                )
             }
             2 -> {
-                ViewCategoryItemsFragment.newInstance(position, userGroceryList)
+                ViewCategoryItemsFragment.newInstance()
             }
             else -> {
-                SelectCategoryItemsFragment.newInstance(position, null)
+                SelectCategoryItemsFragment.newInstance(null)
             }
         }
     }
@@ -70,8 +70,7 @@ class MakeAListSectionsPagerAdapter (
         TODO("Not yet implemented")
     }
 
-    fun updateUserList(groceryList: CategoryItemList?) {
-        userGroceryList = groceryList
-        notifyDataSetChanged()
+    override fun onUploadButtonClicked() {
+        TODO("Not yet implemented")
     }
 }

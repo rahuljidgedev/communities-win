@@ -8,7 +8,6 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.*
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.ViewModelProviders
 import com.app.communities_win_crisis.R
 import com.app.communities_win_crisis.models.UserSession
 import com.app.communities_win_crisis.ui_activities.VendorActivity
@@ -29,9 +28,9 @@ class UserRegistrationFragment : Fragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        session = GsonBuilder().create().fromJson(arguments.getString(ARG_USER_DATA), UserSession::class.java)
-        tabType = arguments.getInt(ARG_TAB_TYPE) ?: 1
-        sectionNumber = arguments.getInt(ARG_SECTION_NUMBER) ?: 0
+        session = GsonBuilder().create().fromJson(arguments!!.getString(ARG_USER_DATA), UserSession::class.java)
+        tabType = arguments!!.getInt(ARG_TAB_TYPE)
+        sectionNumber = arguments!!.getInt(ARG_SECTION_NUMBER)
     }
 
     override fun onCreateView(
