@@ -15,7 +15,7 @@ import java.util.*
 class VendorPresenter (context: VendorActivity): HttpResponseHandler {
     var context: VendorActivity = context
 
-
+    /*----------------------Http Request---------------------------*/
     fun getVendorProfileIfExist() {
         context.setProgressVisibility(View.VISIBLE, context.getString(R.string.getting_vendor_details))
         val map: HashMap<String, Any> = HashMap(3)
@@ -45,17 +45,14 @@ class VendorPresenter (context: VendorActivity): HttpResponseHandler {
                 HttpConstants.VENDOR_PRODUCTS_PRICES, map, this)
     }
 
-
-
-
-
-
     fun updateVendorPrecautions(map: HashMap<String, Any>) {
         context.setProgressVisibility(View.VISIBLE, context.getString(R.string.please_wait))
         GetVendorCoronaPrecautionsUpdate().execute(HttpConstants.SERVICE_REQUEST_VENDOR_BASE_URL +
              HttpConstants.VENDOR_CORONA_PRECAUTIONS, map, this)
     }
+    /*-------------------------------------------------*/
 
+    /*-----------------------Http Responses--------------------------*/
     override fun onSucceed(responseString: String?, contact: String?, requestName: String?) {}
 
     override fun onSucceed(responseString: String?, requestName: String?) {
@@ -89,4 +86,6 @@ class VendorPresenter (context: VendorActivity): HttpResponseHandler {
     override fun onFailure(message: String?) {
         context.showRequestStatus(message.toString())
     }
+
+    /*-------------------------------------------------*/
 }

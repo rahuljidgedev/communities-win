@@ -1,40 +1,26 @@
 package com.app.communities_win_crisis.ui_activities.make_a_list_ui
 
+import android.content.DialogInterface
+import android.os.Build
 import android.view.View
+import android.widget.EditText
+import androidx.appcompat.app.AlertDialog
 import com.app.communities_win_crisis.R
 import com.app.communities_win_crisis.network_interfacing.data_models.CategoryItemList
 import com.app.communities_win_crisis.network_interfacing.data_models.CategoryListItem
+import com.app.communities_win_crisis.network_interfacing.data_models.UserToken
 import com.app.communities_win_crisis.network_interfacing.data_models.UserUploadListItem
 import com.app.communities_win_crisis.network_interfacing.interfaces.HttpResponseHandler
 import com.app.communities_win_crisis.network_interfacing.utils.GetVendorProductList
 import com.app.communities_win_crisis.network_interfacing.utils.HttpConstants
+import com.app.communities_win_crisis.network_interfacing.utils.UpdateTokenRequest
 import com.app.communities_win_crisis.network_interfacing.utils.UploadUserListByName
 import com.google.gson.Gson
+import com.hbb20.CountryCodePicker
 import java.util.*
 
 class MakeAListPresenter(var context: MakeAListActivity): HttpResponseHandler {
     private var groceryList : CategoryItemList? = CategoryItemList()
-
-    fun requestAvailableCategories() {
-        context.setProgressVisibility(View.VISIBLE, context.getString(R.string.getting_available_products))
-        GetVendorProductList().execute(HttpConstants.SERVICE_REQUEST_VENDOR_BASE_URL+
-                HttpConstants.VENDOR_PRODUCTS_LIST, this)
-    }
-
-    fun requestUploadUserList() {
-        context.setProgressVisibility(View.VISIBLE, context.getString(R.string.upload_the_user_list))
-        val map: HashMap<String, Any?> = HashMap(5)
-        val date = Calendar.getInstance()
-        map[HttpConstants.REQ_BODY_ORDER_NAME] = context.userContact.toString()+"_"+ date.time
-        map[HttpConstants.REQ_BODY_CREATED_ON] = date.time
-        date.set(Calendar.DATE, 1)
-        map[HttpConstants.REQ_BODY_DELIVERY_BY] = date.time
-        map[HttpConstants.REQ_BODY_USER] = context.userContact.toString()
-        map[HttpConstants.REQ_BODY_ITEMS_LIST] = convertGroceryList()
-
-        UploadUserListByName().execute(HttpConstants.SERVICE_REQUEST_USER_BASE_URL+
-                HttpConstants.SHOPPING_LIST_UPDATE, map, this)
-    }
 
     private fun convertGroceryList(): List<UserUploadListItem> {
         val list: ArrayList<UserUploadListItem> = arrayListOf()
@@ -57,8 +43,80 @@ class MakeAListPresenter(var context: MakeAListActivity): HttpResponseHandler {
         context.updateTheList(groceryList)
     }
 
+    fun showLoginDialog() {
+        val  builder: AlertDialog = AlertDialog.Builder(context).create()
+        val parentView = context.layoutInflater.inflate(R.layout.dialog_login, null)
+        val etMobileNumber = parentView.findViewById<EditText>(R.id.et_user_contact)
+        val ccp: CountryCodePicker = parentView.findViewById(R.id.ccp)
+        ccp.registerCarrierNumberEditText(etMobileNumber)
+        builder.setTitle(context.getString(R.string.login))
+        builder.setView(parentView)
+        builder.setButton(
+            DialogInterface.BUTTON_POSITIVE, context.getString(R.string.login),
+            DialogInterface.OnClickListener { dialog, _ ->
+                val userContact = etMobileNumber.text.toString().trim()
+                if (userContact.isNotEmpty()){
+                    requestTokenTokenUpdate(ccp.fullNumber)
+                    dialog.dismiss()
+                }
+            }
+        )
+        builder.setButton(
+            DialogInterface.BUTTON_NEGATIVE, context.getString(R.string.cancel),
+            DialogInterface.OnClickListener { dialog, _ ->
+                dialog.dismiss()
+            }
+        )
+        builder.setCancelable(false)
+        builder.setCanceledOnTouchOutside(false)
+        builder.show()
+    }
 
-    override fun onSucceed(responseString: String?, contact: String?, requestName: String?) {}
+    /*--------------------HTTP Requests-------------------------*/
+    private fun requestTokenTokenUpdate(contact: String) {
+        context.setProgressVisibility(View.VISIBLE, context.getString(R.string.registering_you))
+        val map: HashMap<String,String> = HashMap(3)
+        val mobile: String = contact
+        map[HttpConstants.REQ_BODY_NAME_CEL] = mobile
+        map[HttpConstants.REQ_BODY_NAME_APP] = HttpConstants.REQ_APP
+        map[HttpConstants.REQ_BODY_NAME_DEVICE_DETAILS] = Build.MODEL
+        UpdateTokenRequest().execute(HttpConstants.SERVICE_REQUEST_TOKEN_UPDATE, map, this)
+    }
+
+    fun requestAvailableCategories() {
+        context.setProgressVisibility(View.VISIBLE, context.getString(R.string.getting_available_products))
+        GetVendorProductList().execute(HttpConstants.SERVICE_REQUEST_VENDOR_BASE_URL+
+                HttpConstants.VENDOR_PRODUCTS_LIST, this)
+    }
+
+    fun requestUploadUserList() {
+        context.setProgressVisibility(View.VISIBLE, context.getString(R.string.upload_the_user_list))
+        val map: HashMap<String, Any?> = HashMap(5)
+        val date = Calendar.getInstance()
+        map[HttpConstants.REQ_BODY_ORDER_NAME] = context.userContact.toString()+"_"+ date.time
+        map[HttpConstants.REQ_BODY_CREATED_ON] = date.time
+        date.set(Calendar.DATE, 1)
+        map[HttpConstants.REQ_BODY_DELIVERY_BY] = date.time
+        map[HttpConstants.REQ_BODY_USER] = context.userContact.toString()
+        map[HttpConstants.REQ_BODY_ITEMS_LIST] = convertGroceryList()
+
+        UploadUserListByName().execute(HttpConstants.SERVICE_REQUEST_USER_BASE_URL+
+                HttpConstants.SHOPPING_LIST_UPDATE, map, this)
+    }
+    /*----------------------------------------------------------*/
+
+    /*--------------------HTTP Responses------------------------*/
+    override fun onSucceed(responseString: String?, contact: String?, requestName: String?) {
+        when(requestName) {
+            HttpConstants.SERVICE_REQUEST_TOKEN_UPDATE -> {
+                val userToken = Gson().fromJson(responseString, UserToken::class.java)
+                context.setUserToken(userToken.table[0].tknNum)
+                context.setUserContact(contact!!)
+                context.setProgressVisibility(View.GONE, context.getString(R.string.please_wait))
+                requestUploadUserList()
+            }
+        }
+    }
 
     override fun onSucceed(responseString: String?, requestName: String?) {
         when(requestName){
@@ -81,4 +139,5 @@ class MakeAListPresenter(var context: MakeAListActivity): HttpResponseHandler {
         context.setProgressVisibility(View.GONE, context.getString(R.string.please_wait))
         context.showMessageToUser(message)
     }
+    /*----------------------------------------------------------*/
 }

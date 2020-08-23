@@ -6,8 +6,8 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import com.app.communities_win_crisis.R
 import com.app.communities_win_crisis.network_interfacing.data_models.CategoryItemList
 import com.app.communities_win_crisis.network_interfacing.data_models.CategoryListItem
@@ -36,7 +36,7 @@ class SelectCategoryItemsFragment :  Fragment(),
         val rootView = inflater.inflate(R.layout.fragment_make_a_list, container, false)
         val recycler = rootView.findViewById(R.id.recycler_view) as RecyclerView
         with(recycler){
-            layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
+            layoutManager = StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL)
             adapter = CategoryListAdapter(context!!, filteredList, listener)
         }
         return rootView

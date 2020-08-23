@@ -29,7 +29,7 @@ class MakeAListActivity : BaseActivity() ,
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_make_a_list)
-        window.statusBarColor = ContextCompat.getColor(this, R.color.colorGroceryDark)
+        window.statusBarColor = ContextCompat.getColor(this, R.color.colorFriendsDark)
         makeAListPresenter=MakeAListPresenter(this)
         makeAListPresenter!!.requestAvailableCategories()
         groceryListObservable = MutableLiveData()
@@ -75,6 +75,10 @@ class MakeAListActivity : BaseActivity() ,
     }
 
     override fun onUploadButtonClicked() {
-        makeAListPresenter!!.requestUploadUserList()
+        if(userContact.isNullOrEmpty()){
+            makeAListPresenter!!.showLoginDialog()
+        }else {
+            makeAListPresenter!!.requestUploadUserList()
+        }
     }
 }

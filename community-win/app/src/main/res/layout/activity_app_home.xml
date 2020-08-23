@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ui_activities.home_screen.AppHomeActivity">
+    <com.google.android.material.appbar.AppBarLayout
+        android:id="@+id/app_bar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:theme="@style/AppTheme.AppBarOverlay">
+        <androidx.appcompat.widget.Toolbar
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:navigationIcon="@mipmap/ic_launcher"
+            app:title="@string/app_name"/>
+    </com.google.android.material.appbar.AppBarLayout>
+    <include layout="@layout/buy_layout"
+        android:id="@+id/buy_views"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/app_bar"
+        android:layout_marginBottom="?attr/actionBarSize"/>
+    <include layout="@layout/sell_layout"
+        android:id="@+id/sell_views"
+        android:visibility="gone"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/app_bar"
+        android:layout_marginBottom="?attr/actionBarSize"/>
+    <com.google.android.material.bottomnavigation.BottomNavigationView
+        android:id="@+id/bottom_navigation"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:background="@color/colorFriendsPrimary"
+        app:menu="@menu/bottom_navigation_menu"
+        app:itemBackground="@android:color/transparent"
+        app:itemTextAppearanceActive="@style/navigation_view_text_active_appearance"
+        app:itemTextAppearanceInactive="@style/navigation_view_text_inactive_appearance"
+        app:itemIconTint="@color/bottom_navigation_view_icon"/>
+</RelativeLayout>

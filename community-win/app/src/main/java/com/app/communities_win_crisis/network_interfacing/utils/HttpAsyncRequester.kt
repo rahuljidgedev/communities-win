@@ -122,7 +122,9 @@ class VendorCategoryUpdate : AsyncTask<Any, Any, Any>() {
 class GetVendorProductList : AsyncTask<Any, Any, Any>() {
 
     override fun doInBackground(vararg params: Any?) {
-        HttpRequestsUtils.httpRequestVendorProductList(params[0] as String, params[1] as Any)
+        HttpRequestsUtils.httpRequestVendorProductList(params[0] as String,
+            /*params[1] as HashMap<String, String>,*/
+            params[1] as Any)
         return
     }
 }

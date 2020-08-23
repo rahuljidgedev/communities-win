@@ -48,7 +48,7 @@
         android:visibility="gone"
         android:layout_marginVertical="?android:attr/actionBarSize">
         <fragment
-            android:id="@+id/map"
+            android:id="@+id/mapFragment"
             android:name="com.google.android.gms.maps.SupportMapFragment"
             android:layout_width="match_parent"
             android:layout_height="match_parent"

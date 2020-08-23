@@ -4,7 +4,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/parent_card_view"
     android:layout_width="172dp"
-    android:layout_height="248dp"
+    android:layout_height="wrap_content"
     android:layout_marginHorizontal="8dp"
     android:layout_marginVertical="@dimen/activity_vertical_margin"
     app:cardElevation="8dp"
@@ -32,17 +32,18 @@
             android:text="AppleCustard Apple and Mango with Banana"/>
         <Spinner
             android:id="@+id/spinner_unit"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="-30dp"
-            android:layout_alignTop="@+id/control"
             android:layout_below="@+id/tv_category_name"
-            android:layout_centerHorizontal="true"/>
+            android:gravity="end"
+            android:textAlignment="viewEnd"
+            android:layout_centerHorizontal="true"
+            android:layout_marginVertical="4dp"/>
         <RelativeLayout
             android:id="@+id/control"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true">
+            android:layout_below="@+id/spinner_unit">
             <ImageButton
                 android:id="@+id/btn_decrease_qty"
                 android:layout_width="48dp"

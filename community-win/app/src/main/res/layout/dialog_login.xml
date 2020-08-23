@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.appcompat.widget.LinearLayoutCompat
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_margin="@dimen/activity_horizontal_margin"
+    android:weightSum="10"
+    android:orientation="horizontal">
+    <com.hbb20.CountryCodePicker
+        android:id="@+id/ccp"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_vertical"
+        android:layout_marginTop="8dp"
+        app:ccpDialog_showTitle="false"
+        app:ccp_countryPreference="IN"
+        app:ccp_autoDetectCountry="true"
+        app:ccp_showNameCode="false"
+        app:ccp_textSize="14sp"
+        android:layout_weight="3"/>
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/til_mobile_number"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="6.5">
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/et_user_contact"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:nextFocusDown="@id/cb_check_privacy"
+            android:textSize="14sp"
+            android:hint="@string/enter_user_contact"
+            android:maxLength="12"
+            android:inputType="phone"/>
+    </com.google.android.material.textfield.TextInputLayout>
+</androidx.appcompat.widget.LinearLayoutCompat>

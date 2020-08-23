@@ -8,10 +8,9 @@
     <string name="tab_others_text_1">STATS</string>
     <string name="tab_others_text_2">WELFARE</string>
     <string name="tab_others_text_3">HELPLINE</string>
-    <string name="title_activity_essential_around">Essential Around</string>
     <string name="txt_add_needs">L</string>
-    <string name="add_pin_code">Enter your pincode</string>
-    <string name="txt_save_pin_code">Save Pincode</string>
+    <string name="add_pin_code">Enter your pin code</string>
+    <string name="txt_save_pin_code">Use pin code</string>
     <string name="help_stop_c">Help stop Corona virus</string>
     <string name="without_for">without forget your</string>
     <string name="friends">Friends</string>
@@ -43,7 +42,7 @@
     <string name="available_from">available from</string>
     <string name="vendor_grocery_pickup">Store Pickup</string>
     <string name="vendor_profile_to">to</string>
-    <string name="vendor_profile_precautions">Precautions</string>
+    <string name="vendor_profile_precautions">Precaution</string>
     <string name="vendor_profile_timing">Timing</string>
     <string name="add_vendor_nam">Add your store/business name</string>
     <string name="sel_business_category_name">Select Business Categories</string>
@@ -115,4 +114,21 @@
     <string name="upload_the_user_list">Send your list to vendors.</string>
     <string name="upload_the_list_response_success">Your list is uploaded.</string>
     <string name="sr_no">No.</string>
+
+    <string name="title_activity_app_home">Communities Win</string>
+    <string name="tab_text_1">BUY</string>
+    <string name="tab_text_2">SELL</string>
+    <string name="tab_text_3">PROFILE</string>
+    <string name="your_location">Your location</string>
+    <string name="location_rationale_message">To display online shops available near to you on the map, app requires your location.</string>
+    <string name="enable_permission">Give permission now</string>
+    <string name="pin_code">Use pin code</string>
+    <string name="location_permission_title">Required your location</string>
+    <string name="exit_app">Close app</string>
+    <string name="enter_user_contact">Enter your mobile number</string>
+    <string name="login">Login</string>
+    <string name="vendor_registration_info">If you are shop owner and wanted to sell products, press \"Register As Vendor\" button below</string>
+    <string name="edit">Edit</string>
+    <string name="demands">- \nDemands</string>
+    <string name="orders">- \nOrders</string>
 </resources>

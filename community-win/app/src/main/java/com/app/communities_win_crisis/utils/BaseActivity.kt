@@ -14,6 +14,8 @@ import com.app.communities_win_crisis.R
  */
 open class BaseActivity: AppCompatActivity() {
     private val constUserToken = "user_token"
+    private val constUserLat = "user_Lat"
+    private val constUserLng = "user_Lng"
     private val constContact = "contact"
     private val constContactUpdated = "contact_updated"
     private var mPreferences: SharedPreferences? = null
@@ -55,13 +57,30 @@ open class BaseActivity: AppCompatActivity() {
     val userContactUpdated: Int?
         get() = retrievePreferenceKeyWithValue(Int::class.java.toString(), constContactUpdated) as Int?
 
-   private fun storePreferenceKeyWithValue(classType: String, key: String, `val`: Any) {
+    val userLatitude: Double?
+        get() = retrievePreferenceKeyWithValue(Double::class.java.toString(), constUserLat) as Double?
+
+    fun setUserLatitude(location: Double) {
+        storePreferenceKeyWithValue(Double::class.java.toString(), constUserLat, location)
+    }
+
+    val userLongitude: Double?
+        get() = retrievePreferenceKeyWithValue(Double::class.java.toString(), constUserLng) as Double?
+
+    fun setUserLongitude(location: Double) {
+        storePreferenceKeyWithValue(Double::class.java.toString(), constUserLng, location)
+    }
+
+   private fun storePreferenceKeyWithValue(classType: String, key: String, value: Any) {
         when (classType) {
-            Int::class.java.toString() -> mEditor?.putInt(key, (`val` as Int))?.commit()
-            Long::class.java.toString() -> mEditor?.putLong(key, (`val` as Long))?.commit()
-            Float::class.java.toString() -> mEditor?.putFloat(key, (`val` as Float))?.commit()
-            Boolean::class.java.toString() -> mEditor?.putBoolean(key, (`val` as Boolean))?.commit()
-            String::class.java.toString() -> mEditor?.putString(key, `val` as String)?.commit()
+            Int::class.java.toString() -> mEditor?.putInt(key, (value as Int))?.commit()
+            Long::class.java.toString() -> mEditor?.putLong(key, (value as Long))?.commit()
+            Float::class.java.toString() -> mEditor?.putFloat(key, (value as Float))?.commit()
+            Boolean::class.java.toString() -> mEditor?.putBoolean(key, (value as Boolean))?.commit()
+            String::class.java.toString() -> mEditor?.putString(key, value as String)?.commit()
+            Double::class.java.toString() -> mEditor?.putLong(key, java.lang.Double.doubleToLongBits(
+                value as Double
+            ))?.commit()
         }
    }
 
@@ -73,6 +92,9 @@ open class BaseActivity: AppCompatActivity() {
             Float::class.java.toString() -> valueOfKey = mPreferences?.getFloat(key, 0.0f)
             Boolean::class.java.toString() -> valueOfKey = mPreferences?.getBoolean(key, false)
             String::class.java.toString() -> valueOfKey = mPreferences?.getString(key, "")
+            Double::class.java.toString() -> valueOfKey = java.lang.Double.longBitsToDouble(
+                mPreferences?.getLong(key, 0L)!!
+            )
         }
         return valueOfKey
    }

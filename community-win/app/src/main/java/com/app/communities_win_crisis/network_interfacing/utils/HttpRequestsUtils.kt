@@ -67,7 +67,10 @@ class HttpRequestsUtils {
                 override fun onFailure(call: Call, e: IOException) {
                     if (context is SplashPresenter){
                         context.onFailure(e.message)
-                    }else if (context is HomePresenter) {
+                    }/*else if (context is HomePresenter) {
+                        context.onFailure(e.message)
+                    }*/
+                    else if (context is MakeAListPresenter) {
                         context.onFailure(e.message)
                     }
                 }
@@ -80,7 +83,13 @@ class HttpRequestsUtils {
                                 map[HttpConstants.REQ_BODY_NAME_CEL],
                                 HttpConstants.SERVICE_REQUEST_TOKEN_UPDATE
                             )
-                        }else if (context is HomePresenter) {
+                        }/*else if (context is HomePresenter) {
+                            context.onSucceed(
+                                response.body!!.string(),
+                                map[HttpConstants.REQ_BODY_NAME_CEL],
+                                HttpConstants.SERVICE_REQUEST_TOKEN_UPDATE
+                            )
+                        }*/else if (context is MakeAListPresenter) {
                             context.onSucceed(
                                 response.body!!.string(),
                                 map[HttpConstants.REQ_BODY_NAME_CEL],
@@ -90,7 +99,9 @@ class HttpRequestsUtils {
                     }else{
                         if (context is SplashPresenter){
                             context.onFailure(response.body!!.string())
-                        }else if (context is HomePresenter) {
+                        }/*else if (context is HomePresenter) {
+                            context.onFailure(response.body!!.string())
+                        }*/else if (context is MakeAListPresenter) {
                             context.onFailure(response.body!!.string())
                         }
                     }
@@ -214,13 +225,17 @@ class HttpRequestsUtils {
             })
         }
 
-        fun httpRequestVendorProductList(url: String, context: Any)
+        fun httpRequestVendorProductList(url: String, /*map: HashMap<String, String>,*/ context: Any)
                 = run {
             val client = OkHttpClient()
+            var modifiedServiceUrl: String = "$url?"
+            /*for ((k,v) in map){
+                modifiedServiceUrl = "$modifiedServiceUrl$k=$v&"
+            }*/
 
             val request = Request.Builder()
                 .header(HttpConstants.REQ_HEADER_API_KEY,HttpConstants.REQ_APP)
-                .url(url)
+                .url(modifiedServiceUrl)
                 .build()
             client.newCall(request).enqueue(object: Callback {
                 override fun onFailure(call: Call, e: IOException) {
