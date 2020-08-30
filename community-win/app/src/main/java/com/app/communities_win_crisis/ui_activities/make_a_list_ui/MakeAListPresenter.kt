@@ -1,10 +1,6 @@
 package com.app.communities_win_crisis.ui_activities.make_a_list_ui
 
-import android.content.DialogInterface
-import android.os.Build
 import android.view.View
-import android.widget.EditText
-import androidx.appcompat.app.AlertDialog
 import com.app.communities_win_crisis.R
 import com.app.communities_win_crisis.network_interfacing.data_models.CategoryItemList
 import com.app.communities_win_crisis.network_interfacing.data_models.CategoryListItem
@@ -13,10 +9,9 @@ import com.app.communities_win_crisis.network_interfacing.data_models.UserUpload
 import com.app.communities_win_crisis.network_interfacing.interfaces.HttpResponseHandler
 import com.app.communities_win_crisis.network_interfacing.utils.GetVendorProductList
 import com.app.communities_win_crisis.network_interfacing.utils.HttpConstants
-import com.app.communities_win_crisis.network_interfacing.utils.UpdateTokenRequest
 import com.app.communities_win_crisis.network_interfacing.utils.UploadUserListByName
+import com.app.communities_win_crisis.utils.LoginUtil
 import com.google.gson.Gson
-import com.hbb20.CountryCodePicker
 import java.util.*
 
 class MakeAListPresenter(var context: MakeAListActivity): HttpResponseHandler {
@@ -44,7 +39,8 @@ class MakeAListPresenter(var context: MakeAListActivity): HttpResponseHandler {
     }
 
     fun showLoginDialog() {
-        val  builder: AlertDialog = AlertDialog.Builder(context).create()
+        LoginUtil(context).signInTheUser(this)
+        /*val builder: AlertDialog = AlertDialog.Builder(context).create()
         val parentView = context.layoutInflater.inflate(R.layout.dialog_login, null)
         val etMobileNumber = parentView.findViewById<EditText>(R.id.et_user_contact)
         val ccp: CountryCodePicker = parentView.findViewById(R.id.ccp)
@@ -69,11 +65,11 @@ class MakeAListPresenter(var context: MakeAListActivity): HttpResponseHandler {
         )
         builder.setCancelable(false)
         builder.setCanceledOnTouchOutside(false)
-        builder.show()
+        builder.show()*/
     }
 
     /*--------------------HTTP Requests-------------------------*/
-    private fun requestTokenTokenUpdate(contact: String) {
+    /*private fun requestTokenTokenUpdate(contact: String) {
         context.setProgressVisibility(View.VISIBLE, context.getString(R.string.registering_you))
         val map: HashMap<String,String> = HashMap(3)
         val mobile: String = contact
@@ -81,7 +77,7 @@ class MakeAListPresenter(var context: MakeAListActivity): HttpResponseHandler {
         map[HttpConstants.REQ_BODY_NAME_APP] = HttpConstants.REQ_APP
         map[HttpConstants.REQ_BODY_NAME_DEVICE_DETAILS] = Build.MODEL
         UpdateTokenRequest().execute(HttpConstants.SERVICE_REQUEST_TOKEN_UPDATE, map, this)
-    }
+    }*/
 
     fun requestAvailableCategories() {
         context.setProgressVisibility(View.VISIBLE, context.getString(R.string.getting_available_products))
@@ -94,9 +90,9 @@ class MakeAListPresenter(var context: MakeAListActivity): HttpResponseHandler {
         val map: HashMap<String, Any?> = HashMap(5)
         val date = Calendar.getInstance()
         map[HttpConstants.REQ_BODY_ORDER_NAME] = context.userContact.toString()+"_"+ date.time
-        map[HttpConstants.REQ_BODY_CREATED_ON] = date.time
+        map[HttpConstants.REQ_BODY_CREATED_ON] = date.time.toString()
         date.set(Calendar.DATE, 1)
-        map[HttpConstants.REQ_BODY_DELIVERY_BY] = date.time
+        map[HttpConstants.REQ_BODY_DELIVERY_BY] = date.time.toString()
         map[HttpConstants.REQ_BODY_USER] = context.userContact.toString()
         map[HttpConstants.REQ_BODY_ITEMS_LIST] = convertGroceryList()
 

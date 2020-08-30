@@ -1,4 +1,4 @@
-package com.app.communities_win_crisis.ui_activities
+package com.app.communities_win_crisis.ui_activities.splash_screen_ui
 
 import android.content.Intent
 import android.os.Bundle
@@ -8,8 +8,8 @@ import android.view.WindowManager
 import android.widget.ProgressBar
 import android.widget.Toast
 import com.app.communities_win_crisis.R
-import com.app.communities_win_crisis.presentor.SplashPresenter
 import com.app.communities_win_crisis.ui_activities.home_screen.AppHomeActivity
+import com.app.communities_win_crisis.ui_activities.splash_screen_ui.presenter.SplashPresenter
 import com.app.communities_win_crisis.utils.AppConstants.Companion.EMPTY_TOKEN
 import com.app.communities_win_crisis.utils.BaseActivity
 

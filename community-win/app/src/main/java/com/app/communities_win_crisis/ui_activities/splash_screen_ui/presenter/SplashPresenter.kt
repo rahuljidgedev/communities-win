@@ -1,4 +1,4 @@
-package com.app.communities_win_crisis.presentor
+package com.app.communities_win_crisis.ui_activities.splash_screen_ui.presenter
 
 import android.os.Build
 import com.app.communities_win_crisis.network_interfacing.data_models.UserToken
@@ -6,7 +6,7 @@ import com.app.communities_win_crisis.network_interfacing.interfaces.HttpRespons
 import com.app.communities_win_crisis.network_interfacing.utils.GetTokenRequest
 import com.app.communities_win_crisis.network_interfacing.utils.HttpConstants
 import com.app.communities_win_crisis.network_interfacing.utils.UpdateTokenRequest
-import com.app.communities_win_crisis.ui_activities.SplashActivity
+import com.app.communities_win_crisis.ui_activities.splash_screen_ui.SplashActivity
 import com.google.gson.Gson
 
 class SplashPresenter(context: SplashActivity): HttpResponseHandler {

@@ -5,8 +5,8 @@ import android.util.Log
 import com.app.communities_win_crisis.models.ContactInfo
 import com.app.communities_win_crisis.network_interfacing.data_models.PushedContact
 import com.app.communities_win_crisis.network_interfacing.interfaces.HttpResponseHandler
-import com.app.communities_win_crisis.presentor.SplashPresenter
 import com.app.communities_win_crisis.ui_activities.home_page_ui.HomePresenter
+import com.app.communities_win_crisis.ui_activities.splash_screen_ui.presenter.SplashPresenter
 import com.google.gson.Gson
 
 @Suppress("UNCHECKED_CAST")
@@ -14,7 +14,8 @@ class GetTokenRequest : AsyncTask<Any, Any, Any>() {
 
     override fun doInBackground(vararg params: Any?) {
         HttpRequestsUtils.httpRequestGetTokenStatus(params[0] as String,
-            params[1] as HashMap<String, String>, params[2] as SplashPresenter)
+            params[1] as HashMap<String, String>, params[2] as SplashPresenter
+        )
         return
     }
 }
@@ -123,7 +124,6 @@ class GetVendorProductList : AsyncTask<Any, Any, Any>() {
 
     override fun doInBackground(vararg params: Any?) {
         HttpRequestsUtils.httpRequestVendorProductList(params[0] as String,
-            /*params[1] as HashMap<String, String>,*/
             params[1] as Any)
         return
     }

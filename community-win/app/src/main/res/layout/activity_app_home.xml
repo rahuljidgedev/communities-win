@@ -41,4 +41,5 @@
         app:itemTextAppearanceActive="@style/navigation_view_text_active_appearance"
         app:itemTextAppearanceInactive="@style/navigation_view_text_inactive_appearance"
         app:itemIconTint="@color/bottom_navigation_view_icon"/>
+    <include layout="@layout/progress_layout"/>
 </RelativeLayout>

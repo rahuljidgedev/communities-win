@@ -9,6 +9,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.app.communities_win_crisis.R
 import com.app.communities_win_crisis.network_interfacing.data_models.CategoryListItem
 import com.app.communities_win_crisis.network_interfacing.utils.HttpConstants
+import com.app.communities_win_crisis.utils.AppConstants
 import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.category_list_item.view.*
 
@@ -40,10 +41,14 @@ class CategoryListAdapter(
                 HttpConstants.LINK_VEGETABLES_NO_IMAGE
             }
         }
-
+        val failureImage = if(categoryItemList?.get(position)?.category == AppConstants.GROCERY_VEGETABLES)
+            R.drawable.veg_not_available
+        else
+            R.drawable.fruit_not_available
         Picasso.get()
             .load(imagePath)
-            .placeholder(R.drawable.ic_user)
+            .error(failureImage)
+            .placeholder(failureImage)
             .into(holder.mProductImage)
 
         ArrayAdapter.createFromResource(

@@ -1,6 +1,7 @@
 package com.app.communities_win_crisis.ui_activities.make_a_list_ui
 
 import android.os.Bundle
+import android.view.View
 import android.widget.Toast
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
@@ -50,12 +51,13 @@ class MakeAListActivity : BaseActivity() ,
 
     fun loadLayoutsUI(categoryItemList: CategoryItemList?) {
         runOnUiThread {
-            sectionsPagerAdapter = MakeAListSectionsPagerAdapter(this,
-                supportFragmentManager, categoryItemList)
             val viewPager: ViewPager = findViewById(R.id.view_pager)
             viewPager.offscreenPageLimit = 2
+            sectionsPagerAdapter = MakeAListSectionsPagerAdapter(this,
+                supportFragmentManager, categoryItemList)
             viewPager.adapter = sectionsPagerAdapter
             val tabs: TabLayout = findViewById(R.id.tabs)
+            tabs.visibility = View.VISIBLE
             tabs.setupWithViewPager(viewPager)
         }
     }

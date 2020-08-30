@@ -3,9 +3,9 @@
     <!-- Base application theme. -->
     <style name="AppTheme" parent="Theme.AppCompat.Light">
         <!-- Customize your theme here. -->
-        <item name="colorPrimary">@color/colorFriendsPrimary</item>
-        <item name="colorPrimaryDark">@color/colorFriendsDark</item>
-        <item name="colorAccent">@color/colorFriendsAccent</item>
+        <item name="colorPrimary">@color/colorGroceryPrimary</item>
+        <item name="colorPrimaryDark">@color/colorGroceryDark</item>
+        <item name="colorAccent">@color/colorGroceryAccent</item>
         <item name="buttonStyle">@style/Widget.AppCompat.Button.Colored</item>
         <item name="imageButtonStyle">@style/Widget.AppCompat.Button.Colored</item>
     </style>

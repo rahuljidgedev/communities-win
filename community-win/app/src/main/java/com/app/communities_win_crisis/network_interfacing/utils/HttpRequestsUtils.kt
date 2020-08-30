@@ -1,10 +1,10 @@
 package com.app.communities_win_crisis.network_interfacing.utils
 
-import android.util.Log
-import com.app.communities_win_crisis.presentor.SplashPresenter
 import com.app.communities_win_crisis.presentor.VendorPresenter
 import com.app.communities_win_crisis.ui_activities.home_page_ui.HomePresenter
+import com.app.communities_win_crisis.ui_activities.home_screen.AppHomePresenter
 import com.app.communities_win_crisis.ui_activities.make_a_list_ui.MakeAListPresenter
+import com.app.communities_win_crisis.ui_activities.splash_screen_ui.presenter.SplashPresenter
 import com.google.gson.Gson
 import okhttp3.*
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
@@ -55,7 +55,6 @@ class HttpRequestsUtils {
             val client = OkHttpClient()
             val jsonString: String  = Gson().toJson(map)
 
-            Log.v(javaClass.name, "reached in httpRequestTokenUpdate")
             val requestBody =
                 jsonString.toRequestBody("application/json; charset=utf-8".toMediaTypeOrNull())
 
@@ -65,44 +64,65 @@ class HttpRequestsUtils {
                 .build()
             client.newCall(request).enqueue(object: Callback {
                 override fun onFailure(call: Call, e: IOException) {
-                    if (context is SplashPresenter){
-                        context.onFailure(e.message)
-                    }/*else if (context is HomePresenter) {
-                        context.onFailure(e.message)
-                    }*/
-                    else if (context is MakeAListPresenter) {
-                        context.onFailure(e.message)
+                    when (context) {
+                        is SplashPresenter -> {
+                            context.onFailure(e.message)
+                        }/*else if (context is HomePresenter) {
+                                        context.onFailure(e.message)
+                                    }*/
+                        is MakeAListPresenter -> {
+                            context.onFailure(e.message)
+                        }
+                        is AppHomePresenter -> {
+                            context.onFailure(e.message)
+                        }
                     }
                 }
 
                 override fun onResponse(call: Call, response: Response) {
                     if (response.isSuccessful){
-                        if (context is SplashPresenter){
-                            context.onSucceed(
-                                response.body!!.string(),
-                                map[HttpConstants.REQ_BODY_NAME_CEL],
-                                HttpConstants.SERVICE_REQUEST_TOKEN_UPDATE
-                            )
-                        }/*else if (context is HomePresenter) {
-                            context.onSucceed(
-                                response.body!!.string(),
-                                map[HttpConstants.REQ_BODY_NAME_CEL],
-                                HttpConstants.SERVICE_REQUEST_TOKEN_UPDATE
-                            )
-                        }*/else if (context is MakeAListPresenter) {
-                            context.onSucceed(
-                                response.body!!.string(),
-                                map[HttpConstants.REQ_BODY_NAME_CEL],
-                                HttpConstants.SERVICE_REQUEST_TOKEN_UPDATE
-                            )
+                        when (context) {
+                            is SplashPresenter -> {
+                                context.onSucceed(
+                                    response.body!!.string(),
+                                    map[HttpConstants.REQ_BODY_NAME_CEL],
+                                    HttpConstants.SERVICE_REQUEST_TOKEN_UPDATE
+                                )
+                            }/*else if (context is HomePresenter) {
+                                                context.onSucceed(
+                                                    response.body!!.string(),
+                                                    map[HttpConstants.REQ_BODY_NAME_CEL],
+                                                    HttpConstants.SERVICE_REQUEST_TOKEN_UPDATE
+                                                )
+                                            }*/
+                            is MakeAListPresenter -> {
+                                context.onSucceed(
+                                    response.body!!.string(),
+                                    map[HttpConstants.REQ_BODY_NAME_CEL],
+                                    HttpConstants.SERVICE_REQUEST_TOKEN_UPDATE
+                                )
+                            }
+                            is AppHomePresenter -> {
+                                context.onSucceed(
+                                    response.body!!.string(),
+                                    map[HttpConstants.REQ_BODY_NAME_CEL],
+                                    HttpConstants.SERVICE_REQUEST_TOKEN_UPDATE
+                                )
+                            }
                         }
                     }else{
-                        if (context is SplashPresenter){
-                            context.onFailure(response.body!!.string())
-                        }/*else if (context is HomePresenter) {
-                            context.onFailure(response.body!!.string())
-                        }*/else if (context is MakeAListPresenter) {
-                            context.onFailure(response.body!!.string())
+                        when (context) {
+                            is SplashPresenter -> {
+                                context.onFailure(response.body!!.string())
+                            }/*else if (context is HomePresenter) {
+                                                context.onFailure(response.body!!.string())
+                                            }*/
+                            is MakeAListPresenter -> {
+                                context.onFailure(response.body!!.string())
+                            }
+                            is AppHomePresenter -> {
+                                context.onFailure(response.body!!.string())
+                            }
                         }
                     }
                 }
@@ -192,11 +212,13 @@ class HttpRequestsUtils {
                 .build()
             client.newCall(request).enqueue(object: Callback {
                 override fun onFailure(call: Call, e: IOException) {
-                    (context as VendorPresenter).onFailure(e.message)
+                    /*(context as VendorPresenter).onFailure(e.message)*/
+                    (context as AppHomePresenter).onFailure(e.message)
                 }
 
                 override fun onResponse(call: Call, response: Response) {
-                    (context as VendorPresenter).onSucceed(response.body!!.string(), url)
+                    /*(context as VendorPresenter).onSucceed(response.body!!.string(), url)*/
+                    (context as AppHomePresenter).onSucceed(response.body!!.string(), url)
                 }
             })
         }
@@ -225,28 +247,26 @@ class HttpRequestsUtils {
             })
         }
 
-        fun httpRequestVendorProductList(url: String, /*map: HashMap<String, String>,*/ context: Any)
+        fun httpRequestVendorProductList(url: String, context: Any)
                 = run {
             val client = OkHttpClient()
-            var modifiedServiceUrl: String = "$url?"
-            /*for ((k,v) in map){
-                modifiedServiceUrl = "$modifiedServiceUrl$k=$v&"
-            }*/
 
             val request = Request.Builder()
                 .header(HttpConstants.REQ_HEADER_API_KEY,HttpConstants.REQ_APP)
-                .url(modifiedServiceUrl)
+                .url(url)
                 .build()
             client.newCall(request).enqueue(object: Callback {
                 override fun onFailure(call: Call, e: IOException) {
-                    if(context is VendorPresenter)
+                    if(context is AppHomePresenter)
+                    /*if(context is VendorPresenter)*/
                         context.onFailure(e.message)
                     else if(context is MakeAListPresenter)
                         context.onFailure(e.message)
                 }
 
                 override fun onResponse(call: Call, response: Response) {
-                    if(context is VendorPresenter)
+                    if(context is AppHomePresenter)
+                    /*if(context is VendorPresenter)*/
                         context.onSucceed(response.body!!.string(), url)
                     else if(context is MakeAListPresenter)
                         context.onSucceed(response.body!!.string(), url)
@@ -269,11 +289,13 @@ class HttpRequestsUtils {
                 .build()
             client.newCall(request).enqueue(object: Callback {
                 override fun onFailure(call: Call, e: IOException) {
-                    (context as VendorPresenter).onFailure(e.message)
+                    /*(context as VendorPresenter).onFailure(e.message)*/
+                    (context as AppHomePresenter).onFailure(e.message)
                 }
 
                 override fun onResponse(call: Call, response: Response) {
-                    (context as VendorPresenter).onSucceed(response.body!!.string(), url)
+                    /*(context as VendorPresenter).onSucceed(response.body!!.string(), url)*/
+                    (context as AppHomePresenter).onSucceed(response.body!!.string(), url)
                 }
             })
         }
@@ -312,11 +334,13 @@ class HttpRequestsUtils {
                 .build()
             client.newCall(request).enqueue(object: Callback {
                 override fun onFailure(call: Call, e: IOException) {
-                    (context as VendorPresenter).onFailure(e.message)
+                    /*(context as VendorPresenter).onFailure(e.message)*/
+                    (context as AppHomePresenter).onFailure(e.message)
                 }
 
                 override fun onResponse(call: Call, response: Response) {
-                    (context as VendorPresenter).onSucceed(response.body!!.string(), url)
+                    /*(context as VendorPresenter).onSucceed(response.body!!.string(), url)*/
+                    (context as AppHomePresenter).onSucceed(response.body!!.string(), url)
                 }
             })
         }
@@ -324,7 +348,7 @@ class HttpRequestsUtils {
         fun httpRequestGetVendor(url: String, map: HashMap<String, String>, context: Any)
                 = run {
             val client = OkHttpClient()
-            val jsonString: String  = Gson().toJson(map)
+            //val jsonString: String  = Gson().toJson(map)
 
             var modifiedServiceUrl: String = "$url?"
             for ((k,v) in map){
@@ -337,11 +361,13 @@ class HttpRequestsUtils {
                 .build()
             client.newCall(request).enqueue(object: Callback {
                 override fun onFailure(call: Call, e: IOException) {
-                    (context as VendorPresenter).onFailure(e.message)
+                    /*(context as VendorPresenter).onFailure(e.message)*/
+                    (context as AppHomePresenter).onFailure(e.message)
                 }
 
                 override fun onResponse(call: Call, response: Response) {
-                    (context as VendorPresenter).onSucceed(response.body!!.string(), url)
+                    /*(context as VendorPresenter).onSucceed(response.body!!.string(), url)*/
+                    (context as AppHomePresenter).onSucceed(response.body!!.string(), url)
                 }
             })
         }

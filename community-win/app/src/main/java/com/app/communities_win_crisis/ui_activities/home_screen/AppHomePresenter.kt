@@ -6,15 +6,32 @@ import android.content.pm.PackageManager
 import android.location.Address
 import android.location.Geocoder
 import android.os.Build
+import android.view.View
 import android.widget.EditText
 import androidx.appcompat.app.AlertDialog
 import com.app.communities_win_crisis.R
+import com.app.communities_win_crisis.network_interfacing.data_models.ProductList
+import com.app.communities_win_crisis.network_interfacing.data_models.ProductListItem
+import com.app.communities_win_crisis.network_interfacing.data_models.UserToken
+import com.app.communities_win_crisis.network_interfacing.data_models.VendorProfile
+import com.app.communities_win_crisis.network_interfacing.interfaces.HttpResponseHandler
+import com.app.communities_win_crisis.network_interfacing.utils.*
+import com.app.communities_win_crisis.ui_activities.home_screen.AppHomeActivity.Companion.REQUEST_LOCATION_PERMISSION
+import com.app.communities_win_crisis.utils.AppConstants
+import com.app.communities_win_crisis.utils.LoginUtil
 import com.google.android.gms.maps.model.LatLng
+import com.google.gson.Gson
 import java.util.*
 
-class AppHomePresenter(var context: AppHomeActivity, private var mapUtils: MapUtils) {
+class AppHomePresenter(var context: AppHomeActivity) :
+    HttpResponseHandler {
+    var productListType = ""
 
-    fun showPinCodeDialog() {
+    fun showLoginDialog() {
+        LoginUtil(context).signInTheUser(this)
+    }
+
+    fun showPinCodeDialog(showPinCode: Boolean) {
         val  builder: AlertDialog = AlertDialog.Builder(context).create()
         builder.setTitle(context.getString(R.string.location_permission_title))
         builder.setMessage(context.getString(R.string.location_rationale_message))
@@ -23,16 +40,18 @@ class AppHomePresenter(var context: AppHomeActivity, private var mapUtils: MapUt
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M && context.checkSelfPermission(
                         Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
                     context.requestPermissions(arrayOf(Manifest.permission.ACCESS_FINE_LOCATION),
-                        MapUtils.REQUEST_LOCATION_PERMISSION)
+                        REQUEST_LOCATION_PERMISSION)
                     dialog.dismiss()
                 }
             })
-        builder.setButton(DialogInterface.BUTTON_NEUTRAL, context.getString(R.string.pin_code),
-            DialogInterface.OnClickListener { dialog, _ ->
+        if(showPinCode) {
+            builder.setButton(DialogInterface.BUTTON_NEUTRAL, context.getString(R.string.pin_code),
+                DialogInterface.OnClickListener { dialog, _ ->
                     openPinCodeDialog()
                     dialog.dismiss()
                 }
-        )
+            )
+        }
         builder.setCancelable(false)
         builder.setCanceledOnTouchOutside(false)
         builder.show()
@@ -53,7 +72,7 @@ class AppHomePresenter(var context: AppHomeActivity, private var mapUtils: MapUt
                 if (address!= null){
                     val location: Address = address[0]
                     val pos = LatLng(location.latitude, location.longitude)
-                    mapUtils.setMapPosition(pos)
+                    context.setMapPosition(pos)
                     dialog.dismiss()
                 }
             }
@@ -68,4 +87,100 @@ class AppHomePresenter(var context: AppHomeActivity, private var mapUtils: MapUt
         builder.setCanceledOnTouchOutside(false)
         builder.show()
     }
+
+
+    /*-------------------Http Requests------------------------*/
+    fun updateVendorDetails(map: HashMap<String, Any>) {
+        context.setProgressVisibility(View.VISIBLE, context.getString(R.string.updating_business_details))
+        VendorRegistrationUpdate().execute(
+            HttpConstants.SERVICE_REQUEST_VENDOR_BASE_URL +
+                HttpConstants.REGISTER_ADD_UPDATE_VENDOR, map, this)
+    }
+
+    fun updateVendorPrecautions(map: HashMap<String, Any>) {
+        context.setProgressVisibility(View.VISIBLE, context.getString(R.string.please_wait))
+        GetVendorCoronaPrecautionsUpdate().execute(HttpConstants.SERVICE_REQUEST_VENDOR_BASE_URL +
+                HttpConstants.VENDOR_CORONA_PRECAUTIONS, map, this)
+    }
+
+    fun requestProductList(productListType: String) {
+        context.setProgressVisibility(View.VISIBLE, context.getString(R.string.getting_available_products))
+        this.productListType = productListType
+        GetVendorProductList().execute(HttpConstants.SERVICE_REQUEST_VENDOR_BASE_URL +
+                HttpConstants.VENDOR_PRODUCTS_LIST, this)
+    }
+
+    fun updateVendorProductPrices(map: HashMap<String, Any>) {
+        context.setProgressVisibility(View.VISIBLE, context.getString(R.string.please_wait))
+        VendorProductPrices().execute(HttpConstants.SERVICE_REQUEST_VENDOR_BASE_URL +
+                HttpConstants.VENDOR_PRODUCTS_PRICES, map, this)
+    }
+
+    fun getVendorProfileIfExist() {
+        context.setProgressVisibility(View.VISIBLE, context.getString(R.string.getting_vendor_details))
+        val map: HashMap<String, Any> = HashMap(3)
+        map[HttpConstants.REQ_BODY_PHONE_NUMBER] = context.userContact.toString()
+        GetVendor().execute(HttpConstants.SERVICE_REQUEST_VENDOR_BASE_URL +
+                HttpConstants.GET_VENDOR, map, this)
+    }
+    /*--------------------------------------------------------*/
+
+    /*--------------------Http Responses------------------------------------*/
+    override fun onSucceed(responseString: String?, contact: String?, requestName: String?) {
+        when(requestName) {
+            HttpConstants.SERVICE_REQUEST_TOKEN_UPDATE -> {
+                val userToken = Gson().fromJson(responseString, UserToken::class.java)
+                context.setUserToken(userToken.table[0].tknNum)
+                context.setUserContact(contact!!)
+                context.setProgressVisibility(View.GONE, context.getString(R.string.please_wait))
+                context.showAndUpdateVendorProfile()
+            }
+        }
+    }
+
+    override fun onSucceed(responseString: String?, requestName: String?) {
+        context.setProgressVisibility(View.GONE, "")
+        when(requestName){
+            HttpConstants.SERVICE_REQUEST_VENDOR_BASE_URL+HttpConstants.REGISTER_ADD_UPDATE_VENDOR->{
+                context.showRequestStatus(context.getString(R.string.vendor_registered))
+                getVendorProfileIfExist()
+            }
+
+            HttpConstants.SERVICE_REQUEST_VENDOR_BASE_URL+HttpConstants.VENDOR_CORONA_PRECAUTIONS ->{
+                context.showRequestStatus(context.getString(R.string.update_vendor_safety_feature))
+                getVendorProfileIfExist()
+            }
+
+            HttpConstants.SERVICE_REQUEST_VENDOR_BASE_URL+HttpConstants.VENDOR_PRODUCTS_LIST -> {
+                val productList = Gson().fromJson(responseString, ProductList::class.java)
+                if(this.productListType == AppConstants.GROCERY_VEGETABLES)
+                    context.openAddProductsDialog(productList.filter {
+                        it.category == AppConstants.GROCERY_VEGETABLES
+                    } as ArrayList<ProductListItem>)
+                else
+                    context.openAddProductsDialog(productList.filter {
+                        it.category == AppConstants.GROCERY_FRUITS
+                    } as ArrayList<ProductListItem>)
+            }
+
+            HttpConstants.SERVICE_REQUEST_VENDOR_BASE_URL+HttpConstants.VENDOR_PRODUCTS_PRICES ->{
+                context.showRequestStatus(context.getString(R.string.update_product_price))
+                getVendorProfileIfExist()
+            }
+
+            HttpConstants.SERVICE_REQUEST_VENDOR_BASE_URL+HttpConstants.GET_VENDOR -> {
+                val vendorProfile = Gson().fromJson(responseString, VendorProfile::class.java)
+                if(vendorProfile != null){
+                    context.updateVendorProfile(vendorProfile)
+                }else{
+                    context.showRequestStatus(context.getString(R.string.no_vendor_data_available))
+                }
+            }
+        }
+    }
+
+    override fun onFailure(message: String?) {
+        context.showRequestStatus(message.toString())
+    }
+    /*--------------------------------------------------------*/
 }

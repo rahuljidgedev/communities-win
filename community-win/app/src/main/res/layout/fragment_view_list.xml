@@ -28,6 +28,6 @@
         android:layout_margin="@dimen/activity_horizontal_margin"
         android:layout_alignParentEnd="true"
         android:layout_alignParentBottom="true"
-        app:backgroundTint="@color/colorGroceryAccent"
+        app:backgroundTint="@color/colorFriendsAccent"
         android:src="@drawable/ic_share_list"/>
 </RelativeLayout>

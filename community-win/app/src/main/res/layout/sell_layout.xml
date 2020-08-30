@@ -3,9 +3,10 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:background="@android:color/white">
     <RelativeLayout
-            android:id="@+id/rl_unregistered_vendor"
+        android:id="@+id/rl_unregistered_vendor"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:padding="@dimen/activity_vertical_margin"
@@ -36,13 +37,15 @@
             android:layout_below="@+id/tv_vendor_info"
             android:backgroundTint="@color/colorGroceryAccent"
             android:text="@string/sell_products"
-            android:onClick="openVendorScreen"/>
+            android:onClick="loginTheVendor"/>
     </RelativeLayout>
     <RelativeLayout
         android:id="@+id/rl_registered_vendor"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:background="#1000">
         <androidx.cardview.widget.CardView
+            android:id="@+id/address_card"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:cardElevation="@dimen/activity_vertical_margin">
@@ -72,16 +75,16 @@
                             android:id="@+id/tv_vendor_name"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
+                            android:text="@string/your_store_name"
                             style="@style/TextAppearance.AppCompat.Title"
-                            android:textSize="16sp"
-                            android:text="Vendor Shop"/>
+                            android:textSize="16sp"/>
                         <androidx.appcompat.widget.AppCompatTextView
-                            android:id="@+id/tv_vendor_addres"
+                            android:id="@+id/tv_vendor_address"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
+                            android:text="@string/your_store_address"
                             style="@style/TextAppearance.AppCompat.Subhead"
-                            android:textSize="16sp"
-                            android:text="City, PinCode, Street Building, State, Country"/>
+                            android:textSize="13sp"/>
                     </LinearLayout>
                     <androidx.appcompat.widget.AppCompatButton
                         android:layout_width="0dp"
@@ -89,7 +92,7 @@
                         android:text="@string/edit"
                         android:onClick="clickedEditProfile"
                         android:background="@drawable/rounded_border"
-                        android:textColor="@color/colorFriendsPrimary"
+                        android:textColor="@color/colorGroceryPrimary"
                         android:layout_weight="2"/>
                 </androidx.appcompat.widget.LinearLayoutCompat>
                 <View
@@ -120,6 +123,7 @@
                             android:layout_height="wrap_content"
                             android:layout_gravity="center"
                             android:gravity="center"
+                            android:textColor="#405866"
                             android:text="@string/demands"
                             style="@style/TextAppearance.AppCompat.Caption"/>
                     </androidx.cardview.widget.CardView>
@@ -139,6 +143,7 @@
                             android:layout_height="wrap_content"
                             android:layout_gravity="center"
                             android:gravity="center"
+                            android:textColor="#405866"
                             android:text="@string/orders"
                             style="@style/TextAppearance.AppCompat.Caption"/>
                     </androidx.cardview.widget.CardView>
@@ -159,7 +164,7 @@
                             android:gravity="center"
                             android:layout_gravity="center">
                         <ImageView
-                            android:src="@android:drawable/btn_star"
+                            android:src="@drawable/ic_precautions"
                             android:layout_width="16dp"
                             android:layout_height="16dp"/>
                         <androidx.appcompat.widget.AppCompatTextView
@@ -168,6 +173,7 @@
                             android:layout_height="wrap_content"
                             android:layout_gravity="center"
                             android:gravity="center"
+                            android:textColor="#405866"
                             android:text="@string/vendor_profile_precautions"
                             style="@style/TextAppearance.AppCompat.Caption"/>
                         </LinearLayout>
@@ -189,7 +195,7 @@
                             android:gravity="center"
                             android:layout_gravity="center">
                             <ImageView
-                                android:src="@android:drawable/btn_plus"
+                                android:src="@drawable/ic_timing"
                                 android:layout_width="16dp"
                                 android:layout_height="16dp"/>
                             <androidx.appcompat.widget.AppCompatTextView
@@ -199,11 +205,150 @@
                                 android:layout_gravity="center"
                                 android:gravity="center"
                                 android:text="@string/vendor_profile_timing"
+                                android:textColor="#405866"
                                 style="@style/TextAppearance.AppCompat.Caption"/>
                         </LinearLayout>
                     </androidx.cardview.widget.CardView>
                 </LinearLayout>
             </androidx.appcompat.widget.LinearLayoutCompat>
         </androidx.cardview.widget.CardView>
+        <androidx.appcompat.widget.LinearLayoutCompat
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_below="@+id/address_card"
+            android:layout_marginVertical="32dp"
+            android:layout_marginHorizontal="@dimen/activity_horizontal_margin">
+            <androidx.appcompat.widget.LinearLayoutCompat
+                android:id="@+id/parent4"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/vendor_profile_heading_category"/>
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentEnd="true"
+                        android:text="@string/vendor_profile_heading_price"/>
+                </RelativeLayout>
+                <androidx.appcompat.widget.LinearLayoutCompat
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+                    <androidx.cardview.widget.CardView
+                        android:layout_width="match_parent"
+                        android:layout_height="102dp"
+                        android:layout_marginVertical="@dimen/card_vertical_margin">
+                        <androidx.appcompat.widget.LinearLayoutCompat
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:layout_margin="8dp"
+                            android:orientation="horizontal"
+                            android:onClick="clickedAddVegetablesCard"
+                            android:gravity="center_horizontal">
+                            <androidx.appcompat.widget.AppCompatImageView
+                                android:layout_width="76dp"
+                                android:layout_height="76dp"
+                                android:src="@drawable/vegetables"
+                                android:layout_marginEnd="12dp"/>
+                            <androidx.appcompat.widget.AppCompatTextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                style="@style/TextAppearance.AppCompat.Title"
+                                android:layout_marginTop="8dp"
+                                android:textSize="16sp"
+                                android:textColor="#A000"
+                                android:text="@string/vendor_profile_vegetables"/>
+                        </androidx.appcompat.widget.LinearLayoutCompat>
+                        <androidx.appcompat.widget.LinearLayoutCompat
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="end|center_vertical"
+                            android:gravity="center_horizontal"
+                            android:orientation="vertical"
+                            android:onClick="clickedAddVegetablesCard"
+                            android:padding="8dp">
+                            <TextView
+                                android:id="@+id/tv_vegetables"
+                                android:layout_width="48dp"
+                                android:layout_height="48dp"
+                                android:layout_marginVertical="4dp"
+                                android:textSize="22sp"
+                                android:text="0"
+                                android:gravity="center"
+                                android:foreground="#2000"
+                                tools:ignore="RtlHardcoded" />
+                            <TextView
+                                android:id="@+id/add_more_vegetables"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="@string/add_more"
+                                android:textSize="13sp"
+                                android:textColor="#A000"
+                                style="@style/TextAppearance.AppCompat.Subhead"/>
+                        </androidx.appcompat.widget.LinearLayoutCompat>
+                    </androidx.cardview.widget.CardView>
+                    <androidx.cardview.widget.CardView
+                        android:layout_width="match_parent"
+                        android:layout_height="102dp"
+                        android:layout_marginVertical="@dimen/activity_vertical_margin">
+                        <androidx.appcompat.widget.LinearLayoutCompat
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:orientation="horizontal"
+                            android:layout_margin="8dp"
+                            android:onClick="clickedAddFruitsCard"
+                            android:gravity="center_horizontal">
+                            <androidx.appcompat.widget.AppCompatImageView
+                                android:layout_width="76dp"
+                                android:layout_height="76dp"
+                                android:layout_marginEnd="12dp"
+                                android:src="@drawable/fruits" />
+                            <androidx.appcompat.widget.AppCompatTextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                style="@style/TextAppearance.AppCompat.Title"
+                                android:layout_marginTop="8dp"
+                                android:textSize="16sp"
+                                android:textColor="#A000"
+                                android:text="@string/vendor_profile_fruits"/>
+                        </androidx.appcompat.widget.LinearLayoutCompat>
+                        <androidx.appcompat.widget.LinearLayoutCompat
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="end|center_vertical"
+                            android:gravity="center_horizontal"
+                            android:orientation="vertical"
+                            android:onClick="clickedAddFruitsCard"
+                            android:padding="8dp">
+                            <TextView
+                                android:id="@+id/tv_fruits"
+                                android:layout_width="48dp"
+                                android:layout_height="48dp"
+                                android:layout_marginVertical="4dp"
+                                android:textSize="22sp"
+                                android:text="0"
+                                android:gravity="center"
+                                android:foreground="#2000"
+                                tools:ignore="RtlHardcoded" />
+                            <TextView
+                                android:id="@+id/add_more_fruits"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="@string/add_more"
+                                android:textSize="13sp"
+                                android:textColor="#A000"
+                                style="@style/TextAppearance.AppCompat.Subhead"/>
+                        </androidx.appcompat.widget.LinearLayoutCompat>
+                    </androidx.cardview.widget.CardView>
+                </androidx.appcompat.widget.LinearLayoutCompat>
+            </androidx.appcompat.widget.LinearLayoutCompat>
+        </androidx.appcompat.widget.LinearLayoutCompat>
     </RelativeLayout>
 </RelativeLayout>

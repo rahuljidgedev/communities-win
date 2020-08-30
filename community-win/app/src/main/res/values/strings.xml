@@ -44,8 +44,8 @@
     <string name="vendor_profile_to">to</string>
     <string name="vendor_profile_precautions">Precaution</string>
     <string name="vendor_profile_timing">Timing</string>
-    <string name="add_vendor_nam">Add your store/business name</string>
-    <string name="sel_business_category_name">Select Business Categories</string>
+    <string name="add_vendor_nam">Add your store name</string>
+    <string name="sel_business_category_name">Business categories:</string>
     <string name="txt_sav_vendor_basics">Update Details</string>
     <string name="txt_item_name">Item Name</string>
     <string name="txt_selling_price">Selling price in &#8377;</string>
@@ -70,8 +70,7 @@
     <string name="enter_vendor_pincode">Enter business pincode</string>
     <string name="enter_item_selling_price">Enter selling price</string>
     <string name="enter_item_min_qty">Enter minimum quantity</string>
-    <string name="business_name_here">Enter business name here</string>
-    <string name="enter_pin_code">Enter your business area pin</string>
+    <string name="business_name_here">Add your store name here</string>
     <string name="updating_business_details">Updating your store/business details</string>
     <string name="getting_available_products">Getting available product list.</string>
     <string name="txt_select_item_to_update">Select a product from list</string>
@@ -131,4 +130,9 @@
     <string name="edit">Edit</string>
     <string name="demands">- \nDemands</string>
     <string name="orders">- \nOrders</string>
+    <string name="add_more"><![CDATA[add more >>]]></string>
+    <string name="store_address">Your address:</string>
+    <string name="your_store_name">Your store name</string>
+    <string name="your_store_address">Your store address</string>
+    <string name="update_location">Update location</string>
 </resources>

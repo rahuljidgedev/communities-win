@@ -6,12 +6,6 @@
     android:layout_height="wrap_content"
     android:orientation="vertical"
     android:background="@drawable/dialog_background_inset">
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textSize="18sp"
-        android:textColor="#000"
-        android:text="@string/add_vendor_nam" />
     <com.google.android.material.textfield.TextInputLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -24,15 +18,37 @@
             android:maxLength="100"
             android:hint="@string/business_name_here"/>
     </com.google.android.material.textfield.TextInputLayout>
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="16sp"
+        android:textColor="#C000"
+        android:text="@string/store_address"/>
+    <TextView
+        android:id="@+id/tv_vendor_address"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="13sp"
+        android:textColor="#B000"/>
+    <Button
+        android:id="@+id/btn_get_location"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:drawablePadding="4dp"
+        style="@style/Widget.AppCompat.Button.Borderless"
+        android:drawableStart="@drawable/outline_gps_fixed_black_18"
+        android:text="@string/update_location"
+        android:layout_marginBottom="@dimen/activity_horizontal_margin"/>
     <androidx.appcompat.widget.LinearLayoutCompat
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:layout_marginBottom="@dimen/activity_horizontal_margin">
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textSize="18sp"
-            android:textColor="#000"
+            android:textSize="16sp"
+            android:textColor="#C000"
             android:text="@string/sel_business_category_name" />
         <LinearLayout
             android:layout_width="match_parent"
@@ -57,33 +73,10 @@
                 tools:ignore="ContentDescription" />
         </LinearLayout>
     </androidx.appcompat.widget.LinearLayoutCompat>
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textSize="18sp"
-        android:textColor="#000"
-        android:text="@string/add_pin_code"/>
-    <com.google.android.material.textfield.TextInputLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="@dimen/activity_horizontal_margin">
-        <androidx.appcompat.widget.AppCompatEditText
-            android:id="@+id/et_vendor_pinCode"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:textSize="16sp"
-            android:maxLength="10"
-            android:inputType="number"
-            android:hint="@string/enter_pin_code"/>
-    </com.google.android.material.textfield.TextInputLayout>
-
     <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/btn_sav_vendor_basics"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/txt_sav_vendor_basics"
         android:layout_gravity="end"/>
-
-
 </androidx.appcompat.widget.LinearLayoutCompat>

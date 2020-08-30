@@ -38,6 +38,7 @@
             android:id="@+id/tabs"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:visibility="gone"
             app:tabIndicatorColor="#FFF"
             app:tabIndicatorHeight="4dp"
             app:tabTextAppearance="@style/tab_text_style"/>

@@ -35,8 +35,7 @@ class VendorPresenter (context: VendorActivity): HttpResponseHandler {
         val map: HashMap<String, Any> = HashMap(1)
         map[REQ_BODY_PRODUCT_CATEGORY_NAME] = productListType
         GetVendorProductList().execute(HttpConstants.SERVICE_REQUEST_VENDOR_BASE_URL +
-                HttpConstants.VENDOR_PRODUCTS_LIST, map
-            , this)
+                HttpConstants.VENDOR_PRODUCTS_LIST, map, this)
     }
 
     fun updateVendorProductPrices(map: HashMap<String, Any>) {
