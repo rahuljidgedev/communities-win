@@ -11,7 +11,9 @@ import com.app.communities_win_crisis.network_interfacing.utils.GetVendorProduct
 import com.app.communities_win_crisis.network_interfacing.utils.HttpConstants
 import com.app.communities_win_crisis.network_interfacing.utils.UploadUserListByName
 import com.app.communities_win_crisis.utils.LoginUtil
+import com.google.android.gms.maps.model.LatLng
 import com.google.gson.Gson
+import java.text.SimpleDateFormat
 import java.util.*
 
 class MakeAListPresenter(var context: MakeAListActivity): HttpResponseHandler {
@@ -39,7 +41,8 @@ class MakeAListPresenter(var context: MakeAListActivity): HttpResponseHandler {
     }
 
     fun showLoginDialog() {
-        LoginUtil(context).signInTheUser(this)
+        val userLatLng = LatLng(context.userLatitude!!, context.userLongitude!!)
+        LoginUtil(context).signInTheUser(this, userLatLng)
         /*val builder: AlertDialog = AlertDialog.Builder(context).create()
         val parentView = context.layoutInflater.inflate(R.layout.dialog_login, null)
         val etMobileNumber = parentView.findViewById<EditText>(R.id.et_user_contact)
@@ -80,24 +83,36 @@ class MakeAListPresenter(var context: MakeAListActivity): HttpResponseHandler {
     }*/
 
     fun requestAvailableCategories() {
-        context.setProgressVisibility(View.VISIBLE, context.getString(R.string.getting_available_products))
-        GetVendorProductList().execute(HttpConstants.SERVICE_REQUEST_VENDOR_BASE_URL+
-                HttpConstants.VENDOR_PRODUCTS_LIST, this)
+        context.setProgressVisibility(
+            View.VISIBLE,
+            context.getString(R.string.getting_available_products)
+        )
+        GetVendorProductList().execute(
+            HttpConstants.SERVICE_REQUEST_VENDOR_BASE_URL +
+                    HttpConstants.VENDOR_PRODUCTS_LIST, this
+        )
     }
 
     fun requestUploadUserList() {
-        context.setProgressVisibility(View.VISIBLE, context.getString(R.string.upload_the_user_list))
+        context.setProgressVisibility(
+            View.VISIBLE,
+            context.getString(R.string.upload_the_user_list)
+        )
         val map: HashMap<String, Any?> = HashMap(5)
         val date = Calendar.getInstance()
         map[HttpConstants.REQ_BODY_ORDER_NAME] = context.userContact.toString()+"_"+ date.time
-        map[HttpConstants.REQ_BODY_CREATED_ON] = date.time.toString()
-        date.set(Calendar.DATE, 1)
-        map[HttpConstants.REQ_BODY_DELIVERY_BY] = date.time.toString()
+
+        val simpleDateFormat = SimpleDateFormat("dd-mm-yyyy HH:mmaa")
+        map[HttpConstants.REQ_BODY_CREATED_ON] = simpleDateFormat.format(date.time)
+        date.add(Calendar.DATE, 1)
+        map[HttpConstants.REQ_BODY_DELIVERY_BY] = simpleDateFormat.format(date.time)
         map[HttpConstants.REQ_BODY_USER] = context.userContact.toString()
         map[HttpConstants.REQ_BODY_ITEMS_LIST] = convertGroceryList()
 
-        UploadUserListByName().execute(HttpConstants.SERVICE_REQUEST_USER_BASE_URL+
-                HttpConstants.SHOPPING_LIST_UPDATE, map, this)
+        UploadUserListByName().execute(
+            HttpConstants.SERVICE_REQUEST_USER_BASE_URL +
+                    HttpConstants.SHOPPING_LIST_UPDATE, map, this
+        )
     }
     /*----------------------------------------------------------*/
 
@@ -116,14 +131,14 @@ class MakeAListPresenter(var context: MakeAListActivity): HttpResponseHandler {
 
     override fun onSucceed(responseString: String?, requestName: String?) {
         when(requestName){
-            HttpConstants.SERVICE_REQUEST_VENDOR_BASE_URL+
-                    HttpConstants.VENDOR_PRODUCTS_LIST ->{
+            HttpConstants.SERVICE_REQUEST_VENDOR_BASE_URL +
+                    HttpConstants.VENDOR_PRODUCTS_LIST -> {
                 val categoryItemList = Gson().fromJson(responseString, CategoryItemList::class.java)
                 context.loadLayoutsUI(categoryItemList)
                 context.setProgressVisibility(View.GONE, context.getString(R.string.please_wait))
             }
-            HttpConstants.SERVICE_REQUEST_USER_BASE_URL+
-                    HttpConstants.SHOPPING_LIST_UPDATE ->{
+            HttpConstants.SERVICE_REQUEST_USER_BASE_URL +
+                    HttpConstants.SHOPPING_LIST_UPDATE -> {
                 context.setProgressVisibility(View.GONE, context.getString(R.string.please_wait))
                 context.showMessageToUser(context.getString(R.string.upload_the_list_response_success))
                 context.finish()

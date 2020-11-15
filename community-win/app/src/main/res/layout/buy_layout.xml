@@ -51,32 +51,6 @@
                 android:layout_marginHorizontal="@dimen/activity_horizontal_margin"
                 app:cardCornerRadius="8dp"
                 app:cardElevation="@dimen/activity_horizontal_margin"
-                android:onClick="clickedBrowse">
-                <RelativeLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent">
-                    <ImageView
-                        android:id="@+id/iv_browse"
-                        android:layout_width="48dp"
-                        android:layout_height="48dp"
-                        android:padding="8dp"
-                        android:layout_centerInParent="true"
-                        android:src="@drawable/ic_browse"/>
-                    <TextView
-                        android:id="@+id/tv_browse"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_centerInParent="true"
-                        android:layout_below="@+id/iv_browse"
-                        android:text="@string/browse"/>
-                </RelativeLayout>
-            </androidx.cardview.widget.CardView>
-            <androidx.cardview.widget.CardView
-                android:layout_width="100dp"
-                android:layout_height="100dp"
-                android:layout_marginHorizontal="@dimen/activity_horizontal_margin"
-                app:cardCornerRadius="8dp"
-                app:cardElevation="@dimen/activity_horizontal_margin"
                 android:onClick="clickedOrder">
                 <RelativeLayout
                     android:layout_width="match_parent"
@@ -95,6 +69,32 @@
                         android:layout_centerInParent="true"
                         android:layout_below="@+id/iv_order"
                         android:text="@string/order"/>
+                </RelativeLayout>
+            </androidx.cardview.widget.CardView>
+            <androidx.cardview.widget.CardView
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:layout_marginHorizontal="@dimen/activity_horizontal_margin"
+                app:cardCornerRadius="8dp"
+                app:cardElevation="@dimen/activity_horizontal_margin"
+                android:onClick="clickedBrowse">
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+                    <ImageView
+                        android:id="@+id/iv_browse"
+                        android:layout_width="48dp"
+                        android:layout_height="48dp"
+                        android:padding="8dp"
+                        android:layout_centerInParent="true"
+                        android:src="@drawable/ic_browse"/>
+                    <TextView
+                        android:id="@+id/tv_browse"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerInParent="true"
+                        android:layout_below="@+id/iv_browse"
+                        android:text="@string/browse"/>
                 </RelativeLayout>
             </androidx.cardview.widget.CardView>
             <androidx.cardview.widget.CardView

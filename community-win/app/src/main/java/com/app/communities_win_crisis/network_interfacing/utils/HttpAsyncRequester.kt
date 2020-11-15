@@ -169,6 +169,16 @@ class GetVendor : AsyncTask<Any, Any, Any>() {
     }
 }
 
+@Suppress("UNCHECKED_CAST")
+class GetVendorByLocation : AsyncTask<Any, Any, Any>() {
+
+    override fun doInBackground(vararg params: Any?) {
+        HttpRequestsUtils.httpRequestGetVendorByLocation(params[0] as String,
+            params[1] as HashMap<String, Any>, params[2] as Any)
+        return
+    }
+}
+
 
 @Suppress("UNCHECKED_CAST")
 class UploadUserListByName : AsyncTask<Any, Any, Any>() {

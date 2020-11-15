@@ -18,6 +18,7 @@ import com.app.communities_win_crisis.network_interfacing.data_models.ProductLis
 import com.app.communities_win_crisis.network_interfacing.data_models.VendorProduct
 import com.app.communities_win_crisis.network_interfacing.data_models.VendorProfile
 import com.app.communities_win_crisis.ui_activities.home_page_ui.main.ProductGridRecyclerAdapter
+import com.app.communities_win_crisis.ui_activities.home_screen.models.VendorListing
 import com.app.communities_win_crisis.ui_activities.make_a_list_ui.MakeAListActivity
 import com.app.communities_win_crisis.utils.AppConstants
 import com.app.communities_win_crisis.utils.BaseActivity
@@ -133,7 +134,7 @@ class AppHomeActivity : BaseActivity(), OnMapReadyCallback, LocationUtils.Locati
         }else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M && checkSelfPermission(
                 Manifest.permission.ACCESS_FINE_LOCATION
             ) != PackageManager.PERMISSION_GRANTED) {
-            mPresenter.showPinCodeDialog(false)
+            mPresenter.showLocationRequestDialog()
         } else {
             LocationUtils(this).startLocationUpdate()
         }
@@ -145,7 +146,7 @@ class AppHomeActivity : BaseActivity(), OnMapReadyCallback, LocationUtils.Locati
             setUserLongitude(location.longitude)
             setMapPosition(location)
         }
-        setMapPosition(location)
+        //setMapPosition(location)
     }
 
     fun setMapPosition(pos: LatLng) {
@@ -153,6 +154,7 @@ class AppHomeActivity : BaseActivity(), OnMapReadyCallback, LocationUtils.Locati
         mMap.addMarker(MarkerOptions().position(pos)).title = getString(R.string.your_location)
         mMap.moveCamera(CameraUpdateFactory.newLatLng(pos))
         mMap.animateCamera(CameraUpdateFactory.zoomTo(16.0f))
+        mPresenter.getNearByVendors(pos)
     }
 
     override fun onRequestPermissionsResult(
@@ -164,7 +166,7 @@ class AppHomeActivity : BaseActivity(), OnMapReadyCallback, LocationUtils.Locati
         if (grantResults[0] == PackageManager.PERMISSION_GRANTED){
             LocationUtils(this).startLocationUpdate()
         }else{
-            mPresenter.showPinCodeDialog(true)
+            mPresenter.showLocationRequestDialog()
         }
     }
 
@@ -189,14 +191,22 @@ class AppHomeActivity : BaseActivity(), OnMapReadyCallback, LocationUtils.Locati
     }
 
     fun clickedEditProfile(view: View) {
-        mVendorDialogUtils.openVendorRegistrationDialog(vendorProfile)
+        try {
+            mVendorDialogUtils.openVendorRegistrationDialog(vendorProfile)
+        }catch (e: java.lang.Exception){
+            mVendorDialogUtils.openVendorRegistrationDialog(VendorProfile("",false,"","", List<VendorProduct>(1){VendorProduct(0.0,0.0,"","","")},false,false,false,false,"","","",""))
+        }
     }
 
     fun clickedDemandCard(view: View) {}
     fun clickedOrdersCard(view: View) {}
 
     fun clickedPrecautionsCard(view: View) {
-        mVendorDialogUtils.openVendorPrecautionsDialog(vendorProfile)
+        try {
+            mVendorDialogUtils.openVendorPrecautionsDialog(vendorProfile)
+        }catch (e: java.lang.Exception){
+            mVendorDialogUtils.openVendorPrecautionsDialog(VendorProfile("",false,"","", List<VendorProduct>(1){VendorProduct(0.0,0.0,"","","")},false,false,false,false,"","","",""))
+        }
     }
 
     fun clickedTimingCard(view: View) {}
@@ -218,8 +228,8 @@ class AppHomeActivity : BaseActivity(), OnMapReadyCallback, LocationUtils.Locati
                     address = vendorProfile.vendorCity+", "
                 if(!vendorProfile.vendorState.isNullOrEmpty())
                     address += vendorProfile.vendorState+", "
-                if(!vendorProfile.vendorcountry.isNullOrEmpty())
-                    address += vendorProfile.vendorcountry+", "
+                if(!vendorProfile.vendorCountry.isNullOrEmpty())
+                    address += vendorProfile.vendorCountry+", "
                 if(!vendorProfile.vendorPin.isNullOrEmpty())
                     address += vendorProfile.vendorPin
                 findViewById<TextView>(R.id.tv_vendor_address).text = address
@@ -295,5 +305,17 @@ class AppHomeActivity : BaseActivity(), OnMapReadyCallback, LocationUtils.Locati
 
     private fun setVisibilityOfView(view: Int, visibility: Int) {
         findViewById<View>(view).visibility = visibility
+    }
+
+    fun listVendorsOnTheMap(vendorProfile: VendorListing?) {
+        runOnUiThread {
+            vendorProfile!!.Vendor.forEach {
+                mMap
+                    .addMarker(MarkerOptions()
+                        .position(LatLng(it.Latitude, it.Longitude))
+                        /*.icon(BitmapDescriptorFactory.fromResource(R.drawable.ic_grocery))*/)
+                    .title = it.VendorName
+            }
+        }
     }
 }

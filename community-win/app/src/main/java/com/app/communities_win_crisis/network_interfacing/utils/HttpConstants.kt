@@ -22,11 +22,13 @@ class HttpConstants {
 
         const val VENDOR_PRODUCTS_LIST: String = "ProductsList"
 
-        const val VENDOR_PRODUCTS_PRICES: String = "VendorProductPrices"
+        const val VENDOR_PRODUCTS_PRICES: String = "http://vendor.comwin.in/api/VendorProdct/UpdatePrices"
 
         const val VENDOR_CORONA_PRECAUTIONS: String = "UpdateVendorCoronaPrecautions"
 
-        const val GET_VENDOR: String = "GetVendor"
+        const val GET_VENDOR: String = "GetOneVendor"
+
+        const val GET_VENDOR_BY_LAT_LNG: String = "Vendor_GetAll_PinLatLng"
 
         /**User Service Requests**/
         const val SERVICE_REQUEST_USER_BASE_URL: String = "http://vendor.comwin.in/api/UserShoppingList/"
@@ -83,6 +85,8 @@ class HttpConstants {
         const val REQ_BODY_VENDOR_SOCIAL_DISTANCE: String = "IsSocialDistance"
         const val REQ_BODY_VENDOR_CONTACT_LESS_PAY: String = "IsContactLessPay"
         const val REQ_HEADER_API_KEY: String = "x-api-key"
+        const val REQ_BODY_USER_LAT: String = "UsrLat"
+        const val REQ_BODY_USER_LNG: String = "UsrLongit"
 
         const val LINK_FRUIT_NO_IMAGE: String = "http://vendor.comwin.in/content/images/FruCatNoImg2.png"
         const val LINK_VEGETABLES_NO_IMAGE: String = "http://vendor.comwin.in/content/images/VegCatNoImg2.png"

@@ -17,6 +17,7 @@ import com.app.communities_win_crisis.network_interfacing.data_models.VendorProf
 import com.app.communities_win_crisis.network_interfacing.interfaces.HttpResponseHandler
 import com.app.communities_win_crisis.network_interfacing.utils.*
 import com.app.communities_win_crisis.ui_activities.home_screen.AppHomeActivity.Companion.REQUEST_LOCATION_PERMISSION
+import com.app.communities_win_crisis.ui_activities.home_screen.models.VendorListing
 import com.app.communities_win_crisis.utils.AppConstants
 import com.app.communities_win_crisis.utils.LoginUtil
 import com.google.android.gms.maps.model.LatLng
@@ -28,10 +29,11 @@ class AppHomePresenter(var context: AppHomeActivity) :
     var productListType = ""
 
     fun showLoginDialog() {
-        LoginUtil(context).signInTheUser(this)
+        val vendorLatLng = LatLng(context.userLatitude!!,context.userLongitude!!)
+        LoginUtil(context).signInTheUser(this, vendorLatLng)
     }
 
-    fun showPinCodeDialog(showPinCode: Boolean) {
+    fun showLocationRequestDialog() {
         val  builder: AlertDialog = AlertDialog.Builder(context).create()
         builder.setTitle(context.getString(R.string.location_permission_title))
         builder.setMessage(context.getString(R.string.location_rationale_message))
@@ -44,14 +46,13 @@ class AppHomePresenter(var context: AppHomeActivity) :
                     dialog.dismiss()
                 }
             })
-        if(showPinCode) {
-            builder.setButton(DialogInterface.BUTTON_NEUTRAL, context.getString(R.string.pin_code),
-                DialogInterface.OnClickListener { dialog, _ ->
-                    openPinCodeDialog()
-                    dialog.dismiss()
-                }
-            )
-        }
+        builder.setButton(DialogInterface.BUTTON_NEUTRAL, context.getString(R.string.pin_code),
+            DialogInterface.OnClickListener { dialog, _ ->
+                openPinCodeDialog()
+                dialog.dismiss()
+            }
+        )
+
         builder.setCancelable(false)
         builder.setCanceledOnTouchOutside(false)
         builder.show()
@@ -67,14 +68,17 @@ class AppHomePresenter(var context: AppHomeActivity) :
             val geoCoder = Geocoder(context, Locale("en","IN"))
 
             val pinCode = et.text.toString().trim()
-            if (pinCode.isNotEmpty()){
-                val address: MutableList<Address>? = geoCoder.getFromLocationName(pinCode, 5)
-                if (address!= null){
-                    val location: Address = address[0]
-                    val pos = LatLng(location.latitude, location.longitude)
-                    context.setMapPosition(pos)
-                    dialog.dismiss()
-                }
+            if (pinCode.isNullOrEmpty()){
+                return@OnClickListener
+            }
+            val address: MutableList<Address>? = geoCoder.getFromLocationName(pinCode, 5)
+            if (address!= null) {
+                val location: Address = address[0]
+                val pos = LatLng(location.latitude, location.longitude)
+                context.setUserLatitude(location.latitude)
+                context.setUserLongitude(location.longitude)
+                context.setMapPosition(pos)
+                dialog.dismiss()
             }
         })
         builder.setButton(DialogInterface.BUTTON_NEGATIVE, context.getString(R.string.exit_app),
@@ -112,8 +116,7 @@ class AppHomePresenter(var context: AppHomeActivity) :
 
     fun updateVendorProductPrices(map: HashMap<String, Any>) {
         context.setProgressVisibility(View.VISIBLE, context.getString(R.string.please_wait))
-        VendorProductPrices().execute(HttpConstants.SERVICE_REQUEST_VENDOR_BASE_URL +
-                HttpConstants.VENDOR_PRODUCTS_PRICES, map, this)
+        VendorProductPrices().execute(HttpConstants.VENDOR_PRODUCTS_PRICES, map, this)
     }
 
     fun getVendorProfileIfExist() {
@@ -122,6 +125,18 @@ class AppHomePresenter(var context: AppHomeActivity) :
         map[HttpConstants.REQ_BODY_PHONE_NUMBER] = context.userContact.toString()
         GetVendor().execute(HttpConstants.SERVICE_REQUEST_VENDOR_BASE_URL +
                 HttpConstants.GET_VENDOR, map, this)
+
+    }
+
+    fun getNearByVendors(location: LatLng) {
+        context.setProgressVisibility(View.VISIBLE, context.getString(R.string.loading_vendor_near_to_you))
+        val vendorLatLng = LatLng(context.userLatitude!!,context.userLongitude!!)
+        val map: HashMap<String, Any> = HashMap(3)
+        map[HttpConstants.REQ_BODY_VENDOR_LAT] = context.userLatitude!!
+        map[HttpConstants.REQ_BODY_VENDOR_LNG] = context.userLongitude!!
+        map["Pin"] = 0
+        GetVendorByLocation().execute(HttpConstants.SERVICE_REQUEST_VENDOR_BASE_URL +
+                HttpConstants.GET_VENDOR_BY_LAT_LNG, map, this)
     }
     /*--------------------------------------------------------*/
 
@@ -163,7 +178,7 @@ class AppHomePresenter(var context: AppHomeActivity) :
                     } as ArrayList<ProductListItem>)
             }
 
-            HttpConstants.SERVICE_REQUEST_VENDOR_BASE_URL+HttpConstants.VENDOR_PRODUCTS_PRICES ->{
+            HttpConstants.VENDOR_PRODUCTS_PRICES ->{
                 context.showRequestStatus(context.getString(R.string.update_product_price))
                 getVendorProfileIfExist()
             }
@@ -172,6 +187,15 @@ class AppHomePresenter(var context: AppHomeActivity) :
                 val vendorProfile = Gson().fromJson(responseString, VendorProfile::class.java)
                 if(vendorProfile != null){
                     context.updateVendorProfile(vendorProfile)
+                }else{
+                    context.showRequestStatus(context.getString(R.string.no_vendor_data_available))
+                }
+            }
+
+            HttpConstants.SERVICE_REQUEST_VENDOR_BASE_URL+HttpConstants.GET_VENDOR_BY_LAT_LNG -> {
+                val vendorProfile = Gson().fromJson(responseString, VendorListing::class.java)
+                if(vendorProfile != null){
+                    context.listVendorsOnTheMap(vendorProfile)
                 }else{
                     context.showRequestStatus(context.getString(R.string.no_vendor_data_available))
                 }

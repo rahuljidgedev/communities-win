@@ -193,7 +193,7 @@ class VendorActivity : BaseActivity(), ProductGridRecyclerAdapter.GridItemClicke
                 alertDialog.findViewById<CheckBox>(R.id.cb_fever_screening)!!.isChecked = true
             if(vendorProfile?.vendorStampCheck!!)
                 alertDialog.findViewById<CheckBox>(R.id.cb_quarantine_check)!!.isChecked = true
-            if(vendorProfile?.vendorSantizier!!)
+            if(vendorProfile?.vendorSanitizer!!)
                 alertDialog.findViewById<CheckBox>(R.id.cb_hand_sanitizer)!!.isChecked = true
             if(vendorProfile?.vendorContactLessPay!!)
                 alertDialog.findViewById<CheckBox>(R.id.cb_contact_less_pay)!!.isChecked = true

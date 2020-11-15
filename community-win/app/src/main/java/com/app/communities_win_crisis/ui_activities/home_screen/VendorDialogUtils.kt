@@ -20,7 +20,7 @@ import kotlin.collections.set
 
 class VendorDialogUtils(var context: AppHomeActivity) {
 
-    fun openVendorRegistrationDialog(vendorProfile: VendorProfile?) {
+    fun openVendorRegistrationDialog(vendorProfile: VendorProfile) {
         val address = LocationUtils(context).getAddressFromLocation(LatLng(context.userLatitude!!,
             context.userLongitude!!
         ))
@@ -29,9 +29,9 @@ class VendorDialogUtils(var context: AppHomeActivity) {
         val alertDialog = dialogBuilder.create()
         alertDialog.show()
         alertDialog.findViewById<TextView>(R.id.tv_vendor_address)!!.text = address[0].getAddressLine(0)
-        if(!vendorProfile?.vendorName.isNullOrEmpty())
-            alertDialog.findViewById<EditText>(R.id.et_vendor_name)!!.setText(vendorProfile?.vendorName)
-        if(!vendorProfile?.vendorProducts.isNullOrEmpty()){
+        if(!vendorProfile.vendorName.isNullOrEmpty())
+            alertDialog.findViewById<EditText>(R.id.et_vendor_name)!!.setText(vendorProfile.vendorName)
+        /*if(!vendorProfile?.vendorProducts.isNullOrEmpty()){
             var categories = ""
             vendorProfile?.vendorProducts?.forEach {
                 categories += it.categoryName
@@ -40,7 +40,7 @@ class VendorDialogUtils(var context: AppHomeActivity) {
                 alertDialog.findViewById<ToggleButton>(R.id.ib_businessCategoryFruits)!!.isChecked =true
             if(categories.contains("Vegetables"))
                 alertDialog.findViewById<ToggleButton>(R.id.ib_businessCategoryVegetables)!!.isChecked =true
-        }
+        }*/
 
         alertDialog.findViewById<Button>(R.id.btn_get_location)!!.setOnClickListener {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M && context.checkSelfPermission(
@@ -65,25 +65,25 @@ class VendorDialogUtils(var context: AppHomeActivity) {
                 ).show()
                 return@setOnClickListener
             }
-            if(!alertDialog.findViewById<ToggleButton>(R.id.ib_businessCategoryFruits)!!.isChecked &&
+            /*if(!alertDialog.findViewById<ToggleButton>(R.id.ib_businessCategoryFruits)!!.isChecked &&
                 !alertDialog.findViewById<ToggleButton>(R.id.ib_businessCategoryVegetables)!!.isChecked){
                 Toast.makeText(
                     context, context.getString(R.string.select_atleast_one_category),
                     Toast.LENGTH_SHORT
                 ).show()
                 return@setOnClickListener
-            }
+            }*/
 
-            var categories = ""
+            /*var categories = ""
             if(alertDialog.findViewById<ToggleButton>(R.id.ib_businessCategoryFruits)!!.isChecked)
                 categories += "Fruits,"
             if(alertDialog.findViewById<ToggleButton>(R.id.ib_businessCategoryVegetables)!!.isChecked)
-                categories += "Vegetables"
+                categories += "Vegetables"*/
 
             val map: HashMap<String, Any> = HashMap(4)
             map[HttpConstants.REQ_BODY_PHONE] = context.userContact.toString()
             map[HttpConstants.REQ_BODY_VENDOR_NAME]=alertDialog.findViewById<EditText>(R.id.et_vendor_name)!!.text.toString()
-            map[HttpConstants.REQ_BODY_VENDOR_CATEGORIES]= categories
+            //map[HttpConstants.REQ_BODY_VENDOR_CATEGORIES]= categories
             map[HttpConstants.REQ_BODY_VENDOR_CITY]=address[0].locality
             map[HttpConstants.REQ_BODY_VENDOR_STATE]=address[0].adminArea
             map[HttpConstants.REQ_BODY_VENDOR_COUNTRY]=address[0].countryName
@@ -106,7 +106,7 @@ class VendorDialogUtils(var context: AppHomeActivity) {
         alertDialog.findViewById<CheckBox>(R.id.cb_social_distancing)!!.isChecked = vendorProfile.vendorSocialDistanced
         alertDialog.findViewById<CheckBox>(R.id.cb_fever_screening)!!.isChecked = vendorProfile.vendorFeverScreening
         alertDialog.findViewById<CheckBox>(R.id.cb_quarantine_check)!!.isChecked = vendorProfile.vendorStampCheck
-        alertDialog.findViewById<CheckBox>(R.id.cb_hand_sanitizer)!!.isChecked = vendorProfile.vendorSantizier
+        alertDialog.findViewById<CheckBox>(R.id.cb_hand_sanitizer)!!.isChecked = vendorProfile.vendorSanitizer
         alertDialog.findViewById<CheckBox>(R.id.cb_contact_less_pay)!!.isChecked = vendorProfile.vendorContactLessPay
 
         alertDialog.findViewById<Button>(R.id.btn_save_vendor_precautions)!!.setOnClickListener {

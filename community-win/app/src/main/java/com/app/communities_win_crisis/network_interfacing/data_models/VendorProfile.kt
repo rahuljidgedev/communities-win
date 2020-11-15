@@ -15,7 +15,7 @@ data class VendorProfile(
     @SerializedName("VendorProducts")
     val vendorProducts: List<VendorProduct>,
     @SerializedName("VendorSantizier")
-    val vendorSantizier: Boolean,
+    val vendorSanitizer: Boolean,
     @SerializedName("VendorSocialDistanced")
     val vendorSocialDistanced: Boolean,
     @SerializedName("VendorStampCheck")
@@ -25,9 +25,9 @@ data class VendorProfile(
     @SerializedName("VendorState")
     val vendorState: String,
     @SerializedName("Vendorcountry")
-    val vendorcountry: String,
+    val vendorCountry: String,
     @SerializedName("Vendorlatitude")
-    val vendorlatitude: Any,
+    val vendorLatitude: Any,
     @SerializedName("Vendorlongitude")
-    val vendorlongitude: Any
+    val vendorLongitude: Any
 )

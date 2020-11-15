@@ -35,6 +35,7 @@ class LocationUtils(context: Context) {
                 super.onLocationResult(p0)
                 val location = LatLng(p0!!.lastLocation.latitude, p0.lastLocation.longitude)
                 lHandler!!.onLocationReceived(location)
+                lHandler = null
             }
         }
 

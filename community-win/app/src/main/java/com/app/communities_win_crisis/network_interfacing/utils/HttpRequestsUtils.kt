@@ -67,9 +67,7 @@ class HttpRequestsUtils {
                     when (context) {
                         is SplashPresenter -> {
                             context.onFailure(e.message)
-                        }/*else if (context is HomePresenter) {
-                                        context.onFailure(e.message)
-                                    }*/
+                        }
                         is MakeAListPresenter -> {
                             context.onFailure(e.message)
                         }
@@ -88,13 +86,7 @@ class HttpRequestsUtils {
                                     map[HttpConstants.REQ_BODY_NAME_CEL],
                                     HttpConstants.SERVICE_REQUEST_TOKEN_UPDATE
                                 )
-                            }/*else if (context is HomePresenter) {
-                                                context.onSucceed(
-                                                    response.body!!.string(),
-                                                    map[HttpConstants.REQ_BODY_NAME_CEL],
-                                                    HttpConstants.SERVICE_REQUEST_TOKEN_UPDATE
-                                                )
-                                            }*/
+                            }
                             is MakeAListPresenter -> {
                                 context.onSucceed(
                                     response.body!!.string(),
@@ -114,9 +106,7 @@ class HttpRequestsUtils {
                         when (context) {
                             is SplashPresenter -> {
                                 context.onFailure(response.body!!.string())
-                            }/*else if (context is HomePresenter) {
-                                                context.onFailure(response.body!!.string())
-                                            }*/
+                            }
                             is MakeAListPresenter -> {
                                 context.onFailure(response.body!!.string())
                             }
@@ -289,12 +279,10 @@ class HttpRequestsUtils {
                 .build()
             client.newCall(request).enqueue(object: Callback {
                 override fun onFailure(call: Call, e: IOException) {
-                    /*(context as VendorPresenter).onFailure(e.message)*/
                     (context as AppHomePresenter).onFailure(e.message)
                 }
 
                 override fun onResponse(call: Call, response: Response) {
-                    /*(context as VendorPresenter).onSucceed(response.body!!.string(), url)*/
                     (context as AppHomePresenter).onSucceed(response.body!!.string(), url)
                 }
             })
@@ -348,7 +336,6 @@ class HttpRequestsUtils {
         fun httpRequestGetVendor(url: String, map: HashMap<String, String>, context: Any)
                 = run {
             val client = OkHttpClient()
-            //val jsonString: String  = Gson().toJson(map)
 
             var modifiedServiceUrl: String = "$url?"
             for ((k,v) in map){
@@ -367,6 +354,30 @@ class HttpRequestsUtils {
 
                 override fun onResponse(call: Call, response: Response) {
                     /*(context as VendorPresenter).onSucceed(response.body!!.string(), url)*/
+                    (context as AppHomePresenter).onSucceed(response.body!!.string(), url)
+                }
+            })
+        }
+
+        fun httpRequestGetVendorByLocation(url: String, map: HashMap<String, Any>, context: Any)
+                = run {
+            val client = OkHttpClient()
+
+            var modifiedServiceUrl: String = "$url?"
+            for ((k,v) in map){
+                modifiedServiceUrl = "$modifiedServiceUrl$k=$v&"
+            }
+
+            val request = Request.Builder()
+                .url(modifiedServiceUrl)
+                .header(HttpConstants.REQ_HEADER_API_KEY,HttpConstants.REQ_APP)
+                .build()
+            client.newCall(request).enqueue(object: Callback {
+                override fun onFailure(call: Call, e: IOException) {
+                    (context as AppHomePresenter).onFailure(e.message)
+                }
+
+                override fun onResponse(call: Call, response: Response) {
                     (context as AppHomePresenter).onSucceed(response.body!!.string(), url)
                 }
             })

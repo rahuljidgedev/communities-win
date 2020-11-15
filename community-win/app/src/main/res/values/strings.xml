@@ -135,4 +135,5 @@
     <string name="your_store_name">Your store name</string>
     <string name="your_store_address">Your store address</string>
     <string name="update_location">Update location</string>
+    <string name="loading_vendor_near_to_you">Populating vegetable shops near to you.</string>
 </resources>
